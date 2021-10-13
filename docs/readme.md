@@ -53,6 +53,8 @@ In both cases framework executes a set of pipelined middlewares between endpoint
 
 ## Documentation
 
+Several documents describe main features of the framework.
+
 AppForeach is a full-stack framework. Several documents describe main features of the software.
 
 
