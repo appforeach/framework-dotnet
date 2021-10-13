@@ -5,4 +5,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EscapeHit.Invoice\EscapeHit.Invoice.csproj" />
+    <ProjectReference Include="..\EscapeHit.Service\EscapeHit.Service.csproj" />
+  </ItemGroup>
+
 </Project>
