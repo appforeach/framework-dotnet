@@ -4,7 +4,7 @@ AppForeach is open-source reference implementation of microservices architecture
 
 ## Overview
 
-Framework allows to create a business operation definition that is clean from any infrastructure services and is easily unit testable.
+Framework allows to create a business operation definition that is free from any infrastructure services and is easily unit testable.
 
 ```C#
 public class CreateInvoiceCommand
@@ -24,7 +24,7 @@ public class CreateInvoiceCommand
 }
 ```
 
-Such component can now be now easily exposed as an endpoint, for example as a regular ASP.NET Web API method.
+Such component can now be exposed as an endpoint, for example as a regular ASP.NET Web API method.
 
 ```C#
 public class InvoiceController : WebApiController
@@ -49,8 +49,8 @@ public class InvoiceMessageHost : MessageHost
 }
 ```
 
-In both cases framework executes a set of pipelined middlewares between endpoint definition and actual business component activation. This enriches resulting software with needed non-functional features like logging, audit, authorization and unit of work management.
+In both cases framework executes a set of pipelined middlewares between endpoint definition and actual business component. This enriches resulting software with needed non-functional features like logging, audit, authorization and unit of work management while keeping domain code clean.
 
 ## Documentation
 
-Several [documents](docs/readme.md) describe main features of the framework.
+Several [documents](docs/readme.md) describe architecture and main features of the framework.
