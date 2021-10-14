@@ -1,9 +1,9 @@
 ﻿AppForeach.MassTransit.MassTransitConsumerActivator.Initialize()
-    // prepares operation input and gathers protocol specific properties
+	// prepares operation input and gathers protocol specific properties
 	AppForeach.BusinessScopeFactory.StartScope()  
-    // creates business operation scope, at this point flow can be reused accross different protocols
+		// creates business operation scope, at this point flow can be reused accross different protocols
 	AppForeach.BusinessScope.RunMiddlewares()
-    // prepares and executes configured business pipeline
+		// prepares and executes configured business pipeline
 		AppForeach.Logging.AuditMiddleware.Execute()
 			// logs operation start, optionally saving entire request for audit purposes
 			AppForeach.Validation.ValidationMiddleware.Execute()
