@@ -85,12 +85,12 @@ AppForeach.MassTransit.MassTransitConsumerActivator.Initialize()
 			AppForeach.Validation.ValidationMiddleware.Execute()
 				//finds corresponding operation validator
 				Organization.Domain.Operation.OperationValidator.Validate() 
-                    // <-- actual business operation validator -->
+					// <-- actual business operation validator -->
 					AppForeach.UnitOfWorkMiddleware.Execute()
 						// starts unit of work, opens database transaction
 						AppForeach.BusinessOperationActivator.Execute()
 							Organization.Domain.Operation.OperationCode.Handle()
-                            // <-- actual business component code
+							// <-- actual business component code
 						// completes unit of work, commits transaction
 			// logs operation completion
 	AppForeach.BusinessScope.Dispose()
