@@ -74,18 +74,23 @@ Consume<CreateInvoiceRequest>();
 This endpoint defintion is a starting pointing to activate operation. Framework finds corresponding business operation defintion class and processes business request. Resulting simplified sample call stack is approximately the following:
 
 ```C#
-AppForeach.MassTransit.MassTransitConsumerActivator.Initialize()   // prepares operation input and gathers protocol specific properties
-	AppForeach.BusinessScopeFactory.StartScope()   // creates business operation scope, at this point flow can be reused accross different protocols
-	AppForeach.BusinessScope.RunMiddlewares()  // prepares and executes configured business pipeline
+AppForeach.MassTransit.MassTransitConsumerActivator.Initialize()
+    // prepares operation input and gathers protocol specific properties
+	AppForeach.BusinessScopeFactory.StartScope()  
+    // creates business operation scope, at this point flow can be reused accross different protocols
+	AppForeach.BusinessScope.RunMiddlewares()
+    // prepares and executes configured business pipeline
 		AppForeach.Logging.AuditMiddleware.Execute()
 			// logs operation start, optionally saving entire request for audit purposes
 			AppForeach.Validation.ValidationMiddleware.Execute()
 				//finds corresponding operation validator
-				Organization.Domain.Operation.OperationValidator.Validate() // <-- actual business operation validator
+				Organization.Domain.Operation.OperationValidator.Validate() 
+                    // <-- actual business operation validator -->
 					AppForeach.UnitOfWorkMiddleware.Execute()
 						// starts unit of work, opens database transaction
 						AppForeach.BusinessOperationActivator.Execute()
-							Organization.Domain.Operation.OperationCode.Handle() // <-- actual business component code
+							Organization.Domain.Operation.OperationCode.Handle()
+                            // <-- actual business component code
 						// completes unit of work, commits transaction
 			// logs operation completion
 	AppForeach.BusinessScope.Dispose()
