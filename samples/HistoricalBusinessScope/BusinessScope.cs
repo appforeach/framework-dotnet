@@ -14,5 +14,7 @@ namespace HistoricalBusinessScope
         public void Dispose()
         {
         }
+
+        public void Complete();
     }
 }

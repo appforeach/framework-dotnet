@@ -22,8 +22,11 @@
                 Invoice invoice = mapping.Map(request);
 
                 int invoiceId = invoiceRepository.Create(invoice);
-
-                return new CreateInvoiceResponse(invoiceId);
+                
+                var response = new CreateInvoiceResponse(invoiceId);
+                
+                scope.Complete();
+                return response;
             }
         }
     }
