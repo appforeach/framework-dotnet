@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HistoricalBusinessScope", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessMiddleware", "BusinessMiddleware\BusinessMiddleware.csproj", "{B3C79A4E-5DE7-4EED-9F72-AEC3D83E7EA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HistoricalMassTransitSagas", "HistoricalMassTransitSagas\HistoricalMassTransitSagas.csproj", "{CC5621F0-B716-4B54-B3D1-7220EB42BFA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B3C79A4E-5DE7-4EED-9F72-AEC3D83E7EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3C79A4E-5DE7-4EED-9F72-AEC3D83E7EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3C79A4E-5DE7-4EED-9F72-AEC3D83E7EA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC5621F0-B716-4B54-B3D1-7220EB42BFA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC5621F0-B716-4B54-B3D1-7220EB42BFA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC5621F0-B716-4B54-B3D1-7220EB42BFA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC5621F0-B716-4B54-B3D1-7220EB42BFA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
