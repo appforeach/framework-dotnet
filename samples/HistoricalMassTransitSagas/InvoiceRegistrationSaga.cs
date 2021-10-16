@@ -89,13 +89,26 @@ namespace HistoricalMassTransitSagas
 
                         ctx.Instance.InvoiceId = ctx.Data.InvoiceId;
                     })
-                    .TransitionTo(InvoiceRegistered)
-                    .SendCommand(ctx => new UpdateLedgerCommand
-                    {
-                        AccountNumber = ctx.Instance.AccountNumber,
-                        Transasction = "InvoiceRegistration",
-                        Amount = ctx.Instance.InvoiceAmount
-                    }),
+                    .If(ctx => ctx.Instance.InvoiceAmount > 0, ctx => ctx
+                        .TransitionTo(InvoiceRegistered)
+                        .SendCommand(ctx => new UpdateLedgerCommand
+                        {
+                            AccountNumber = ctx.Instance.AccountNumber,
+                            Transasction = "InvoiceRegistration",
+                            Amount = ctx.Instance.InvoiceAmount
+                        })
+                    )
+                    .If(ctx => ctx.Instance.InvoiceAmount == 0, ctx => ctx
+                        .TransitionTo(LedgerUpdated)
+                        .SendCommand(ctx => new SendCommunicationCommand
+                        {
+                            Template = "Invoice",
+                            Parameters = new Dictionary<string, string>
+                            {
+                                { "invoiceId", ctx.Instance.InvoiceId.ToString() }
+                            }
+                        })
+                    ),
 
                 ExpectFailed(InvoiceFailedSagaEvent, InvoiceFailed)
 
