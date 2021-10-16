@@ -39,6 +39,7 @@ namespace FrameworkSagas
                 });
 
             Step("UpdateLedger")
+                .If(state => state.InvoiceAmount > 0)
                 .Send(state => new UpdateLedgerInput
                 {
                     AccountNumber = state.AccountNumber,
