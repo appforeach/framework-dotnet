@@ -60,5 +60,4 @@ All stack features table of contents.
 
 Framework encourages writing business component code that has no dependencies on framework itself. In addition, recommended [packaging design](packaging.md) ensures that investment in business domain modeling is protected from changes in supportive frameworks or infrastructure.
 
-## Microservices communication
 
