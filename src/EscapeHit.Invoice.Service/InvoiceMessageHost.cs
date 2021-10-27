@@ -7,7 +7,7 @@ namespace EscapeHit.Invoice.Service
     {
         public InvoiceMessageHost()
         {
-            Consume<CreateInvoiceInput>();
+            Consume<CreateInvoiceCommand>();
         }
     }
 }

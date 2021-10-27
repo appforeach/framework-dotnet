@@ -4,8 +4,7 @@ using System.Text;
 
 namespace EscapeHit.Invoice.Queries.GetInvoiceById
 {
-    public class GetInvoiceByIdQuery
+    class GetInvoiceByIdHandler
     {
-        public int Id { get; set; }
     }
 }

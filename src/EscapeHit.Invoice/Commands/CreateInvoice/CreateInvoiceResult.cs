@@ -1,7 +1,7 @@
 ﻿
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
-    public class CreateInvoiceOutput
+    public class CreateInvoiceResult
     {
         public int InvoiceId { get; set; }
 
