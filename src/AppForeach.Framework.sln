@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapeHit.Invoice.WebApi", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapeHit.WebApi", "EscapeHit.WebApi\EscapeHit.WebApi.csproj", "{345FE534-5021-4AFC-AA1E-64BE635319FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.CodeGeneration", "AppForeach.Framework.CodeGeneration\AppForeach.Framework.CodeGeneration.csproj", "{8D465FE3-B093-4659-8564-D4ABBF5F0106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration", "AppForeach.Framework.CodeGeneration\AppForeach.Framework.CodeGeneration.csproj", "{8D465FE3-B093-4659-8564-D4ABBF5F0106}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.CodeGeneration.VisualStudio", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.csproj", "{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration.VisualStudio", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.csproj", "{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.CodeGeneration.VisualStudio.Vsix", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix.csproj", "{3F62D314-C799-44C8-8E57-1ABDD78640EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration.VisualStudio.Vsix", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix.csproj", "{3F62D314-C799-44C8-8E57-1ABDD78640EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using Castle.MicroKernel.Registration;
+using Castle.Windsor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,12 +25,23 @@ namespace EscapeHit.Invoice.WebApi
 
         public IConfiguration Configuration { get; }
 
+        public void ConfigureContainer(IWindsorContainer container)
+        {
+            container.Register(
+                Classes.FromAssembly(typeof(Startup).Assembly/*Assembly.GetCallingAssembly()*/).Pick().WithService.AllInterfaces().LifestyleTransient()
+                );
+            
+            //container.Register(
+            //  Component.For<IUseCase>().ImplementedBy<UseCase>().LifestyleTransient()
+            //  );
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUseCase, UseCase>();
-            services.AddScoped<IScopedService, ScopedService>();
-            services.AddSingleton<ISingletonService, SingletonService>();
+            //services.AddTransient<IUseCase, UseCase>();
+            //services.AddScoped<IScopedService, ScopedService>();
+            //services.AddSingleton<ISingletonService, SingletonService>();
 
             services.AddControllers();
         }
