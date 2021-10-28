@@ -40,10 +40,12 @@ namespace EscapeHit.Invoice.WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseWindsorContainerServiceProvider()
+                .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseNLog();
+            ;
     }
 }
