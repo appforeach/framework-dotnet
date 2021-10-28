@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
+using NLog.Web;
 
 namespace EscapeHit.Invoice.WebApi
 {
@@ -13,7 +17,25 @@ namespace EscapeHit.Invoice.WebApi
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            LoggingConfiguration nlogConfig = new LoggingConfiguration();
+            var consoleTarget = new ColoredConsoleTarget();
+            //consoleTarget.Layout = "";
+            nlogConfig.AddTarget("console", consoleTarget);
+
+            var logger = NLogBuilder.ConfigureNLog(nlogConfig).GetCurrentClassLogger();
+
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex);
+            }
+            finally
+            {
+                LogManager.Shutdown();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -21,6 +43,7 @@ namespace EscapeHit.Invoice.WebApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseNLog();
     }
 }
