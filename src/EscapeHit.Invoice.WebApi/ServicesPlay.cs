@@ -38,8 +38,9 @@ namespace EscapeHit.Invoice.WebApi
     public class ScopedService : IScopedService
     {
         private readonly string val;
-        public ScopedService()
+        public ScopedService(Castle.MicroKernel.IKernel kernel)
         {
+            //kernel.Resolver.
             val = Guid.NewGuid().ToString("n");
         }
 

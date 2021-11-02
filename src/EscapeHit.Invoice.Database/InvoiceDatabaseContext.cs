@@ -2,7 +2,7 @@
 
 namespace EscapeHit.Invoice.Database
 {
-    public class Class1
+    public class InvoiceDatabaseContext
     {
     }
 }

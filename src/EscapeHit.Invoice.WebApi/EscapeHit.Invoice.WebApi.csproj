@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj" />
+    <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
+    <ProjectReference Include="..\EscapeHit.Invoice.Database\EscapeHit.Invoice.Database.csproj" />
     <ProjectReference Include="..\EscapeHit.Invoice\EscapeHit.Invoice.csproj" />
     <ProjectReference Include="..\EscapeHit.WebApi\EscapeHit.WebApi.csproj" />
   </ItemGroup>
