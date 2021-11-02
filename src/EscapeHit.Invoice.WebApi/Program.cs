@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -19,9 +18,7 @@ namespace EscapeHit.Invoice.WebApi
         {
             LoggingConfiguration nlogConfig = new LoggingConfiguration();
             var consoleTarget = new ColoredConsoleTarget();
-            //consoleTarget.Layout = "";
             nlogConfig.AddTarget("console", consoleTarget);
-
             var logger = NLogBuilder.ConfigureNLog(nlogConfig).GetCurrentClassLogger();
 
             try

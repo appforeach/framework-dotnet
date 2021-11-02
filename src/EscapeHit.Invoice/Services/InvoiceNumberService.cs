@@ -11,7 +11,7 @@ namespace EscapeHit.Invoice.Services
     {
         public string GenerateInvoiceNumber(InvoiceEntity invoice)
         {
-            throw new NotImplementedException();
+            return "inv-001";
         }
     }
 }
