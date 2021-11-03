@@ -41,10 +41,18 @@ namespace EscapeHit.Invoice.WebApi
             );
 
             container.Register(
-                Classes.FromAssembly(typeof(Startup).Assembly).Pick().WithService.AllInterfaces().LifestyleTransient()
+                Classes.FromAssembly(typeof(Startup).Assembly).Where(t => t != typeof(CustomMiddleware)).WithService.AllInterfaces().LifestyleTransient()
             );
 
             RegisterHandlers(container, typeof(InvoiceEntity).Assembly);
+
+            FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
+            hostConfig.ConfiguredMiddlewares.Add(typeof(ScopeMiddleware));
+            hostConfig.ConfiguredMiddlewares.Add(typeof(CustomMiddleware));
+            container.Register(Component.For<IFrameworkHostConfiguration>().Instance(hostConfig));
+
+            container.Register(Component.For<ScopeMiddleware>().LifestyleTransient());
+            container.Register(Component.For<CustomMiddleware>().LifestyleTransient()); //- probably auto?
         }
 
         private void RegisterHandlers(IWindsorContainer container, Assembly assembly)

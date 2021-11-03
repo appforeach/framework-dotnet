@@ -11,6 +11,12 @@ namespace AppForeach.Framework.Castle.Windsor
             container.Register(Component.For<IServiceLocator>().ImplementedBy<ServiceLocator>());
             
             container.Register(Component.For<IHandlerExecutor>().ImplementedBy<HandlerExecutor>());
+
+            container.Register(Component.For<IOperationMediator>().ImplementedBy<OperationMediator>());
+
+            container.Register(Component.For<IOperationExecutor>().ImplementedBy<OperationExecutor>());
+
+            container.Register(Component.For<IHandlerExecutorMiddleware>().ImplementedBy<HandlerExecutorMiddleware>());
         }
     }
 }

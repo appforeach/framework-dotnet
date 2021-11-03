@@ -18,21 +18,23 @@ namespace EscapeHit.Invoice.WebApi.Controllers
         private readonly IHandlerExecutor handlerExecutor;
 
         public InvoiceController(ILogger<InvoiceController> logger, IUseCase useCase, IScopedService scopedService, 
-            ISingletonService singletonService/*IOperationMediator operationMediator*/
-            ,IHandlerExecutor handlerExecutor)
+            ISingletonService singletonService, IOperationMediator operationMediator,
+            IHandlerExecutor handlerExecutor)
         {
             this.logger = logger;
             this.useCase = useCase;
             this.scopedService = scopedService;
             this.singletonService = singletonService;
             this.handlerExecutor = handlerExecutor;
-            //this.operationMediator = operationMediator;
+            this.operationMediator = operationMediator;
         }
 
         [HttpGet]
         public async Task<ObjectResult> GetById(int id)
         {
-            var obj = await handlerExecutor.Execute(new CreateInvoiceCommand());
+            var res = await operationMediator.Execute(new CreateInvoiceCommand()).As<CreateInvoiceResult>();
+
+            //var obj = await handlerExecutor.Execute(new CreateInvoiceCommand());
 
             logger.LogInformation($"controller - scoped { await scopedService.GetValue() }; singleton { await singletonService.GetValue() }");
 
@@ -45,7 +47,8 @@ namespace EscapeHit.Invoice.WebApi.Controllers
         [HttpPost]
         public async Task<ObjectResult> Create(CreateInvoiceCommand input)
         {
-            return await operationMediator.Execute(input).Ok();
+            return Ok("hey!");
+            //return await operationMediator.Execute(input).Ok();
         }
     }
 }
