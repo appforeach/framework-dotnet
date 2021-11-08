@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EscapeHit.Invoice.Database;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using NLog.Config;
@@ -39,6 +42,10 @@ namespace EscapeHit.Invoice.WebApi
             Host.CreateDefaultBuilder(args)
                 .UseWindsorContainerServiceProvider()
                 .UseNLog()
+                .ConfigureServices(services =>
+                {
+                    services.AddDbContext<InvoiceDbContext>(options => options.UseSqlServer("Server=(local); Initial Catalog=invoice; Integrated Security=true; MultipleActiveResultSets=True;"));
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

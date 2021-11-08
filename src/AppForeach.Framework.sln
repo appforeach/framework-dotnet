@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Castle.Windsor", "AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj", "{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeHit.Invoice.Database.Design", "EscapeHit.Invoice.Database.Design\EscapeHit.Invoice.Database.Design.csproj", "{63170C94-20D5-445D-8B23-2791562736FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63170C94-20D5-445D-8B23-2791562736FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63170C94-20D5-445D-8B23-2791562736FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63170C94-20D5-445D-8B23-2791562736FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63170C94-20D5-445D-8B23-2791562736FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

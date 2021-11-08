@@ -5,9 +5,17 @@ namespace EscapeHit.Invoice.Database.Repositories
 {
     public class InvoiceRepository : IInvoiceRepository
     {
-        public Task Create(InvoiceEntity invoice)
+        private readonly InvoiceDbContext db;
+
+        public InvoiceRepository(InvoiceDbContext db)
         {
-            return Task.CompletedTask;
+            this.db = db;
+        }
+
+        public async Task Create(InvoiceEntity invoice)
+        {
+            db.Add(invoice);
+            await db.SaveChangesAsync();
         }
 
         public Task<InvoiceEntity> FindById(int id)
