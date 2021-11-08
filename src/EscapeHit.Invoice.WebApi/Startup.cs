@@ -37,7 +37,7 @@ namespace EscapeHit.Invoice.WebApi
             );
 
             container.Register(
-                Classes.FromAssemblyContaining<InvoiceDatabaseContext>().Pick().WithService.AllInterfaces().LifestyleTransient()
+                Classes.FromAssemblyContaining<InvoiceDbContext>().Pick().WithService.AllInterfaces().LifestyleTransient()
             );
 
             container.Register(
