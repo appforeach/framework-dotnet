@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace EscapeHit.Invoice.Database
 {
@@ -13,5 +14,15 @@ namespace EscapeHit.Invoice.Database
         }
 
         public DbSet<InvoiceEntity> Invoices { get; set; }
+
+        public override ValueTask DisposeAsync()
+        {
+            return base.DisposeAsync();
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }
