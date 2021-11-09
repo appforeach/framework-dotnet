@@ -1,3 +1,3 @@
-﻿Add-Migration -StartupProject EscapeHit.Invoice.Database.Design -Project EscapeHit.Invoice.Database Initial
+﻿Add-Migration -StartupProject EscapeHit.Invoice.Database.Design -Project EscapeHit.Invoice.Database <Name>
 
-Update-Database -StartupProject EscapeHit.Invoice.Database.Design -Project EscapeHit.Invoice.Database Initial
+Update-Database -StartupProject EscapeHit.Invoice.Database.Design -Project EscapeHit.Invoice.Database
