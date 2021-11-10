@@ -9,39 +9,37 @@ namespace AppForeach.Framework
         private readonly IServiceLocator serviceLocator;
         private readonly IFrameworkHostConfiguration hostConfiguration;
         private readonly IHandlerExecutorMiddleware handlerExecutorMiddleware;
+        private readonly IOperationContext operationContext;
 
-        public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerExecutorMiddleware handlerExecutorMiddleware)
+        public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerExecutorMiddleware handlerExecutorMiddleware, 
+            IOperationContext operationContext)
         {
             this.serviceLocator = serviceLocator;
             this.hostConfiguration = hostConfiguration;
             this.handlerExecutorMiddleware = handlerExecutorMiddleware;
+            this.operationContext = operationContext;
         }
 
         public async Task<OperationResult> Execute(IBag input)
         {
-            var context = PrepareContext(input);
+            PrepareContext(input);
 
-            await ExecuteMiddlewares(context);
+            await ExecuteMiddlewares();
 
-            return PrepareResult(context);
+            return PrepareResult();
         }
 
-        private IOperationContext PrepareContext(IBag input)
+        private void PrepareContext(IBag input)
         {
-            var context = new OperationContext();
-            context.Configuration = input;
-
-            context.State = new Bag();
+            operationContext.Configuration = input;
 
             var inputConfig = input.Get<OperationExecutionInputConfiguration>();
-            context.Input = inputConfig.Input;
-
-            return context;
+            operationContext.Input = inputConfig.Input;
         }
 
-        public Task ExecuteMiddlewares(IOperationContext context)
+        public Task ExecuteMiddlewares()
         {
-            NextOperationDelegate callBottom = ctx => handlerExecutorMiddleware.ExecuteAsync(ctx, null);
+            NextOperationDelegate callBottom = () => handlerExecutorMiddleware.ExecuteAsync(null);
 
             List<Type> middlewares = hostConfiguration.ConfiguredMiddlewares;
 
@@ -49,15 +47,15 @@ namespace AppForeach.Framework
             {
                 var middleware = (IOperationMiddleware)serviceLocator.GetService(middlewares[i]);
                 var nextMiddleware = callBottom;
-                callBottom = ctx => middleware.ExecuteAsync(ctx, nextMiddleware);
+                callBottom = () => middleware.ExecuteAsync(nextMiddleware);
             }
 
-            return callBottom(context);
+            return callBottom();
         }
 
-        public OperationResult PrepareResult(IOperationContext context)
+        public OperationResult PrepareResult()
         {
-            var outputState = context.State.Get<OperationOutputState>();
+            var outputState = operationContext.State.Get<OperationOutputState>();
 
             var result = new OperationResult();
             result.Result = outputState.Result;

@@ -1,6 +1,7 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
+using Castle.Windsor.Extensions.DependencyInjection.Extensions;
 
 namespace AppForeach.Framework.Castle.Windsor
 {
@@ -14,9 +15,12 @@ namespace AppForeach.Framework.Castle.Windsor
 
             container.Register(Component.For<IOperationMediator>().ImplementedBy<OperationMediator>());
 
-            container.Register(Component.For<IOperationExecutor>().ImplementedBy<OperationExecutor>());
 
-            container.Register(Component.For<IHandlerExecutorMiddleware>().ImplementedBy<HandlerExecutorMiddleware>());
+            container.Register(Component.For<IHandlerExecutorMiddleware>().ImplementedBy<HandlerExecutorMiddleware>().LifeStyle.ScopedToNetServiceScope());
+
+            container.Register(Component.For<IOperationExecutor>().ImplementedBy<OperationExecutor>().LifeStyle.ScopedToNetServiceScope());
+
+            container.Register(Component.For<IOperationContext>().ImplementedBy<OperationContext>().LifeStyle.ScopedToNetServiceScope());
         }
     }
 }

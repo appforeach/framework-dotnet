@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AppForeach.Framework;
 using AppForeach.Framework.Castle.Windsor;
+using AppForeach.Framework.EntityFrameworkCore;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using EscapeHit.Invoice.Database;
@@ -47,11 +48,11 @@ namespace EscapeHit.Invoice.WebApi
             RegisterHandlers(container, typeof(InvoiceEntity).Assembly);
 
             FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
-            hostConfig.ConfiguredMiddlewares.Add(typeof(ScopeMiddleware));
+            hostConfig.ConfiguredMiddlewares.Add(typeof(TransactionScopeMiddleware));
             hostConfig.ConfiguredMiddlewares.Add(typeof(CustomMiddleware));
             container.Register(Component.For<IFrameworkHostConfiguration>().Instance(hostConfig));
 
-            container.Register(Component.For<ScopeMiddleware>().LifestyleTransient());
+            container.Register(Component.For<TransactionScopeMiddleware>().LifestyleTransient());
             container.Register(Component.For<CustomMiddleware>().LifestyleTransient()); //- probably auto?
         }
 

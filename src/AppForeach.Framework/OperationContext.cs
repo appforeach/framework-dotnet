@@ -3,6 +3,11 @@ namespace AppForeach.Framework
 {
     public class OperationContext : IOperationContext
     {
+        public OperationContext()
+        {
+            State = new Bag();
+        }
+
         public string OperationName { get; set; }
 
         public bool IsCommand { get; set; }

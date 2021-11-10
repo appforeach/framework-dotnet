@@ -4,6 +4,6 @@ namespace AppForeach.Framework
 {
     public interface IOperationMiddleware
     {
-        Task ExecuteAsync(IOperationContext context, NextOperationDelegate next);
+        Task ExecuteAsync(NextOperationDelegate next);
     }
 }

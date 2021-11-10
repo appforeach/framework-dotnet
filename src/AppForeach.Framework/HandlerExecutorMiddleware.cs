@@ -4,14 +4,16 @@ namespace AppForeach.Framework
 {
     public class HandlerExecutorMiddleware : IHandlerExecutorMiddleware
     {
+        private readonly IOperationContext context;
         private readonly IHandlerExecutor handlerExecutor;
 
-        public HandlerExecutorMiddleware(IHandlerExecutor handlerExecutor)
+        public HandlerExecutorMiddleware(IOperationContext context, IHandlerExecutor handlerExecutor)
         {
+            this.context = context;
             this.handlerExecutor = handlerExecutor;
         }
 
-        public async Task ExecuteAsync(IOperationContext context, NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next)
         {
             object result = await handlerExecutor.Execute(context.Input);
 
