@@ -7,9 +7,9 @@ namespace AppForeach.Framework
 
         bool IsCommand { get; }
 
-        object Input { get; }
+        object Input { get; set;  }
 
-        IBag Configuration { get; }
+        IBag Configuration { get; set; }
 
         IBag State { get; }
     }

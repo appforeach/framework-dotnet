@@ -16,10 +16,10 @@ namespace EscapeHit.Invoice.WebApi
             this.logger = logger;
         }
 
-        public async Task ExecuteAsync(IOperationContext context, NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next)
         {
             logger.LogWarning("CustomMiddleware - before");
-            await next(context);
+            await next();
             logger.LogWarning("CustomMiddleware - after");
         }
     }

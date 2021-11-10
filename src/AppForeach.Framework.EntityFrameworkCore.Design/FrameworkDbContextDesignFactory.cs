@@ -8,7 +8,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Design
         public FrameworkDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
-            optionsBuilder.UseSqlServer("Server=(local); Initial Catalog=framework; Integrated Security=true; MultipleActiveResultSets=True;",
+            optionsBuilder.UseSqlServer("Server=(local); Initial Catalog=invoice; Integrated Security=true; MultipleActiveResultSets=True;",
                 opt =>
                 {
                     opt.MigrationsHistoryTable("__EFMigrationsHistory", FrameworkDbContext.Schema);

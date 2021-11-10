@@ -6,7 +6,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
     {
         public const string Schema = "framework";
 
-        public DbSet<TransactionEntity> Transactions;
+        public DbSet<TransactionEntity> Transactions { get; set; }
 
         public FrameworkDbContext()
         {

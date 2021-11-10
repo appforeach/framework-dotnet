@@ -43,12 +43,5 @@ namespace EscapeHit.Invoice.WebApi.Controllers
             return Ok("hey!");
             //return await operationMediator.Execute(new GetInvoiceByIdQuery { Id = id }).OkOrNotFound();
         }
-
-        [HttpPost]
-        public async Task<ObjectResult> Create(CreateInvoiceCommand input)
-        {
-            return Ok("hey!");
-            //return await operationMediator.Execute(input).Ok();
-        }
     }
 }
