@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AppForeach.Framework.DataType;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
-    class CreateInvoiceValidation
+    public class CreateInvoiceValidation : BaseValidation<CreateInvoiceCommand>
     {
+        public CreateInvoiceValidation()
+        {
+            InheritFromMappingAndSpecification();
+
+            Field(e => e.CustomerNumber).IsOptional();
+        }
     }
 }

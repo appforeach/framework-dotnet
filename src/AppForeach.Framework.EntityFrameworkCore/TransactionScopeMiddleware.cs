@@ -22,22 +22,25 @@ namespace AppForeach.Framework.EntityFrameworkCore
             var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
             optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
 
-            using var frameworkDb = new FrameworkDbContext(optionsBuilder.Options);
-            scopeState.DbContext = frameworkDb;
+            using (var frameworkDb = new FrameworkDbContext(optionsBuilder.Options))
+            using (var dbTransaction = await frameworkDb.Database.BeginTransactionAsync())
+            {
+                scopeState.DbContext = frameworkDb;
 
-            using var dbTransaction = await frameworkDb.Database.BeginTransactionAsync();
-            scopeState.DbContextTransaction = dbTransaction;
 
-            var transaction = new TransactionEntity();
-            transaction.Name = "some_name";
-            transaction.OccuredOn = DateTimeOffset.UtcNow;
-            frameworkDb.Transactions.Add(transaction);            
+                scopeState.DbContextTransaction = dbTransaction;
 
-            await frameworkDb.SaveChangesAsync();
+                var transaction = new TransactionEntity();
+                transaction.Name = "some_name";
+                transaction.OccuredOn = DateTimeOffset.UtcNow;
+                frameworkDb.Transactions.Add(transaction);
 
-            await next();
+                await frameworkDb.SaveChangesAsync();
 
-            await dbTransaction.CommitAsync();
+                await next();
+
+                await dbTransaction.CommitAsync();
+            }
         }
     }
 }

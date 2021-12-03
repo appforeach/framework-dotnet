@@ -1,4 +1,6 @@
 ﻿
+using AppForeach.Framework.DataType;
+
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
     public interface ICreateInvoiceInputMapping
@@ -6,16 +8,13 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
         InvoiceEntity MapFrom(CreateInvoiceCommand input);
     }
 
-    public class CreateInvoiceCommandMapping : ICreateInvoiceInputMapping
+    public class CreateInvoiceCommandMapping : BaseMapping<InvoiceEntity, CreateInvoiceCommand>, ICreateInvoiceInputMapping
     {
-        public InvoiceEntity MapFrom(CreateInvoiceCommand input)
+        public CreateInvoiceCommandMapping()
         {
-            var entity = new InvoiceEntity();
-
-            entity.CustomerNumber = input.CustomerNumber;
-            entity.Amount = input.Amount;
-
-            return entity;
+            Field(e => e.CustomerNumber).From(e => e.CustomerNumber);
         }
+
+        public InvoiceEntity MapFrom(CreateInvoiceCommand input) => BaseMap(input);
     }
 }

@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using AppForeach.Framework.DataType;
 
 namespace EscapeHit.Invoice.Specification
 {
-    class InvoiceEntitySpecification
+    public class InvoiceEntitySpecification : BaseEntitySpecification<InvoiceEntity>
     {
+        public InvoiceEntitySpecification()
+        {
+            Field(e => e.CustomerNumber).IsRequired().MaxLength(10);
+
+            Field(e => e.Number).IsRequired().Is<NumberDataType>();
+        }
     }
 }

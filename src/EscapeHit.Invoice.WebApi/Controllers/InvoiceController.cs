@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AppForeach.Framework;
 using EscapeHit.Invoice.Commands.CreateInvoice;
+using EscapeHit.Invoice.Queries.GetInvoiceById;
 using EscapeHit.WebApi;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,14 @@ namespace EscapeHit.Invoice.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ObjectResult> GetById(int id)
+        public async Task<ActionResult> GetById(int id)
         {
-            var result = await operationMediator.Execute(new CreateInvoiceCommand()).As<CreateInvoiceResult>();
+            return await operationMediator.Execute(new GetInvoiceByIdQuery { Id = id }).OkOrNotFound();
+        }
 
-            return Ok("hey!");
+        public async Task<ActionResult> Create(CreateInvoiceCommand command)
+        {
+            return await operationMediator.Execute(command).Ok();
         }
     }
 }

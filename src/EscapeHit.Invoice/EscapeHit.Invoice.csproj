@@ -6,5 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
+    <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
   </ItemGroup>  
 </Project>
