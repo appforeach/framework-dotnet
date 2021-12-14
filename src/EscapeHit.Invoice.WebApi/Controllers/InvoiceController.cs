@@ -17,14 +17,11 @@ namespace EscapeHit.Invoice.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetById(int id)
-        {
-            return await operationMediator.Execute(new GetInvoiceByIdQuery { Id = id }).OkOrNotFound();
-        }
+        public Task<ActionResult> GetById(int id)
+            => operationMediator.Execute(new GetInvoiceByIdQuery { Id = id }).OkOrNotFound();
 
-        public async Task<ActionResult> Create(CreateInvoiceCommand command)
-        {
-            return await operationMediator.Execute(command).Ok();
-        }
+        [HttpPost]
+        public Task<ActionResult> Create(CreateInvoiceCommand command)
+            => operationMediator.Execute(command).Ok();
     }
 }
