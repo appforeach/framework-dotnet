@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AppForeach.Framework" Version="0.1.0" />
+    <PackageReference Include="EscapeHit" Version="0.1.0" />
+    <PackageReference Include="EscapeHit.CodeGeneration" Version="0.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>analyzers</IncludeAssets>
+    </PackageReference>    
+  </ItemGroup>
+
+</Project>
