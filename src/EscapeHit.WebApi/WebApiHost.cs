@@ -151,7 +151,10 @@ namespace EscapeHit.WebApi
                     container.Install(new FrameworkInstaller());
 
                     FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
+
+                    hostConfig.ConfiguredMiddlewares.Add(typeof(IOperationNameResolutionMiddleware));
                     hostConfig.ConfiguredMiddlewares.Add(typeof(TransactionScopeMiddleware));
+
                     container.Register(Component.For<IFrameworkHostConfiguration>().Instance(hostConfig));
 
                     container.Register(Component.For<TransactionScopeMiddleware>().LifestyleTransient());

@@ -2,20 +2,20 @@
 
 namespace AppForeach.Framework
 {
-    public class HandlerExecutorMiddleware : IHandlerExecutorMiddleware
+    public class HandlerInvokerMiddleware : IHandlerInvokerMiddleware
     {
         private readonly IOperationContext context;
-        private readonly IHandlerExecutor handlerExecutor;
+        private readonly IHandlerInvoker handlerInvoker;
 
-        public HandlerExecutorMiddleware(IOperationContext context, IHandlerExecutor handlerExecutor)
+        public HandlerInvokerMiddleware(IOperationContext context, IHandlerInvoker handlerInvoker)
         {
             this.context = context;
-            this.handlerExecutor = handlerExecutor;
+            this.handlerInvoker = handlerInvoker;
         }
 
         public async Task ExecuteAsync(NextOperationDelegate next)
         {
-            object result = await handlerExecutor.Execute(context.Input);
+            object result = await handlerInvoker.Invoke(context.Input);
 
             var outputState = context.State.Get<OperationOutputState>();
             outputState.Result = result;

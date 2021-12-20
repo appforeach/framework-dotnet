@@ -8,16 +8,16 @@ namespace AppForeach.Framework
     {
         private readonly IServiceLocator serviceLocator;
         private readonly IFrameworkHostConfiguration hostConfiguration;
-        private readonly IHandlerExecutorMiddleware handlerExecutorMiddleware;
-        private readonly IOperationContext operationContext;
-
-        public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerExecutorMiddleware handlerExecutorMiddleware, 
-            IOperationContext operationContext)
+        private readonly IHandlerInvokerMiddleware handlerInvokerMiddleware;
+        private readonly IOperationState operationState;
+        
+        public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerInvokerMiddleware handlerInvokerMiddleware, 
+            IOperationState operationState)
         {
             this.serviceLocator = serviceLocator;
             this.hostConfiguration = hostConfiguration;
-            this.handlerExecutorMiddleware = handlerExecutorMiddleware;
-            this.operationContext = operationContext;
+            this.handlerInvokerMiddleware = handlerInvokerMiddleware;
+            this.operationState = operationState;
         }
 
         public async Task<OperationResult> Execute(IBag input)
@@ -31,15 +31,19 @@ namespace AppForeach.Framework
 
         private void PrepareContext(IBag input)
         {
-            operationContext.Configuration = input;
+            var state = operationState.State.Get<OperationContextState>();
+            
+            state.Configuration = input;
 
             var inputConfig = input.Get<OperationExecutionInputConfiguration>();
-            operationContext.Input = inputConfig.Input;
+            state.Input = inputConfig.Input;
+
+            state.IsOperationInputSet = true;
         }
 
         public Task ExecuteMiddlewares()
         {
-            NextOperationDelegate callBottom = () => handlerExecutorMiddleware.ExecuteAsync(null);
+            NextOperationDelegate callBottom = () => handlerInvokerMiddleware.ExecuteAsync(null);
 
             List<Type> middlewares = hostConfiguration.ConfiguredMiddlewares;
 
@@ -55,7 +59,7 @@ namespace AppForeach.Framework
 
         public OperationResult PrepareResult()
         {
-            var outputState = operationContext.State.Get<OperationOutputState>();
+            var outputState = operationState.State.Get<OperationOutputState>();
 
             var result = new OperationResult();
             result.Result = outputState.Result;

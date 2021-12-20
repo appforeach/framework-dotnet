@@ -26,12 +26,10 @@ namespace AppForeach.Framework.EntityFrameworkCore
             using (var dbTransaction = await frameworkDb.Database.BeginTransactionAsync())
             {
                 scopeState.DbContext = frameworkDb;
-
-
                 scopeState.DbContextTransaction = dbTransaction;
 
                 var transaction = new TransactionEntity();
-                transaction.Name = "some_name";
+                transaction.Name = context.OperationName;
                 transaction.OccuredOn = DateTimeOffset.UtcNow;
                 frameworkDb.Transactions.Add(transaction);
 

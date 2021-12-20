@@ -11,16 +11,21 @@ namespace AppForeach.Framework.Castle.Windsor
         {
             container.Register(Component.For<IServiceLocator>().ImplementedBy<ServiceLocator>());
             
-            container.Register(Component.For<IHandlerExecutor>().ImplementedBy<HandlerExecutor>());
+            container.Register(Component.For<IHandlerInvoker>().ImplementedBy<HandlerInvoker>());
 
             container.Register(Component.For<IOperationMediator>().ImplementedBy<OperationMediator>());
 
-
-            container.Register(Component.For<IHandlerExecutorMiddleware>().ImplementedBy<HandlerExecutorMiddleware>().LifeStyle.ScopedToNetServiceScope());
+            container.Register(Component.For<IHandlerInvokerMiddleware>().ImplementedBy<HandlerInvokerMiddleware>().LifeStyle.ScopedToNetServiceScope());
 
             container.Register(Component.For<IOperationExecutor>().ImplementedBy<OperationExecutor>().LifeStyle.ScopedToNetServiceScope());
 
+            container.Register(Component.For<IOperationState>().ImplementedBy<OperationState>().LifeStyle.ScopedToNetServiceScope());
+
             container.Register(Component.For<IOperationContext>().ImplementedBy<OperationContext>().LifeStyle.ScopedToNetServiceScope());
+
+            container.Register(Component.For<IOperationNameResolver>().ImplementedBy<OperationNameResolver>());
+
+            container.Register(Component.For<IOperationNameResolutionMiddleware>().ImplementedBy<OperationNameResolutionMiddleware>().LifeStyle.ScopedToNetServiceScope());
         }
     }
 }

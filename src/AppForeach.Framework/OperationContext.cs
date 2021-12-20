@@ -3,19 +3,67 @@ namespace AppForeach.Framework
 {
     public class OperationContext : IOperationContext
     {
-        public OperationContext()
+        private readonly IOperationState operationState;
+
+        public OperationContext(IOperationState operationState)
         {
-            State = new Bag();
+            this.operationState = operationState;
         }
 
-        public string OperationName { get; set; }
+        public string OperationName
+        {
+            get
+            {
+                EnsureOperationNameResolved();
+                return ContextState.OperationName;
+            }
+        }
 
-        public bool IsCommand { get; set; }
+        public bool IsCommand
+        {
+            get
+            {
+                EnsureOperationNameResolved();
+                return ContextState.IsCommand;
+            }
+        }
 
-        public object Input { get; set; }
+        public object Input
+        {
+            get
+            {
+                EnsureOperationInputSet();
+                return ContextState.Input;
+            }
+        }
 
-        public IBag Configuration { get; set; }
+        public IBag Configuration
+        {
+            get
+            {
+                EnsureOperationInputSet();
+                return ContextState.Configuration;
+            }
+        }
 
-        public IBag State { get; set; }
+        public IBag State => operationState.State;
+
+        private OperationContextState ContextState => State.Get<OperationContextState>();
+
+        private void EnsureOperationNameResolved()
+        {
+            if (!ContextState.IsOperationNameResolved)
+            {
+                throw new FrameworkException("Operation name is not resolved.");
+            }
+        }
+
+        private void EnsureOperationInputSet()
+        {
+            if (!ContextState.IsOperationInputSet)
+            {
+                throw new FrameworkException("Operation input is not set.");
+            }
+        }
     }
 }

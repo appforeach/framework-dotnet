@@ -1,16 +1,14 @@
 ﻿
 namespace AppForeach.Framework
 {
-    public interface IOperationContext
+    public interface IOperationContext : IOperationState
     {
         string OperationName { get; }
 
         bool IsCommand { get; }
 
-        object Input { get; set;  }
+        object Input { get; }
 
-        IBag Configuration { get; set; }
-
-        IBag State { get; }
+        IBag Configuration { get; }
     }
 }

@@ -3,18 +3,18 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework
 {
-    public class HandlerExecutor : IHandlerExecutor
+    public class HandlerInvoker : IHandlerInvoker
     {
         private readonly IServiceLocator serviceLocator;
         private readonly IHandlerMap handlerMap;
 
-        public HandlerExecutor(IServiceLocator serviceLocator, IHandlerMap handlerMap)
+        public HandlerInvoker(IServiceLocator serviceLocator, IHandlerMap handlerMap)
         {
             this.serviceLocator = serviceLocator;
             this.handlerMap = handlerMap;
         }
 
-        public async Task<object> Execute(object operationInput)
+        public async Task<object> Invoke(object operationInput)
         {
             Type operationType = operationInput.GetType();
 
