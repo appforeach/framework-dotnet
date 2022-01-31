@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+#nullable disable
+
 namespace AppForeach.Framework.EntityFrameworkCore.Migrations
 {
     public partial class Initial : Migration
@@ -15,11 +17,11 @@ namespace AppForeach.Framework.EntityFrameworkCore.Migrations
                 schema: "framework",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    OccuredOn = table.Column<DateTimeOffset>(nullable: false),
-                    Host = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OccuredOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Host = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

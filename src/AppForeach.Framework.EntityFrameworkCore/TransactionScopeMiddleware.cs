@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,21 +24,27 @@ namespace AppForeach.Framework.EntityFrameworkCore
             optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
 
             using (var frameworkDb = new FrameworkDbContext(optionsBuilder.Options))
-            using (var dbTransaction = await frameworkDb.Database.BeginTransactionAsync())
+            using (var dbTransaction = await frameworkDb.Database.BeginTransactionAsync(IsolationLevel.Snapshot))
             {
                 scopeState.DbContext = frameworkDb;
                 scopeState.DbContextTransaction = dbTransaction;
 
-                var transaction = new TransactionEntity();
-                transaction.Name = context.OperationName;
-                transaction.OccuredOn = DateTimeOffset.UtcNow;
-                frameworkDb.Transactions.Add(transaction);
+                if (context.IsCommand)
+                {
+                    var transaction = new TransactionEntity();
+                    transaction.Name = context.OperationName;
+                    transaction.OccuredOn = DateTimeOffset.UtcNow;
+                    frameworkDb.Transactions.Add(transaction);
 
-                await frameworkDb.SaveChangesAsync();
+                    await frameworkDb.SaveChangesAsync();
+                }                
 
                 await next();
 
-                await dbTransaction.CommitAsync();
+                if (context.IsCommand)
+                {
+                    await dbTransaction.CommitAsync();
+                }
             }
         }
     }
