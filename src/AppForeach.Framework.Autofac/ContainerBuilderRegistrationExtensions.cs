@@ -1,5 +1,4 @@
-﻿using AppForeach.Framework;
-using Autofac;
+﻿using Autofac;
 
 namespace AppForeach.Framework.Autofac
 {
@@ -23,7 +22,19 @@ namespace AppForeach.Framework.Autofac
 
             containerBuilder.RegisterType<OperationNameResolver>().As<IOperationNameResolver>();
 
-            containerBuilder.RegisterType<OperationNameResolutionMiddleware>().As<IOperationNameResolutionMiddleware>().InstancePerLifetimeScope();
+            containerBuilder.RegisterType<OperationNameResolutionMiddleware>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<ValidationMiddleware>().InstancePerLifetimeScope();
+
+            containerBuilder.RegisterType<DefaultValidationFailedEventHandler>().As<IValidationFailedEventHandler>().InstancePerLifetimeScope()
+                .IfNotRegistered(typeof(IValidationFailedEventHandler));
+
+            containerBuilder.RegisterType<DefaultExceptionEventHandler>().As<IExceptionEventHandler>().InstancePerLifetimeScope()
+                .IfNotRegistered(typeof(IExceptionEventHandler));
+
+            containerBuilder.RegisterType<DefaultUnhandledExceptionEventHandler>().As<IUnhandledExceptionEventHandler>().InstancePerLifetimeScope()
+                .IfNotRegistered(typeof(IUnhandledExceptionEventHandler));
+            
         }
     }
 }

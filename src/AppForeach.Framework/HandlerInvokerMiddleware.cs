@@ -18,7 +18,7 @@ namespace AppForeach.Framework
             object result = await handlerInvoker.Invoke(context.Input);
 
             var outputState = context.State.Get<OperationOutputState>();
-            outputState.Result = result;
+            outputState.Result.Result = result;
         }
     }
 }

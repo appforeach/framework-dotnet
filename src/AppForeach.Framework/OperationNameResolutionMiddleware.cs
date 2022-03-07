@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework
 {
-    public class OperationNameResolutionMiddleware : IOperationNameResolutionMiddleware
+    public class OperationNameResolutionMiddleware : IOperationMiddleware
     {
         private readonly IOperationState operationState;
         private readonly IHandlerMap handlerMap;
@@ -25,8 +25,21 @@ namespace AppForeach.Framework
 
             if (string.IsNullOrEmpty(operationSpec.OperationName) || !operationSpec.IsCommand.HasValue)
             {
+                if(contextState.Input == null)
+                {
+                    throw new FrameworkException("Operation input is null.");
+                }
+
                 Type inputType = contextState.Input.GetType();
-                Type handlerType = handlerMap.GetHandlerMethod(inputType).DeclaringType;
+
+                var handlerMethod = handlerMap.GetHandlerMethod(inputType);
+
+                if(handlerMethod == null)
+                {
+                    throw new FrameworkException($"Handler not found for input of type { inputType }.");
+                }
+
+                Type handlerType = handlerMethod.DeclaringType;
 
                 operationName = operationNameResolver.ResolveName(inputType, handlerType);
             }

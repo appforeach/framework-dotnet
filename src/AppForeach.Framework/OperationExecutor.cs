@@ -10,23 +10,48 @@ namespace AppForeach.Framework
         private readonly IFrameworkHostConfiguration hostConfiguration;
         private readonly IHandlerInvokerMiddleware handlerInvokerMiddleware;
         private readonly IOperationState operationState;
-        
+        private readonly IExceptionEventHandler exceptionEventHandler;
+        private readonly IUnhandledExceptionEventHandler unhandledExceptionEventHandler;
+
         public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerInvokerMiddleware handlerInvokerMiddleware, 
-            IOperationState operationState)
+            IOperationState operationState, IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
         {
             this.serviceLocator = serviceLocator;
             this.hostConfiguration = hostConfiguration;
             this.handlerInvokerMiddleware = handlerInvokerMiddleware;
             this.operationState = operationState;
+            this.exceptionEventHandler = exceptionEventHandler;
+            this.unhandledExceptionEventHandler = unhandledExceptionEventHandler;
         }
 
         public async Task<OperationResult> Execute(IBag input)
         {
-            PrepareContext(input);
+            try
+            {
+                PrepareContext(input);
 
-            await ExecuteMiddlewares();
+                await ExecuteMiddlewares();
 
-            return PrepareResult();
+                return PrepareResult();
+            }
+            catch(Exception ex)
+            {
+                var exceptionHandlingResult = exceptionEventHandler.OnException(ex);
+
+                if(exceptionHandlingResult.IsHandled)
+                {
+                    return exceptionHandlingResult.Result;
+                }
+                
+                var unhandledExceptionHandlingResult = unhandledExceptionEventHandler.OnUnhandledException(ex);
+
+                if(unhandledExceptionHandlingResult.IsHandled)
+                {
+                    return unhandledExceptionHandlingResult.Result;
+                }
+
+                throw;
+            }
         }
 
         private void PrepareContext(IBag input)
@@ -61,10 +86,7 @@ namespace AppForeach.Framework
         {
             var outputState = operationState.State.Get<OperationOutputState>();
 
-            var result = new OperationResult();
-            result.Result = outputState.Result;
-            
-            return result;
+            return outputState.Result;
         }
     }
 }

@@ -3,6 +3,6 @@ namespace AppForeach.Framework
 {
     public class OperationOutputState
     {
-        public object Result { get; set; }
+        public OperationResult Result { get; set; } = new OperationResult();
     }
 }

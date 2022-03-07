@@ -10,8 +10,8 @@ namespace AppForeach.Framework
 
         public object OutcomeState { get; set; }
 
-        public List<OperationIssue> Errors { get; set; }
+        public List<OperationIssue> Errors { get; set; } = new List<OperationIssue>();
 
-        public List<OperationIssue> Warnings { get; set; }
+        public List<OperationIssue> Warnings { get; set; } = new List<OperationIssue>();
     }
 }

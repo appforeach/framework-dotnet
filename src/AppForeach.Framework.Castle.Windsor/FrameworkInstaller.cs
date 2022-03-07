@@ -24,8 +24,6 @@ namespace AppForeach.Framework.Castle.Windsor
             container.Register(Component.For<IOperationContext>().ImplementedBy<OperationContext>().LifeStyle.ScopedToNetServiceScope());
 
             container.Register(Component.For<IOperationNameResolver>().ImplementedBy<OperationNameResolver>());
-
-            container.Register(Component.For<IOperationNameResolutionMiddleware>().ImplementedBy<OperationNameResolutionMiddleware>().LifeStyle.ScopedToNetServiceScope());
         }
     }
 }
