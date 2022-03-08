@@ -6,11 +6,7 @@ namespace AppForeach.Framework
     {
         public static async Task<TOutput> As<TOutput>(this IOperationBuilder builder)
         {
-            var input = builder.Configuration.Get<OperationExecutionInputConfiguration>();
-
-            var executor = input.Executor;
-
-            var output = await executor.Execute(builder.Configuration);
+            var output = await builder.GetResult();
 
             if (output.Outcome != OperationOutcome.Success)
             {
@@ -18,6 +14,15 @@ namespace AppForeach.Framework
             }
 
             return (TOutput)output.Result;
+        }
+
+        public static async Task<OperationResult> GetResult(this IOperationBuilder builder)
+        {
+            var input = builder.Configuration.Get<OperationExecutionInputConfiguration>();
+
+            var executor = input.Executor;
+
+            return await executor.Execute(builder.Configuration);
         }
     }
 }
