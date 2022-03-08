@@ -41,10 +41,10 @@ namespace AppForeach.Framework
                     var outputState = context.State.Get<OperationOutputState>();
                     var result = outputState.Result;
 
-                    validationFailedEventHandler.OnValidationFailed(result);
-
                     result.Errors = validationResult.Errors;
                     result.Outcome = OperationOutcome.Error;
+
+                    validationFailedEventHandler.OnValidationFailed(result);
                     return;
                 }
             }
