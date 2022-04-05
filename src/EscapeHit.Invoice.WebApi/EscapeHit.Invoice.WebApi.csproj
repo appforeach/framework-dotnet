@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EscapeHit.Invoice.Database\EscapeHit.Invoice.Database.csproj" />
     <ProjectReference Include="..\EscapeHit.Invoice\EscapeHit.Invoice.csproj" />
     <ProjectReference Include="..\EscapeHit.WebApi\EscapeHit.WebApi.csproj" />

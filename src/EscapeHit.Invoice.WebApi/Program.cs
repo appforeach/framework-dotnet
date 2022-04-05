@@ -10,6 +10,7 @@ namespace EscapeHit.Invoice.WebApi
             WebApiHost.Create(args)
                 .AddComponents<InvoiceComponents>()
                 .AddDbContext<InvoiceDbContext>()
+                .AddWebStartup<WebStartup>()
                 .Run();
         }
     }

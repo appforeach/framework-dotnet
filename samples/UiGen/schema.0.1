@@ -1,0 +1,41 @@
+{
+  "appforeach": "0.1",
+  "operations": {
+    "commands": [
+      {
+        "name": "CreateInvoice",
+        "input": {
+          "name": "CreateInvoiceCommand",
+          "properties": [
+            {
+              "name": "customerNumber",
+              "type": "string",
+              "validation": {
+                "isRequired": true,
+                "maxLength": 20
+              }
+            },
+            {
+              "name": "amount",
+              "type": "decimal",
+              "validation": {
+                "isRequired": true
+              }
+            }
+          ]
+        },
+        "output":  null,
+        "api": {
+          "path": "/Invoice",
+          "method": "post"
+        }
+      }
+    ],
+    "queries": [
+    ]
+  },
+  "objects": [
+  ],
+  "errors": [
+  ]
+}
