@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using EscapeHit.Invoice.Services;
 
 namespace EscapeHit.Invoice
 {
-    public class InvoiceComponents
+    public class InvoiceComponents : ComponentRegistration
     {
+        public InvoiceComponents()
+        {
+            SetDefaultTransient();
+
+            AddSingleton<IInvoiceNumberService, InvoiceNumberService>();
+        }
     }
 }
