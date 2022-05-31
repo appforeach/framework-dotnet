@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31613.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework", "AppForeach.Framework\AppForeach.Framework.csproj", "{2A6ECF74-2FC4-49AC-B6F5-7C24E1DD2E12}"
 EndProject
@@ -23,12 +23,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapeHit.Invoice.WebApi", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapeHit.WebApi", "EscapeHit.WebApi\EscapeHit.WebApi.csproj", "{345FE534-5021-4AFC-AA1E-64BE635319FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration", "AppForeach.Framework.CodeGeneration\AppForeach.Framework.CodeGeneration.csproj", "{8D465FE3-B093-4659-8564-D4ABBF5F0106}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration.VisualStudio", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.csproj", "{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.CodeGeneration.VisualStudio.Vsix", "AppForeach.Framework.CodeGeneration.VisualStudio\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix\AppForeach.Framework.CodeGeneration.VisualStudio.Vsix.csproj", "{3F62D314-C799-44C8-8E57-1ABDD78640EB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Castle.Windsor", "AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj", "{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapeHit.Invoice.Database.Design", "EscapeHit.Invoice.Database.Design\EscapeHit.Invoice.Database.Design.csproj", "{63170C94-20D5-445D-8B23-2791562736FA}"
@@ -39,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Entity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Autofac", "AppForeach.Framework.Autofac\AppForeach.Framework.Autofac.csproj", "{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.EntityFrameworkCore.Autofac", "AppForeach.Framework.EntityFrameworkCore.Autofac\AppForeach.Framework.EntityFrameworkCore.Autofac.csproj", "{64A34D02-1F73-4268-825C-204DBF43D061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.EntityFrameworkCore.Autofac", "AppForeach.Framework.EntityFrameworkCore.Autofac\AppForeach.Framework.EntityFrameworkCore.Autofac.csproj", "{64A34D02-1F73-4268-825C-204DBF43D061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,18 +73,6 @@ Global
 		{345FE534-5021-4AFC-AA1E-64BE635319FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{345FE534-5021-4AFC-AA1E-64BE635319FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{345FE534-5021-4AFC-AA1E-64BE635319FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D465FE3-B093-4659-8564-D4ABBF5F0106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D465FE3-B093-4659-8564-D4ABBF5F0106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D465FE3-B093-4659-8564-D4ABBF5F0106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D465FE3-B093-4659-8564-D4ABBF5F0106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F62D314-C799-44C8-8E57-1ABDD78640EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F62D314-C799-44C8-8E57-1ABDD78640EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F62D314-C799-44C8-8E57-1ABDD78640EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F62D314-C799-44C8-8E57-1ABDD78640EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -124,9 +106,6 @@ Global
 		{0631F03C-0388-4582-9E14-EFFC7585F155} = {C4FFC774-D789-4DCC-A3F7-0A5129648370}
 		{B3B29A2F-6F03-47C2-BC0A-5CB9AD31AFAD} = {C4FFC774-D789-4DCC-A3F7-0A5129648370}
 		{345FE534-5021-4AFC-AA1E-64BE635319FE} = {C4FFC774-D789-4DCC-A3F7-0A5129648370}
-		{8D465FE3-B093-4659-8564-D4ABBF5F0106} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
-		{6ADC3CBB-9711-4FB6-AB92-5D600A517E4E} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
-		{3F62D314-C799-44C8-8E57-1ABDD78640EB} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{1D6F3396-B454-46F7-AC3D-1C73FCC32CB0} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{4BAE543F-9636-45C8-B879-3A3235B3CF83} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{9BB52869-7DA1-4532-8EA0-78D30E9F8F26} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
