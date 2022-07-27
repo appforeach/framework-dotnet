@@ -148,7 +148,7 @@ namespace EscapeHit.WebApi
                 })
                 .ConfigureContainer<IWindsorContainer>(container =>
                 {
-                    container.Install(new FrameworkInstaller());
+                    container.Install(new FrameworkModuleInstaller<FrameworkComponents>());
 
                     FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
 

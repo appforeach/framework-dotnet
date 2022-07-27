@@ -33,8 +33,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Entity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Autofac", "AppForeach.Framework.Autofac\AppForeach.Framework.Autofac.csproj", "{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.EntityFrameworkCore.Autofac", "AppForeach.Framework.EntityFrameworkCore.Autofac\AppForeach.Framework.EntityFrameworkCore.Autofac.csproj", "{64A34D02-1F73-4268-825C-204DBF43D061}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,10 +91,6 @@ Global
 		{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64A34D02-1F73-4268-825C-204DBF43D061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64A34D02-1F73-4268-825C-204DBF43D061}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64A34D02-1F73-4268-825C-204DBF43D061}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64A34D02-1F73-4268-825C-204DBF43D061}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,7 +104,6 @@ Global
 		{4BAE543F-9636-45C8-B879-3A3235B3CF83} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{9BB52869-7DA1-4532-8EA0-78D30E9F8F26} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{81F5ABA4-3E77-4A01-B79A-E3654E95C7F3} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
-		{64A34D02-1F73-4268-825C-204DBF43D061} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D619CF-2C52-4F0A-9034-C10A04583982}

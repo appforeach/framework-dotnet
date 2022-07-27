@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace AppForeach.Framework
+namespace AppForeach.Framework.DependencyInjection
 {
     public interface IServiceLocator
     {

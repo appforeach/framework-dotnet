@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AppForeach.Framework.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

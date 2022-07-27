@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using AppForeach.Framework.DependencyInjection;
 using Castle.MicroKernel;
 
 namespace AppForeach.Framework.Castle.Windsor

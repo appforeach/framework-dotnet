@@ -1,4 +1,4 @@
-﻿using AppForeach.Framework;
+﻿using AppForeach.Framework.DependencyInjection;
 using Autofac;
 using System;
 

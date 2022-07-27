@@ -1,40 +1,74 @@
-﻿using Autofac;
+﻿using AppForeach.Framework.DependencyInjection;
+using Autofac;
+using Autofac.Builder;
 
 namespace AppForeach.Framework.Autofac
 {
     public static class ContainerBuilderRegistrationExtensions
     {
-        public static void RegisterFramework(this ContainerBuilder containerBuilder)
+        public static void RegisterFrameworkModule<TModule>(this ContainerBuilder containerBuilder)
+            where TModule: IFrameworkModule, new()
         {
-            containerBuilder.RegisterType<ServiceLocator>().As<IServiceLocator>();
+            RegisterContainerSpecificServices(containerBuilder);
 
-            containerBuilder.RegisterType<HandlerInvoker>().As<IHandlerInvoker>();
+            var module = new TModule();
 
-            containerBuilder.RegisterType<OperationMediator>().As<IOperationMediator>();
+            foreach (var componentDefinition in module.Components)
+            {
+                RegisterComponent(containerBuilder, componentDefinition);
+            }
+        }
 
-            containerBuilder.RegisterType<HandlerInvokerMiddleware>().As<IHandlerInvokerMiddleware>().InstancePerLifetimeScope();
+        private static void RegisterContainerSpecificServices(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterType<ServiceLocator>().As<IServiceLocator>()
+                .IfNotRegistered(typeof(IServiceLocator));
+        }
 
-            containerBuilder.RegisterType<OperationExecutor>().As<IOperationExecutor>().InstancePerLifetimeScope();
+        private static void RegisterComponent(ContainerBuilder containerBuilder, ComponentDefinition componentDefinition)
+        {
+            IRegistrationBuilder<object, IConcreteActivatorData, SingleRegistrationStyle> builder;
 
-            containerBuilder.RegisterType<OperationState>().As<IOperationState>().InstancePerLifetimeScope();
+            if(componentDefinition.ImplementationType != null)
+            {
+                builder = containerBuilder.RegisterType(componentDefinition.ImplementationType);
+            }
+            else if(componentDefinition.ImplementationFunction != null)
+            {
+                builder = containerBuilder.Register(compContext =>
+                {
+                    var serviceLocator = compContext.Resolve<IServiceLocator>();
+                    return componentDefinition.ImplementationFunction(serviceLocator);
+                });
+            }
+            else if(componentDefinition.ImplementationInstance != null)
+            {
+                builder = containerBuilder.RegisterInstance(componentDefinition.ImplementationInstance);
+            }
+            else
+            {
+                throw new FrameworkException("Undefined component implementation");
+            }
 
-            containerBuilder.RegisterType<OperationContext>().As<IOperationContext>().InstancePerLifetimeScope();
+            builder = builder.As(componentDefinition.ComponentType);
 
-            containerBuilder.RegisterType<OperationNameResolver>().As<IOperationNameResolver>();
+            switch (componentDefinition.Lifetime)
+            {
+                case ComponentLifetime.Transient:
+                    builder = builder.InstancePerDependency();
+                    break;
+                case ComponentLifetime.Scoped:
+                    builder = builder.InstancePerLifetimeScope();
+                    break;
+                case ComponentLifetime.Singleton:
+                    builder = builder.SingleInstance();
+                    break;
+            }
 
-            containerBuilder.RegisterType<OperationNameResolutionMiddleware>().InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<ValidationMiddleware>().InstancePerLifetimeScope();
-
-            containerBuilder.RegisterType<DefaultValidationFailedEventHandler>().As<IValidationFailedEventHandler>().InstancePerLifetimeScope()
-                .IfNotRegistered(typeof(IValidationFailedEventHandler));
-
-            containerBuilder.RegisterType<DefaultExceptionEventHandler>().As<IExceptionEventHandler>().InstancePerLifetimeScope()
-                .IfNotRegistered(typeof(IExceptionEventHandler));
-
-            containerBuilder.RegisterType<DefaultUnhandledExceptionEventHandler>().As<IUnhandledExceptionEventHandler>().InstancePerLifetimeScope()
-                .IfNotRegistered(typeof(IUnhandledExceptionEventHandler));
-            
+            if(componentDefinition.IsOptional)
+            {
+                builder.IfNotRegistered(componentDefinition.ComponentType);
+            }
         }
     }
 }

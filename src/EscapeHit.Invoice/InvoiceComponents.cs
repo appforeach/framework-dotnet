@@ -3,13 +3,13 @@ using EscapeHit.Invoice.Services;
 
 namespace EscapeHit.Invoice
 {
-    public class InvoiceComponents : ComponentRegistration
+    public class InvoiceComponents : ComponentModule
     {
         public InvoiceComponents()
         {
-            SetDefaultTransient();
+            AssemblyDefaultLifetimeTransient();
 
-            AddSingleton<IInvoiceNumberService, InvoiceNumberService>();
+            Singleton<IInvoiceNumberService, InvoiceNumberService>();
         }
     }
 }
