@@ -11,7 +11,7 @@ namespace AppForeach.Framework
 
         public object Input { get; set; }
 
-        public IBag Configuration { get; set; }
+        public FacetBag Configuration { get; set; }
 
         public bool IsOperationInputSet { get; set;  }
     }

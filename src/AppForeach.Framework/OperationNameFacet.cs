@@ -1,10 +1,8 @@
 ﻿
 namespace AppForeach.Framework
 {
-    public class OperationSpecificationConfiguration
+    internal class OperationNameFacet
     {
         public string OperationName { get; set; }
-
-        public bool? IsCommand { get; set; }
     }
 }

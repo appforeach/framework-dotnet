@@ -4,9 +4,9 @@ namespace AppForeach.Framework
 {
     public static class OperationBuilderExtensions
     {
-        public static async Task<TOutput> As<TOutput>(this IOperationBuilder builder)
+        public static async Task<TOutput> As<TOutput>(this Task<OperationResult> executionTask)
         {
-            var output = await builder.GetResult();
+            var output = await executionTask;
 
             if (output.Outcome != OperationOutcome.Success)
             {
@@ -14,15 +14,6 @@ namespace AppForeach.Framework
             }
 
             return (TOutput)output.Result;
-        }
-
-        public static async Task<OperationResult> GetResult(this IOperationBuilder builder)
-        {
-            var input = builder.Configuration.Get<OperationExecutionInputConfiguration>();
-
-            var executor = input.Executor;
-
-            return await executor.Execute(builder.Configuration);
         }
     }
 }

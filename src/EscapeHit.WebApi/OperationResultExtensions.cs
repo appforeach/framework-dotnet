@@ -4,15 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EscapeHit.WebApi
 {
-    public static class OperationBuilderWebExtensions
+    public static class OperationResultExtensions
     {
-        public static async Task<ActionResult> Ok(this IOperationBuilder builder)
+        public static async Task<ActionResult> Ok(this Task<OperationResult> operationResultTask)
         {
-            var input = builder.Configuration.Get<OperationExecutionInputConfiguration>();
-
-            var executor = input.Executor;
-
-            var output = await executor.Execute(builder.Configuration);
+            var output = await operationResultTask;
 
             if (output.Outcome != OperationOutcome.Success)
             {
@@ -29,13 +25,9 @@ namespace EscapeHit.WebApi
             return new ObjectResult(output.Result);
         }
 
-        public static async Task<ActionResult> OkOrNotFound(this IOperationBuilder builder)
+        public static async Task<ActionResult> OkOrNotFound(this Task<OperationResult> operationResultTask)
         {
-            var input = builder.Configuration.Get<OperationExecutionInputConfiguration>();
-
-            var executor = input.Executor;
-
-            var output = await executor.Execute(builder.Configuration);
+            var output = await operationResultTask;
 
             if (output.Outcome != OperationOutcome.Success)
             {

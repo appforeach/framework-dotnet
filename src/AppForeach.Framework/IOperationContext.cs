@@ -1,7 +1,7 @@
 ﻿
 namespace AppForeach.Framework
 {
-    public interface IOperationContext : IOperationState
+    public interface IOperationContext
     {
         string OperationName { get; }
 
@@ -9,6 +9,8 @@ namespace AppForeach.Framework
 
         object Input { get; }
 
-        IBag Configuration { get; }
+        FacetBag Configuration { get; }
+
+        Bag State { get; }
     }
 }

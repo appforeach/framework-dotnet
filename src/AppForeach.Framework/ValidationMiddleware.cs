@@ -21,9 +21,9 @@ namespace AppForeach.Framework
 
         public async Task ExecuteAsync(NextOperationDelegate next)
         {
-            var validationSpecification = context.Configuration.Get<ValidationSpecificationConfiguration>();
+            var validationFacet = context.Configuration.TryGet<ValidationHasValidatorFacet>();
 
-            if(!validationSpecification.HasValidator.HasValue || validationSpecification.HasValidator.Value)
+            if(validationFacet?.HasValidator ?? true)
             {
                 Type inputType = context.Input.GetType();
                 Type validatorType = validatorMap.GetValidatorType(inputType);

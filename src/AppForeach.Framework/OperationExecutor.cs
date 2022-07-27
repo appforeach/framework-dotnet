@@ -10,26 +10,26 @@ namespace AppForeach.Framework
         private readonly IServiceLocator serviceLocator;
         private readonly IFrameworkHostConfiguration hostConfiguration;
         private readonly IHandlerInvokerMiddleware handlerInvokerMiddleware;
-        private readonly IOperationState operationState;
+        private readonly IOperationContext operationContext;
         private readonly IExceptionEventHandler exceptionEventHandler;
         private readonly IUnhandledExceptionEventHandler unhandledExceptionEventHandler;
 
         public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerInvokerMiddleware handlerInvokerMiddleware, 
-            IOperationState operationState, IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
+            IOperationContext operationContext, IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
         {
             this.serviceLocator = serviceLocator;
             this.hostConfiguration = hostConfiguration;
             this.handlerInvokerMiddleware = handlerInvokerMiddleware;
-            this.operationState = operationState;
+            this.operationContext = operationContext;
             this.exceptionEventHandler = exceptionEventHandler;
             this.unhandledExceptionEventHandler = unhandledExceptionEventHandler;
         }
 
-        public async Task<OperationResult> Execute(IBag input)
+        public async Task<OperationResult> Execute(object input, Action<IOperationBuilder> options)
         {
             try
             {
-                PrepareContext(input);
+                PrepareContext(input, options);
 
                 await ExecuteMiddlewares();
 
@@ -55,14 +55,19 @@ namespace AppForeach.Framework
             }
         }
 
-        private void PrepareContext(IBag input)
+        private void PrepareContext(object input, Action<IOperationBuilder> options)
         {
-            var state = operationState.State.Get<OperationContextState>();
+            var state = operationContext.State.Get<OperationContextState>();
             
-            state.Configuration = input;
+            state.Input = input;
+            
+            var globalConfigurationBuilder = new OperationBuilder(new FacetBag());
+            hostConfiguration.OperationConfiguration?.Invoke(globalConfigurationBuilder);
 
-            var inputConfig = input.Get<OperationExecutionInputConfiguration>();
-            state.Input = inputConfig.Input;
+            var operationConfiguration = new FacetBag(globalConfigurationBuilder.Configuration);
+            var operationConfigurationBuilder = new OperationBuilder(operationConfiguration);
+            options?.Invoke(operationConfigurationBuilder);
+            state.Configuration = operationConfigurationBuilder.Configuration;
 
             state.IsOperationInputSet = true;
         }
@@ -85,7 +90,7 @@ namespace AppForeach.Framework
 
         public OperationResult PrepareResult()
         {
-            var outputState = operationState.State.Get<OperationOutputState>();
+            var outputState = operationContext.State.Get<OperationOutputState>();
 
             return outputState.Result;
         }

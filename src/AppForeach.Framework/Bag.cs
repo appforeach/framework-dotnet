@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace AppForeach.Framework
 {
-    public class Bag : IBag
+    public class Bag
     {
         private readonly Dictionary<Type, object> store;
 

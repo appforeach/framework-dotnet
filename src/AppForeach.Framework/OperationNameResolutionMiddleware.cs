@@ -5,48 +5,49 @@ namespace AppForeach.Framework
 {
     public class OperationNameResolutionMiddleware : IOperationMiddleware
     {
-        private readonly IOperationState operationState;
+        private readonly IOperationContext operationContext;
         private readonly IHandlerMap handlerMap;
         private readonly IOperationNameResolver operationNameResolver;
 
-        public OperationNameResolutionMiddleware(IOperationState operationState, IHandlerMap handlerMap, IOperationNameResolver operationNameResolver)
+        public OperationNameResolutionMiddleware(IOperationContext operationContext, IHandlerMap handlerMap, IOperationNameResolver operationNameResolver)
         {
-            this.operationState = operationState;
+            this.operationContext = operationContext;
             this.handlerMap = handlerMap;
             this.operationNameResolver = operationNameResolver;
         }
 
         public async Task ExecuteAsync(NextOperationDelegate next)
         {
-            var contextState = operationState.State.Get<OperationContextState>();
-            var operationSpec = contextState.Configuration.Get<OperationSpecificationConfiguration>();
+            var contextState = operationContext.State.Get<OperationContextState>();
+
+            if (contextState.Input == null)
+            {
+                throw new FrameworkException("Operation input is null.");
+            }
+
+            Type inputType = contextState.Input.GetType();
+            var handlerMethod = handlerMap.GetHandlerMethod(inputType);
+
+            if (handlerMethod == null)
+            {
+                throw new FrameworkException($"Handler not found for input of type { inputType }.");
+            }
+
+            
+            var operationNameFacet = contextState.Configuration.TryGet<OperationNameFacet>();
+            var operationIsCommandFacet = contextState.Configuration.TryGet<OperationIsCommandFacet>();
             
             OperationName operationName = null;
 
-            if (string.IsNullOrEmpty(operationSpec.OperationName) || !operationSpec.IsCommand.HasValue)
+            if (operationNameFacet == null || operationIsCommandFacet == null)
             {
-                if(contextState.Input == null)
-                {
-                    throw new FrameworkException("Operation input is null.");
-                }
-
-                Type inputType = contextState.Input.GetType();
-
-                var handlerMethod = handlerMap.GetHandlerMethod(inputType);
-
-                if(handlerMethod == null)
-                {
-                    throw new FrameworkException($"Handler not found for input of type { inputType }.");
-                }
-
                 Type handlerType = handlerMethod.DeclaringType;
 
                 operationName = operationNameResolver.ResolveName(inputType, handlerType);
             }
 
-            contextState.OperationName = string.IsNullOrEmpty(operationSpec.OperationName) ?
-                operationName.Name : operationSpec.OperationName;
-            contextState.IsCommand = operationSpec.IsCommand ?? operationName.IsCommand;
+            contextState.OperationName = operationNameFacet?.OperationName ?? operationName.Name;
+            contextState.IsCommand = operationIsCommandFacet?.IsCommand ?? operationName.IsCommand;
             contextState.IsOperationNameResolved = true;
 
             await next();

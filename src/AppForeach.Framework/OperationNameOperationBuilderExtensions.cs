@@ -5,18 +5,22 @@ namespace AppForeach.Framework
     {
         public static IOperationBuilder OperationName(this IOperationBuilder builder, string operationName)
         {
-            var spec = builder.Configuration.Get<OperationSpecificationConfiguration>();
-
-            spec.OperationName = operationName;
+            var facet = new OperationNameFacet
+            {
+                OperationName = operationName
+            };
+            builder.Configuration.Set(facet);
 
             return builder;
         }
 
         public static IOperationBuilder IsCommand(this IOperationBuilder builder, bool isCommand)
         {
-            var spec = builder.Configuration.Get<OperationSpecificationConfiguration>();
-
-            spec.IsCommand = isCommand;
+            var facet = new OperationIsCommandFacet
+            {
+                IsCommand = isCommand
+            };
+            builder.Configuration.Set(facet);
 
             return builder;
         }

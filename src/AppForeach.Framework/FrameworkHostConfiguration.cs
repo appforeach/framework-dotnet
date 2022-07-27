@@ -11,5 +11,7 @@ namespace AppForeach.Framework
         }
 
         public List<Type> ConfiguredMiddlewares { get; }
+
+        public Action<IOperationBuilder> OperationConfiguration { get; set; }
     }
 }

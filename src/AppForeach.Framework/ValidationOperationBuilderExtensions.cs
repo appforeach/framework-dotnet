@@ -5,9 +5,12 @@ namespace AppForeach.Framework
     {
         public static IOperationBuilder HasValidator(this IOperationBuilder builder, bool hasValidator)
         {
-            var spec = builder.Configuration.Get<ValidationSpecificationConfiguration>();
+            var facet = new ValidationHasValidatorFacet
+            {
+                HasValidator = hasValidator
+            };
 
-            spec.HasValidator = hasValidator;
+            builder.Configuration.Set(facet);
 
             return builder;
         }

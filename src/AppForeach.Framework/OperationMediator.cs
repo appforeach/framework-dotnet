@@ -1,4 +1,7 @@
 ﻿
+using System;
+using System.Threading.Tasks;
+
 namespace AppForeach.Framework
 {
     public class OperationMediator : IOperationMediator
@@ -10,16 +13,7 @@ namespace AppForeach.Framework
             this.operationExecutor = operationExecutor;
         }
 
-        public IOperationBuilder Execute<TInput>(TInput input)
-        {
-            var bag = new Bag();
-
-            var operationInput = bag.Get<OperationExecutionInputConfiguration>();
-
-            operationInput.Input = input;
-            operationInput.Executor = operationExecutor;
-
-            return new OperationMediatorOperationBuilder(bag);
-        }
+        public Task<OperationResult> Execute<TInput>(TInput input, Action<IOperationBuilder> options = null)
+            => operationExecutor.Execute(input, options);
     }
 }
