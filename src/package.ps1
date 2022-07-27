@@ -3,8 +3,7 @@ $ErrorActionPreference = "Stop"
 $assemblies = @(
 "AppForeach.Framework",
 "AppForeach.Framework.Autofac",
-"AppForeach.Framework.EntityFrameworkCore",
-"AppForeach.Framework.EntityFrameworkCore.Autofac"
+"AppForeach.Framework.EntityFrameworkCore"
 )
 
 if(Test-Path .\out) {
