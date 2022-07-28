@@ -19,7 +19,7 @@ All stack features table of contents.
     - Unit of work
         - [Transaction management](transaction-management.md)
         - [Optimistic concurrency](optimistic-concurrency.md)
-        - [Pessimistc concurrency](pessimistic-concurrency.md)
+        - [Pessimistic concurrency](pessimistic-concurrency.md)
     - [Authorization](authorization.md)
     - [Error handling](error-handling.md)
     - [Metrics](metrics.md)
@@ -38,23 +38,23 @@ All stack features table of contents.
 - Microservices communication
     - [Message routing](message-routing.md)
     - [Inbox and outbox](message-inbox-outbox.md)
-    - [Task workflows](task-workflow.md)
+    - [Task workflow](task-workflow.md)
     - [State machine workflow](state-workflow.md)
 - User interface
+    - Common form input controls
     - Business data type
-    - Common user input form controls
     - Validation
     - Data grid
     - Application shell
-        - Form loading
         - Session support
-        - Window wizard
+        - Window manager
 - Administration website
 - Code generation and productivity
 - Reusable infrastructure services
+    - Job service
     - Communication service
     - Blob storage service 
-    -  Document search service
+    - Document search service
 
 ## Packaging
 

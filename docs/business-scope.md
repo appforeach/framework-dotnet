@@ -1,10 +1,12 @@
 # Business scope pipeline
 
-Important part of modern customly developed software is a set of non-functional features. These functionality does not relate to any business process but is neeeded to support important regulatory requirements or to improve overall quality of application ecosystem. Implementation of these cross cutting concerns is mostly straight forward and does not change from one bussiness process to another. Main question is how to reuse this functionality across application while keeping minimal impact on business related code.
+Important part of modern custom developed software is a set of non-functional requirements like security checks and audit. Additional quality attributes include transaction management, validation, reliable communication and metrics. This functionality  does not relate to any business process but is neeeded to support application ecosystem as a whole. 
+
+Implementation of such cross-cutting concerns mostly does not change from one bussiness process to another. Main challenge framework solves is reusability of non-functional quality assets across application while keeping minimal impact on business features.
 
 ## Initial design
 
-One of the first attempt to solve problem of separating and reusing cross-cutting concern related code was made by introducing operation scope in a form of `BusinessScope : IDisposable`. 
+One of the first attempts to separate and reuse cross-cutting concerns was made by introducing operation scope in a form of `BusinessScope : IDisposable`. 
 
 ```C#
 public CreateInvoiceResponse CreateInvoice(CreateInvoiceRequest request)
@@ -25,95 +27,74 @@ public CreateInvoiceResponse CreateInvoice(CreateInvoiceRequest request)
 }
 ```
 
-This scope construct had operation name specified by enumeration and incapsulated several important aspects:
+This bisness scope class had operation name as an input and incapsulated several important aspects:
+- database transaction management;
 - operation logging and auditing;
-- authorization routines;
-- database transaction management.
+- authorization checks.
 
-Being a step forward, this design still required additional `using` construct and explicit call to `BusinessScope.Complete()` to mark transaction as successfull. Internal design was also not ideal and did not support any extensibility.
+Being a step forward, design still required additional code like `using` construct and explicit call to `BusinessScope.Complete()` to mark transaction as successfull.
 
 ## Business middlewares
 
-A natural evolution of initial approach is introduction of business middlewares. Each business middleware unit implements `IOperationMiddleware` interface to be easily plugged into common pipeline.
+A natural evolution of initial approach is introduction of business middlewares. Each business middleware implements `IOperationMiddleware` interface so it cane be easily plugged into common pipeline.
 
 ```C#
-public interface IOperationMiddleware
-{
-    Task ExecuteAsync(IOperationContext context, NextOperationDelegate next);
-}
+    public interface IOperationMiddleware
+    {
+        Task ExecuteAsync(NextOperationDelegate next);
+    }
 ```
 
-This single interface allows to define aspects that run before and after each business operation. Each middleware can also use framework registered services and access `IOperationContext`.
+This single interface allows to define aspects that run before and after each business operation. Each middleware can also use framework registered services and context `IOperationContext`.
 
 ```C#
-        public class SampleMiddleware : IOperationMiddleware
+    public class SampleMiddleware : IOperationMiddleware
+    {
+        private readonly IOperationContext context;
+
+        public SampleMiddleware(IOperationContext context)
         {
-            private readonly IFrameworkService frameworkService;
-
-            public SampleMiddleware(IFrameworkService frameworkService)
-            {
-                this.frameworkService = frameworkService;
-            }
-
-            public async Task ExecuteAsync(IOperationContext context, NextOperationDelegate next)
-            {
-                // some code before operation
-
-                await next(context);
-
-                // and some after
-            }
+            this.context = context;
         }
+
+        public async Task ExecuteAsync(NextOperationDelegate next)
+        {
+            // some code before operation
+
+            await next();
+
+            // and some after
+        }
+    }
 ```
-A set of middlewares defined into single pipeline allows to implement most of non-functional requirements. Final needed piece is one-liner method to expose business operation as an endpoint, either as Web API, service bus consumer or some other protocol like gRPC.
+
+## Activation 
+
+A set of middlewares defined into single pipeline implement most of non-functional requirements. Final needed piece is one-liner method to expose business operation as an endpoint, either as Web API, service bus consumer or some other protocol like gRPC.
 
 ```C#
 Consume<CreateInvoiceRequest>();
 ```
 
-This endpoint defintion is a starting pointing to activate operation. Framework finds corresponding business operation defintion class and processes business request. Resulting simplified sample call stack is approximately the following:
+Mediator based activation is supported possible and might be prefered approach in some cases.
 
 ```C#
-AppForeach.MassTransit.MassTransitConsumerActivator.Initialize()
-	// prepares operation input and gathers protocol specific properties
-	AppForeach.BusinessScopeFactory.StartScope()  
-		// creates business operation scope, at this point flow can be reused accross different protocols
-	AppForeach.BusinessScope.RunMiddlewares()
-		// prepares and executes configured business pipeline
-		AppForeach.Logging.AuditMiddleware.Execute()
-			// logs operation start, optionally saving entire request for audit purposes
-			AppForeach.Validation.ValidationMiddleware.Execute()
-				//finds corresponding operation validator
-				Organization.Domain.Operation.OperationValidator.Validate() 
-					// <-- actual business operation validator -->
-					AppForeach.UnitOfWorkMiddleware.Execute()
-						// starts unit of work, opens database transaction
-						AppForeach.BusinessOperationActivator.Execute()
-							Organization.Domain.Operation.OperationCode.Handle()
-							// <-- actual business component code
-						// completes unit of work, commits transaction
-			// logs operation completion
-	AppForeach.BusinessScope.Dispose()
-AppForeach.MassTransit.MassTransitConsumerActivator.Dispose()
+operationMediator.Execute(createInvoiceRequest);
 ```
 
-> **NOTE:** Some of middlewares not shown in previous stack that are commonly used are **authorization** related middleware and **metrics** feature to collect time elapsed while process request.
+Both activations are a starting point to execute operation. Framework finds corresponding business operation handler class and processes business request along with all configured middlewares.
 
-Operation name is vital for several concerns like security and logging. Framework uses `IOperationNameResolver` to implicitely resolve operation name.
+## Operation name
+
+Operation name is vital for several concerns like security and logging. Framework uses `IOperationNameResolver` to implicitely resolve operation name from input data object type and/or handler type.
 
 ```C#
 typeof(Organization.Invoice.Commands.CreateInvoiceCommand) => "CreateInvoice";
 ```
 
-If default operation name resolution does not fit particular scenario, it can be adjusted via `IOperationPipelineBuilder`.
+## Business feature code
 
-```C#
-Consume<CreateInvoiceInput>().OperationName("SomeSpecificInvoiceOperation");
-```
-
-This operation specification builder is a mechanism to define some custom behavior for middlewares for a single operation , for example, to turn of automatic database transaction, or to adjust logging if needed.
-
-Moving business scope out of business code, automatic call to corresponding request validator and implicit resolution of operation name all together make resulting business code as clean as possible. 
+Moving business scope out of business code into related middlewares make resulting business code as clean as possible. 
 
 ```C#
 public CreateInvoiceResponse CreateInvoice(CreateInvoiceRequest request)
@@ -125,3 +106,29 @@ public CreateInvoiceResponse CreateInvoice(CreateInvoiceRequest request)
     return new CreateInvoiceResponse(invoiceId);
 }
 ```
+
+## Middleware configuration
+
+Sometimes behavior middleware provides needs to be adjusted or even turned off entirely. Framework provides a way to pass any arbitary facets into middleware exacution pipeline.
+
+For example, if default operation name resolution does not fit particular scenario, it can be adjusted via `IOperationBuilder` for any particular operation.
+
+```C#
+Consume<CreateInvoiceInput>(opt => opt.OperationName("SomeSpecific"));
+```
+
+Same approach works with mediator style activation.
+
+```C#
+operationMediator.Execute(createInvoiceRequest, opt => opt.OperationName("SomeSpecific"));
+```
+
+It is also possible to configure middlewares at application level for all operations. This is possible using same `IOperationBuilder` extensibility mechanism.
+
+```C#
+services.AddAppForeach(s => 
+{
+    s.OperationConfiguration(opt => opt.TransactionIsolation(IsolationLevel.Serializable));
+});
+```
+

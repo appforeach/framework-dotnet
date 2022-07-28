@@ -1,6 +1,6 @@
 # AppForeach Framework
 
-AppForeach is open-source reference implementation of microservices architecture for .NET Platform. Main design goals are unobstructive cross-cutting concerns and quality of service attributes of resulting software with emphasys on developer productivity.
+AppForeach is open-source reference implementation of microservices architecture for .NET Platform. Main design goals are unobstructive cross-cutting concerns and quality of service attributes with emphasys on developer productivity.
 
 ## Overview
 
@@ -37,7 +37,7 @@ public class InvoiceController : WebApiController
 }
 ```
 
-Alternatively same component can be registered to listen to service bus messages.
+Alternatively same component can be registered to listen for service bus messages.
 
 ```C#
 public class InvoiceMessageHost : MessageHost
