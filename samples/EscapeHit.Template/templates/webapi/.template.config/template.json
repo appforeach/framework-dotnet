@@ -1,9 +1,0 @@
-{
-  "$schema": "http://json.schemastore.org/template",
-  "author": "EscapeHit",
-  "classifications": [ "Common"],
-  "identity": "EscapeHit.Template.WebApi",
-  "name": "EscapeHit Web Api Template",
-  "shortName": "escapehit-webapi",
-  "sourceName": "EscapeHit.App"
-}
