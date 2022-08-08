@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AppForeach.Framework.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace EscapeHit.WebApi
 {
     public interface IWebApiHost
     {
-        IWebApiHost AddComponents<TComponents>();
+        IWebApiHost AddComponents<TComponents>()
+            where TComponents : IFrameworkModule, new();
 
         IWebApiHost AddDbContext<TDbContext>()
             where TDbContext : DbContext;

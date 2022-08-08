@@ -23,7 +23,7 @@ namespace AppForeach.Framework.Castle.Windsor
 
         private void InstallContainerSpecificServices(IWindsorContainer container)
         {
-            container.Register(Component.For<IServiceLocator>().ImplementedBy<ServiceLocator>());
+            container.Register(Component.For<IServiceLocator>().ImplementedBy<ServiceLocator>().OnlyNewServices());
         }
 
         private void InstallComponent(IWindsorContainer container, ComponentDefinition componentDefinition)

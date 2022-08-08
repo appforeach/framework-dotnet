@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace AppForeach.Framework
@@ -8,9 +9,9 @@ namespace AppForeach.Framework
     {
         private readonly Dictionary<Type, MethodInfo> map;
 
-        public HandlerMap(Dictionary<Type, MethodInfo> map)
+        public HandlerMap(IEnumerable<IHandlerDefinition> handlerDefinitions)
         {
-            this.map = map;
+            this.map = handlerDefinitions.ToDictionary(hd => hd.InputType, hd => hd.ImplementationMethod);
         }
 
         public MethodInfo GetHandlerMethod(Type inputType)

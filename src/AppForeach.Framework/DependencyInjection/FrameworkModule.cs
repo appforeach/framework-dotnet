@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace AppForeach.Framework.DependencyInjection
 {
     public class FrameworkModule : IFrameworkModule
     {
-        private readonly List<ComponentDefinition> componentDefinitions = new List<ComponentDefinition>();
+        readonly protected List<ComponentDefinition> componentDefinitions = new List<ComponentDefinition>();
+        readonly protected List<IComponentScanner> componentScanners = new List<IComponentScanner>();
+        private Assembly assemblyToScan; 
 
-        public IEnumerable<ComponentDefinition> Components => componentDefinitions;
+        public IEnumerable<ComponentDefinition> Components => MergeAndScanComponents();
 
         public ComponentLifetime? AssemblyDefaultLifetime { get; set; }
 
@@ -77,6 +80,37 @@ namespace AppForeach.Framework.DependencyInjection
         public void AssemblyNoDefaultRegistration()
         {
             AssemblyDefaultLifetime = null;
+        }
+
+        public virtual void DefaultHandlerRegistration()
+        {
+            componentScanners.Add(new DefaultHandlerScanner());
+        }
+
+        public void SetAssemblyToScan(Assembly assembly)
+        {
+            assemblyToScan = assembly;
+        }
+
+        private IEnumerable<ComponentDefinition> MergeAndScanComponents()
+        {
+            var assembly = assemblyToScan ?? GetType().Assembly;
+            var types = assembly.GetTypes();
+
+            foreach (var scanner in componentScanners)
+            {
+                var scannedDefinitions = scanner.ScanTypes(types);
+
+                foreach (var scannedDefinition in scannedDefinitions)
+                {
+                    yield return scannedDefinition;
+                }
+            }
+
+            foreach (var componentDefition in componentDefinitions)
+            {
+                yield return componentDefition;
+            }
         }
     }
 }

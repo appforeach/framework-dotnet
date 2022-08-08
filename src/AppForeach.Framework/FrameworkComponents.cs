@@ -10,6 +10,8 @@ namespace AppForeach.Framework
 
             Transient<IOperationMediator, OperationMediator>();
 
+            Singleton<IHandlerMap, HandlerMap>(isOptional: true);
+
             Scoped<IHandlerInvoker, HandlerInvoker>();
             Scoped<IHandlerInvokerMiddleware, HandlerInvokerMiddleware>();
             Scoped<IOperationExecutor, OperationExecutor>();

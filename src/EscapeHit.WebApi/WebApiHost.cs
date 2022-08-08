@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using AppForeach.Framework;
 using AppForeach.Framework.Castle.Windsor;
+using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.EntityFrameworkCore;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
@@ -39,6 +40,7 @@ namespace EscapeHit.WebApi
         }
 
         public IWebApiHost AddComponents<TComponents>()
+             where TComponents : IFrameworkModule, new()
         {
             windsorRegistrationActions.Add(container =>
             {
@@ -46,28 +48,7 @@ namespace EscapeHit.WebApi
                     Classes.FromAssemblyContaining<TComponents>().Pick().WithService.AllInterfaces().LifestyleTransient()
                 );
 
-                Dictionary<Type, MethodInfo> map = new Dictionary<Type, MethodInfo>();
-
-                foreach (var type in typeof(TComponents).Assembly.GetTypes())
-                {
-                    if (type.Name.EndsWith("Handler"))
-                    {
-                        var methods = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
-
-                        foreach (var method in methods)
-                        {
-                            var firstParameter = method.GetParameters().FirstOrDefault();
-
-                            if (firstParameter != null && firstParameter.ParameterType.Name.EndsWith("Command"))
-                            {
-                                map.Add(firstParameter.ParameterType, method);
-                            }
-                        }
-                    }
-                }
-
-                var handlerMap = new HandlerMap(map);
-                container.Register(Component.For<IHandlerMap>().Instance(handlerMap));
+                container.Install(new FrameworkModuleInstaller<TComponents>());
             });
 
             return this;
@@ -94,16 +75,8 @@ namespace EscapeHit.WebApi
 
                 services.AddScoped(sp =>
                 {
-                    var operationContext = sp.GetRequiredService<IOperationContext>();
-                    var transationState = operationContext.State.Get<TransactionScopeState>();
-
-                    var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-                    optionsBuilder.UseSqlServer(transationState.DbContext.Database.GetDbConnection());
-
-                    var db = (TDbContext)Activator.CreateInstance(typeof(TDbContext), optionsBuilder.Options);
-                    db.Database.UseTransaction(transationState.DbContextTransaction.GetDbTransaction());
-
-                    return db;
+                    var dbActivator = sp.GetRequiredService<IDbContextActivator>();
+                    return dbActivator.Activate<TDbContext>();
                 });
             };
 
@@ -149,16 +122,15 @@ namespace EscapeHit.WebApi
                 .ConfigureContainer<IWindsorContainer>(container =>
                 {
                     container.Install(new FrameworkModuleInstaller<FrameworkComponents>());
+                    container.Install(new FrameworkModuleInstaller<EntityFrameworkComponents>());
 
                     FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
 
                     hostConfig.ConfiguredMiddlewares.Add(typeof(OperationNameResolutionMiddleware));
-                    hostConfig.ConfiguredMiddlewares.Add(typeof(ValidationMiddleware));
+                    //hostConfig.ConfiguredMiddlewares.Add(typeof(ValidationMiddleware));
                     hostConfig.ConfiguredMiddlewares.Add(typeof(TransactionScopeMiddleware));
 
                     container.Register(Component.For<IFrameworkHostConfiguration>().Instance(hostConfig));
-
-                    container.Register(Component.For<TransactionScopeMiddleware>().LifestyleTransient());
 
                     foreach (var action in windsorRegistrationActions)
                     {

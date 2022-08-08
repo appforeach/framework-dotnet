@@ -8,8 +8,6 @@ namespace EscapeHit.Invoice
         public InvoiceComponents()
         {
             AssemblyDefaultLifetimeTransient();
-
-            Singleton<IInvoiceNumberService, InvoiceNumberService>();
         }
     }
 }
