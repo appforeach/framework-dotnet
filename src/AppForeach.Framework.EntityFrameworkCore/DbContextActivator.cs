@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace AppForeach.Framework.EntityFrameworkCore
@@ -9,11 +10,13 @@ namespace AppForeach.Framework.EntityFrameworkCore
     {
         private readonly IOperationContext operationContext;
         private readonly IConnectionStringProvider connectionStringProvider;
+        private readonly IServiceProvider serviceProvider;
 
-        public DbContextActivator(IOperationContext operationContext, IConnectionStringProvider connectionStringProvider)
+        public DbContextActivator(IOperationContext operationContext, IConnectionStringProvider connectionStringProvider, IServiceProvider serviceProvider)
         {
             this.operationContext = operationContext;
             this.connectionStringProvider = connectionStringProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         public TDbContext Activate<TDbContext>() where TDbContext : DbContext
@@ -27,7 +30,8 @@ namespace AppForeach.Framework.EntityFrameworkCore
                 var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
                 optionsBuilder.UseSqlServer(transationState.DbContext.Database.GetDbConnection());
 
-                db = (TDbContext)Activator.CreateInstance(typeof(TDbContext), optionsBuilder.Options);
+                db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
+
                 db.Database.UseTransaction(transationState.DbContextTransaction.GetDbTransaction());
             }
             else
@@ -35,7 +39,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
                 var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
                 optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
 
-                db = (TDbContext)Activator.CreateInstance(typeof(TDbContext), optionsBuilder.Options);
+                db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
 
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 db.SavingChanges += Db_SavingChanges;
