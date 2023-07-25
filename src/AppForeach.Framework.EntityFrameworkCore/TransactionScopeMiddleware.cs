@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ namespace AppForeach.Framework.EntityFrameworkCore
     {
         private readonly IOperationContext context;
         private readonly IConnectionStringProvider connectionStringProvider;
+        private readonly IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers;
 
-        public TransactionScopeMiddleware(IOperationContext context, IConnectionStringProvider connectionStringProvider)
+        public TransactionScopeMiddleware(IOperationContext context, IConnectionStringProvider connectionStringProvider, IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers)
         {
             this.context = context;
             this.connectionStringProvider = connectionStringProvider;
+            this.retryExceptionHandlers = retryExceptionHandlers;
         }
 
         public async Task ExecuteAsync(NextOperationDelegate next)
@@ -21,30 +24,51 @@ namespace AppForeach.Framework.EntityFrameworkCore
             var scopeState = context.State.Get<TransactionScopeState>();
 
             var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
-            optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
-
-            using (var frameworkDb = new FrameworkDbContext(optionsBuilder.Options))
-            using (var dbTransaction = await frameworkDb.Database.BeginTransactionAsync(IsolationLevel.Snapshot))
+            optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString, sqlOpt =>
             {
-                scopeState.DbContext = frameworkDb;
-                scopeState.DbContextTransaction = dbTransaction;
+                var retryFacet = context.Configuration.TryGet<TransactionRetryFacet>();
 
-                if (context.IsCommand)
+                if(retryFacet?.Retry ?? false)
                 {
-                    var transaction = new TransactionEntity();
-                    transaction.Name = context.OperationName;
-                    transaction.OccuredOn = DateTimeOffset.UtcNow;
-                    frameworkDb.Transactions.Add(transaction);
+                    var retryCountFacet = context.Configuration.TryGet<TransactionRetryCountFacet>();
+                    var retryDelayFacet = context.Configuration.TryGet<TransactionMaxRetryDelayFacet>();
 
-                    await frameworkDb.SaveChangesAsync();
-                }                
-
-                await next();
-
-                if (context.IsCommand)
-                {
-                    await dbTransaction.CommitAsync();
+                    int maxRetry = retryCountFacet?.RetryCount ?? 3;
+                    TimeSpan retryDelay = retryDelayFacet?.MaxRetryDelay ?? TimeSpan.FromSeconds(30);
+                    sqlOpt.ExecutionStrategy(dp => new CustomSqlServerRetryingExecutionStrategy(dp, maxRetry, retryDelay, retryExceptionHandlers));
                 }
+            });
+            
+            using (var frameworkDb = new FrameworkDbContext(optionsBuilder.Options))
+            {
+                var strategy = frameworkDb.Database.CreateExecutionStrategy();
+                await strategy.ExecuteAsync(async () =>
+                {
+                    var isolationLevelFacet = context.Configuration.TryGet<TransactionIsolationLevelFacet>();
+                    IsolationLevel isolationLevel = isolationLevelFacet?.IsolationLevel ?? IsolationLevel.ReadCommitted;
+                    await using var dbTransaction = await frameworkDb.Database.BeginTransactionAsync(isolationLevel);
+                    scopeState.DbContext = frameworkDb;
+                    scopeState.DbContextTransaction = dbTransaction;
+
+                    if (context.IsCommand)
+                    {
+                        var transaction = new TransactionEntity();
+                        transaction.Name = context.OperationName;
+                        transaction.OccuredOn = DateTimeOffset.UtcNow;
+                        frameworkDb.Transactions.Add(transaction);
+
+                        await frameworkDb.SaveChangesAsync();
+                    }
+
+                    scopeState.IsTransactionInitialized = true;
+
+                    await next();
+
+                    if (context.IsCommand)
+                    {
+                        await dbTransaction.CommitAsync();
+                    }
+                });
             }
         }
     }
