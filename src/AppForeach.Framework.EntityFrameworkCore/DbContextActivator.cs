@@ -21,6 +21,8 @@ namespace AppForeach.Framework.EntityFrameworkCore
 
         public TDbContext Activate<TDbContext>() where TDbContext : DbContext
         {
+            EnsureDbContextCanBeActivated();
+
             TDbContext db;
 
             if (operationContext.IsCommand)
@@ -46,6 +48,21 @@ namespace AppForeach.Framework.EntityFrameworkCore
             }
 
             return db;
+        }
+
+        private void EnsureDbContextCanBeActivated()
+        {
+            var operationContextState = operationContext.State.Get<OperationContextState>();
+            if(!operationContextState.IsOperationInputSet)
+            {
+                throw new FrameworkException("DbContext cannot be activated outside of mediator execution context.");
+            }
+
+            var transationState = operationContext.State.Get<TransactionScopeState>();
+            if(!transationState.IsTransactionInitialized)
+            {
+                throw new FrameworkException("DbContext cannot be activated outside of transaction middleware.");
+            }
         }
 
         private void Db_SavingChanges(object sender, SavingChangesEventArgs e)

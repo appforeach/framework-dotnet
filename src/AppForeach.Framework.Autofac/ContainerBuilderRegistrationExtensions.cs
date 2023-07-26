@@ -23,6 +23,8 @@ namespace AppForeach.Framework.Autofac
         {
             containerBuilder.RegisterType<ServiceLocator>().As<IServiceLocator>()
                 .IfNotRegistered(typeof(IServiceLocator));
+            containerBuilder.RegisterType<ScopedExecutor>().As<IScopedExecutor>()
+                .IfNotRegistered(typeof(IScopedExecutor));
         }
 
         private static void RegisterComponent(ContainerBuilder containerBuilder, ComponentDefinition componentDefinition)
