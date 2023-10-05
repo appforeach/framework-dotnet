@@ -4,7 +4,7 @@ using System;
 
 namespace AppForeach.Framework.Autofac
 {
-    internal class ServiceLocator : IServiceLocator
+    public class ServiceLocator : IServiceLocator
     {
         private readonly IComponentContext componentContext;
 
