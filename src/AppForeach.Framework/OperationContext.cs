@@ -3,9 +3,11 @@ namespace AppForeach.Framework
 {
     public class OperationContext : IOperationContext
     {
-        public OperationContext()
+        private readonly IOperationStateProvider operationStateProvider;
+
+        public OperationContext(IOperationStateProvider operationStateProvider)
         {
-            State = new Bag();
+            this.operationStateProvider = operationStateProvider;
         }
 
         public string OperationName
@@ -44,7 +46,7 @@ namespace AppForeach.Framework
             }
         }
 
-        public Bag State { get; }
+        public Bag State { get => operationStateProvider.State; }
 
         private OperationContextState ContextState => State.Get<OperationContextState>();
 

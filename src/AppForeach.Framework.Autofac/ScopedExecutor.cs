@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Autofac
 {
-    internal class ScopedExecutor : IScopedExecutor
+    public class ScopedExecutor : IScopedExecutor
     {
         private readonly ILifetimeScope lifetimeScope;
 
