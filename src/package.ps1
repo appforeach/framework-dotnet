@@ -1,6 +1,9 @@
 $ErrorActionPreference = "Stop"
 
 $assemblies = @(
+"AppForeach.Framework",
+"AppForeach.Framework.Autofac",
+"AppForeach.Framework.EntityFrameworkCore",
 "AppForeach.Framework.MassTransit"
 )
 
