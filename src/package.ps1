@@ -4,6 +4,7 @@ $assemblies = @(
 "AppForeach.Framework",
 "AppForeach.Framework.Autofac",
 "AppForeach.Framework.EntityFrameworkCore",
+"AppForeach.Framework.Microsoft.Extensions"
 "AppForeach.Framework.MassTransit"
 )
 
