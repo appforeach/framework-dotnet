@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AppForeach.Framework.EntityFrameworkCore.Audit;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppForeach.Framework.EntityFrameworkCore
 {
@@ -7,6 +8,8 @@ namespace AppForeach.Framework.EntityFrameworkCore
         public const string Schema = "framework";
 
         public DbSet<TransactionEntity> Transactions { get; set; }
+
+        public DbSet<AuditEntity> Audit { get; set; }
 
         public FrameworkDbContext()
         {

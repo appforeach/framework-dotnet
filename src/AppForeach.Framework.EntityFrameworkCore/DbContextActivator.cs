@@ -9,14 +9,15 @@ namespace AppForeach.Framework.EntityFrameworkCore
     public class DbContextActivator : IDbContextActivator
     {
         private readonly IOperationContext operationContext;
-        private readonly IConnectionStringProvider connectionStringProvider;
+        private readonly IDbContextInternalActivator dbContextInternalActivator;
         private readonly IServiceProvider serviceProvider;
 
-        public DbContextActivator(IOperationContext operationContext, IConnectionStringProvider connectionStringProvider, IServiceProvider serviceProvider)
+        public DbContextActivator(IOperationContext operationContext, IServiceProvider serviceProvider,
+            IDbContextInternalActivator dbContextInternalActivator)
         {
             this.operationContext = operationContext;
-            this.connectionStringProvider = connectionStringProvider;
             this.serviceProvider = serviceProvider;
+            this.dbContextInternalActivator = dbContextInternalActivator;
         }
 
         public TDbContext Activate<TDbContext>() where TDbContext : DbContext
@@ -38,10 +39,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
             }
             else
             {
-                var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-                optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
-
-                db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
+                db = dbContextInternalActivator.Activate<TDbContext>();
 
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 db.SavingChanges += Db_SavingChanges;

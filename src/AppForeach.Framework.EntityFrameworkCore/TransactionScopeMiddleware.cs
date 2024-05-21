@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using System.Transactions;
 using Microsoft.EntityFrameworkCore;
+using IsolationLevel = System.Data.IsolationLevel;
 
 namespace AppForeach.Framework.EntityFrameworkCore
 {
@@ -58,6 +60,8 @@ namespace AppForeach.Framework.EntityFrameworkCore
                         frameworkDb.Transactions.Add(transaction);
 
                         await frameworkDb.SaveChangesAsync();
+
+                        scopeState.TransactionId = transaction.Id;
                     }
 
                     scopeState.IsTransactionInitialized = true;
