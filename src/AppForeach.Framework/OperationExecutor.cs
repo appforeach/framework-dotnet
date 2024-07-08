@@ -1,26 +1,24 @@
 ﻿using AppForeach.Framework.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
 {
     public class OperationExecutor : IOperationExecutor
     {
-        private readonly IServiceLocator serviceLocator;
         private readonly IFrameworkHostConfiguration hostConfiguration;
-        private readonly IHandlerInvokerMiddleware handlerInvokerMiddleware;
-        private readonly IOperationContext operationContext;
+        private readonly IMiddlewareExecutor middlewareExecutor;
+        private readonly IScopedExecutor scopedExecutor;
         private readonly IExceptionEventHandler exceptionEventHandler;
         private readonly IUnhandledExceptionEventHandler unhandledExceptionEventHandler;
 
-        public OperationExecutor(IServiceLocator serviceLocator, IFrameworkHostConfiguration hostConfiguration, IHandlerInvokerMiddleware handlerInvokerMiddleware, 
-            IOperationContext operationContext, IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
+        public OperationExecutor(IFrameworkHostConfiguration hostConfiguration, 
+            IMiddlewareExecutor middlewareExecutor, IScopedExecutor scopedExecutor,
+            IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
         {
-            this.serviceLocator = serviceLocator;
             this.hostConfiguration = hostConfiguration;
-            this.handlerInvokerMiddleware = handlerInvokerMiddleware;
-            this.operationContext = operationContext;
+            this.middlewareExecutor = middlewareExecutor;
+            this.scopedExecutor = scopedExecutor;
             this.exceptionEventHandler = exceptionEventHandler;
             this.unhandledExceptionEventHandler = unhandledExceptionEventHandler;
         }
@@ -29,11 +27,11 @@ namespace AppForeach.Framework
         {
             try
             {
-                PrepareContext(input, options);
+                var state = PrepareContext(input, options);
 
-                await ExecuteMiddlewares();
+                var outputState = await ExecuteMiddlewares(state);
 
-                return PrepareResult();
+                return outputState.Result;
             }
             catch(Exception ex)
             {
@@ -55,9 +53,9 @@ namespace AppForeach.Framework
             }
         }
 
-        private void PrepareContext(object input, Action<IOperationBuilder> options)
+        private OperationContextState PrepareContext(object input, Action<IOperationBuilder> options)
         {
-            var state = operationContext.State.Get<OperationContextState>();
+            var state = new OperationContextState();
             
             state.Input = input;
             
@@ -70,29 +68,22 @@ namespace AppForeach.Framework
             state.Configuration = operationConfigurationBuilder.Configuration;
 
             state.IsOperationInputSet = true;
+
+            return state;
         }
 
-        public Task ExecuteMiddlewares()
+        public Task<OperationOutputState> ExecuteMiddlewares(OperationContextState operationState)
         {
-            NextOperationDelegate callBottom = () => handlerInvokerMiddleware.ExecuteAsync(null);
+            var createScopeFacet = operationState.Configuration.TryGet<OperationCreateScopeForExecutionFacet>();
 
-            List<Type> middlewares = hostConfiguration.ConfiguredMiddlewares;
-
-            for (int i = middlewares.Count - 1; i >= 0; i--)
+            if (createScopeFacet?.CreateScopeForExecution ?? false)
             {
-                var middleware = (IOperationMiddleware)serviceLocator.GetService(middlewares[i]);
-                var nextMiddleware = callBottom;
-                callBottom = () => middleware.ExecuteAsync(nextMiddleware);
+                return scopedExecutor.Execute((IMiddlewareExecutor executor) => executor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares), false);
             }
-
-            return callBottom();
-        }
-
-        public OperationResult PrepareResult()
-        {
-            var outputState = operationContext.State.Get<OperationOutputState>();
-
-            return outputState.Result;
+            else
+            {
+                return middlewareExecutor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares);
+            }
         }
     }
 }

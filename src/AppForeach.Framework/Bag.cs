@@ -28,5 +28,10 @@ namespace AppForeach.Framework
 
             return item;
         }
+
+        public void Set<T>(T item) where T : class, new()
+        {
+            store[typeof(T)] = item;
+        }
     }
 }

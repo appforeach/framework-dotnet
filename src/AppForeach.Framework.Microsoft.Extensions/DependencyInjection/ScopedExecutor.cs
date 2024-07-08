@@ -12,13 +12,17 @@ namespace AppForeach.Framework.Microsoft.Extensions.DependencyInjection
             this.serviceProvider = serviceProvider;
         }
 
-        public async Task<TResult> Execute<TService, TResult>(Func<TService, Task<TResult>> executeFunction)
+        public async Task<TResult> Execute<TService, TResult>(Func<TService, Task<TResult>> executeFunction, bool transferState)
         {
             using IServiceScope scope = serviceProvider.CreateScope();
 
-            var parentScopeStateProvider = serviceProvider.GetRequiredService<IOperationStateProvider>();
-            var childScopeStateProvider = scope.ServiceProvider.GetRequiredService<IOperationStateProvider>();
-            childScopeStateProvider.State = parentScopeStateProvider.State;
+            if (transferState)
+            {
+
+                var parentScopeStateProvider = serviceProvider.GetRequiredService<IOperationStateProvider>();
+                var childScopeStateProvider = scope.ServiceProvider.GetRequiredService<IOperationStateProvider>();
+                childScopeStateProvider.State = parentScopeStateProvider.State;
+            }
 
             TService service = (TService)scope.ServiceProvider.GetRequiredService(typeof(TService));
             return await executeFunction(service);

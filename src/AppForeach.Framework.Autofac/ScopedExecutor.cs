@@ -14,13 +14,19 @@ namespace AppForeach.Framework.Autofac
             this.lifetimeScope = lifetimeScope;
         }
 
-        public async Task<TResult> Execute<TService, TResult>(Func<TService, Task<TResult>> executeFunction)
+        public async Task<TResult> Execute<TService, TResult>(Func<TService, Task<TResult>> executeFunction, bool transferState)
         {
-            using var scope = lifetimeScope.BeginLifetimeScope(builder =>
+            using var childScope = lifetimeScope.BeginLifetimeScope();
+
+            if (transferState)
             {
-                builder.Register(context => lifetimeScope.Resolve<IOperationContext>()).InstancePerLifetimeScope();
-            });
-            TService service = scope.Resolve<TService>();
+                var parentScopeStateProvider = lifetimeScope.Resolve<IOperationStateProvider>();
+                var childScopeStateProvider = childScope.Resolve<IOperationStateProvider>();
+
+                childScopeStateProvider.State = parentScopeStateProvider.State;
+            }
+
+            TService service = childScope.Resolve<TService>();
             return await executeFunction(service);
         }
     }
