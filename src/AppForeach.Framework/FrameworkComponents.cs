@@ -15,6 +15,7 @@ namespace AppForeach.Framework
             Scoped<IHandlerInvoker, HandlerInvoker>();
             Scoped<IHandlerInvokerMiddleware, HandlerInvokerMiddleware>();
             Scoped<IOperationExecutor, OperationExecutor>();
+            Scoped<IMiddlewareExecutor, MiddlewareExecutor>();
             Scoped<IOperationContext, OperationContext>();
             Scoped<IOperationStateProvider, OperationStateProvider>();
 
