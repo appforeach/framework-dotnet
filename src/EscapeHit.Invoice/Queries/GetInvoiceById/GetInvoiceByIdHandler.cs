@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Threading.Tasks;
 
 namespace EscapeHit.Invoice.Queries.GetInvoiceById
 {
-    class GetInvoiceByIdHandler
+    public class GetInvoiceByIdHandler
     {
+        public Task<GetInvoiceByIdResult> Execute(GetInvoiceByIdQuery query)
+        {
+            return Task.FromResult(new GetInvoiceByIdResult());
+        }
     }
 }

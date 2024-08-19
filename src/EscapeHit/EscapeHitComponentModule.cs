@@ -2,9 +2,9 @@
 
 namespace EscapeHit
 {
-    public class ComponentModule : FrameworkModule
+    public class EscapeHitComponentModule : FrameworkModule
     {
-        public ComponentModule()
+        public EscapeHitComponentModule()
         {
             DefaultHandlerRegistration();
         }

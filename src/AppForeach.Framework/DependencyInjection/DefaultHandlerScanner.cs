@@ -46,6 +46,13 @@ namespace AppForeach.Framework.DependencyInjection
                         ComponentType = typeof(IHandlerDefinition),
                         ImplementationInstance = handlerDefintion
                     };
+                    
+                    yield return new ComponentDefinition
+                    {
+                        ComponentType = type,
+                        ImplementationType = type,
+                        Lifetime = ComponentLifetime.Transient
+                    };
                 }
             }
         }

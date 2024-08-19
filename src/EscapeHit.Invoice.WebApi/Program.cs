@@ -1,16 +1,15 @@
-using EscapeHit.Invoice.Database;
 using EscapeHit.WebApi;
 
-namespace EscapeHit.Invoice.WebApi
+namespace EscapeHit.Invoice.WebApi;
+
+public class Program
 {
-    public class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args)
-        {
-            WebApiHost.Create(args)
-                .AddComponents<InvoiceComponents>()
-                .AddDbContext<InvoiceDbContext>()
-                .Run();
-        }
+        var builder = EscapeHitWebApplication.CreateBuilder(args);
+
+        builder.ConfigureServices(Services.Setup);
+
+        builder.Run();
     }
 }

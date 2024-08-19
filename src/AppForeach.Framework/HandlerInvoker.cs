@@ -38,7 +38,8 @@ namespace AppForeach.Framework
                 throw new FrameworkException("Handler method should have request input parameter and optionally CancellationToken");
             }
 
-            object handler = serviceLocator.GetService(handlerMethod.DeclaringType);
+            object handler = serviceLocator.GetService(handlerMethod.DeclaringType)
+                ?? throw new FrameworkException($"Handler { handlerMethod.DeclaringType.FullName } cannot be resolved from service locator.");
 
             Task task = (Task)handlerMethod.Invoke(handler, invocationParameters);
 
