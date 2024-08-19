@@ -3,7 +3,7 @@ using EscapeHit.Invoice.Services;
 
 namespace EscapeHit.Invoice
 {
-    public class InvoiceComponents : ComponentModule
+    public class InvoiceComponents : EscapeHitComponentModule
     {
         public InvoiceComponents()
         {

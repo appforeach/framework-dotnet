@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EscapeHit.Invoice.WebApi.Controllers
 {
-    public class InvoiceController : WebApiController
+    [ApiController]
+    [Route("[controller]")]
+    public class InvoiceController : ControllerBase
     {
         private readonly IOperationMediator operationMediator;
 

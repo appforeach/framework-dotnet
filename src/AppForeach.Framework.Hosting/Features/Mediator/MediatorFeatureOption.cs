@@ -9,6 +9,6 @@ namespace AppForeach.Framework.Hosting.Features.Mediator
 
         public Action<IOperationBuilder>? ApplicationOptions { get; set; }
 
-        public List<Type>? Middlewares { get; set; }
+        public Func<bool, List<Type>>? GetMiddlewares { get; set; }
     }
 }

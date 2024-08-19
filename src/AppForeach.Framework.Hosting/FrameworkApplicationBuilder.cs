@@ -27,6 +27,7 @@ namespace AppForeach.Framework.Hosting
 
         public virtual void Run()
         {
+            RunApp();
         }
 
         public virtual void RunApp()

@@ -1,11 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
+	
+  <ItemGroup>
+	  <PackageReference Include="Scrutor" Version="4.2.2" />
+  </ItemGroup>	
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <ProjectReference Include="..\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
+    <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
   </ItemGroup>
 
 </Project>

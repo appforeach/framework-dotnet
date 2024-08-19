@@ -3,7 +3,6 @@ using NLog.Config;
 using NLog.Targets;
 using NLog.Web;
 using NLog;
-using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,10 +26,12 @@ namespace EscapeHit.WebApi
             {
                 base.Run();
             }
+#if !DEBUG
             catch (Exception ex)
             {
                 logger.Error(ex);
             }
+#endif
             finally
             {
                 LogManager.Shutdown();
@@ -56,7 +57,6 @@ namespace EscapeHit.WebApi
         protected override void ConfigureWeb(WebApplication webApplication)
         {
             base.ConfigureWeb(webApplication);
-
 
             ConfigureWeb(Web.Configure);
         }

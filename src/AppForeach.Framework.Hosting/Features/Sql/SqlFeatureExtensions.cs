@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using AppForeach.Framework.Hosting.Features.Sql;
+using Microsoft.EntityFrameworkCore;
 
-namespace AppForeach.Framework.Hosting.Features.Sql
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class SqlFeatureExtensions
     {

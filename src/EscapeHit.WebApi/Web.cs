@@ -6,7 +6,7 @@ namespace EscapeHit.WebApi
     {
         public static void Configure(WebApplication app)
         {
-
+            app.MapControllers();
         }
     }
 }

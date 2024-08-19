@@ -1,10 +1,7 @@
 ﻿using AppForeach.Framework.Hosting.Features.Sql;
 using Microsoft.Extensions.DependencyInjection;
 using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using AppForeach.Framework.EntityFrameworkCore;
 
 namespace AppForeach.Framework.Hosting.Features.Mediator
 {
@@ -30,7 +27,8 @@ namespace AppForeach.Framework.Hosting.Features.Mediator
         {
             FrameworkHostConfiguration hostConfig = new FrameworkHostConfiguration();
 
-            hostConfig.ConfiguredMiddlewares.AddRange(option.Middlewares ?? GetDefaultMiddlewares(hasDatabase));
+            var getMiddlewares = option.GetMiddlewares ?? ApplicationMiddlewares.GetDefaultMiddlewares;
+            hostConfig.ConfiguredMiddlewares.AddRange(getMiddlewares(hasDatabase));
 
             hostConfig.OperationConfiguration = (opt) =>
             {
@@ -38,20 +36,6 @@ namespace AppForeach.Framework.Hosting.Features.Mediator
             };
 
             return hostConfig;
-        }
-
-        protected virtual List<Type> GetDefaultMiddlewares(bool hasDatabase)
-        {
-            List<Type> middlewares = new();
-            middlewares.Add(typeof(OperationNameResolutionMiddleware));
-            middlewares.Add(typeof(ValidationMiddleware));
-
-            if (hasDatabase)
-            {
-                middlewares.Add(typeof(TransactionScopeMiddleware));
-            }
-
-            return middlewares;
         }
     }
 }

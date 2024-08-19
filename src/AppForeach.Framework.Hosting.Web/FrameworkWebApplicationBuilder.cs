@@ -1,4 +1,5 @@
-﻿using AppForeach.Framework.Hosting.Web.Features;
+﻿using AppForeach.Framework.Hosting.Startup;
+using AppForeach.Framework.Hosting.Web.Features;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace AppForeach.Framework.Hosting.Web
 
             var app = builder.Build();
 
+            app.ExecuteApplicationStartupTasks();
+
             ConfigureWeb(app, featureInstaller);
 
             app.Run();
@@ -54,7 +57,7 @@ namespace AppForeach.Framework.Hosting.Web
 
         protected virtual void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddSingleton<IApplicationStartupTaskExecutor, ApplicationStartupTaskExecutor>();
         }
 
         private void ConfigureWeb(WebApplication webApplication, FrameworkWebApplicationFeatureInstaller featureInstaller)
