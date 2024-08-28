@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿
+using AppForeach.Framework.Hosting.Startup;
 
-namespace AppForeach.Framework.Hosting.Startup
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ApplicationStartupExtensions
     {
