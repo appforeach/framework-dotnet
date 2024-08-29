@@ -20,6 +20,11 @@ namespace AppForeach.Framework.MassTransit
 
         protected void ConfigureRabbitMqBus(Action<IRabbitMqBusFactoryConfigurator> rabbitBusAction)
         {
+            ConfigureRabbitMqBus((context, config) => rabbitBusAction(config));
+        }
+
+        protected void ConfigureRabbitMqBus(Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator> rabbitBusAction)
+        {
             HostDefinition.RabbitBusActions.Add(rabbitBusAction);
         }
 
