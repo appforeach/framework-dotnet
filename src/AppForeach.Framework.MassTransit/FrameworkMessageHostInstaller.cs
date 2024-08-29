@@ -28,7 +28,7 @@ namespace AppForeach.Framework.MassTransit
             {
                 foreach(var rabbitMqAction in hostDefinition.RabbitBusActions)
                 {
-                    rabbitMqAction.Invoke(cfg);
+                    rabbitMqAction.Invoke(context, cfg);
                 }
 
                 SetupEndpoints(context, cfg);

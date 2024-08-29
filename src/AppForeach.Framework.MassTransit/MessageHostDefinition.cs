@@ -6,7 +6,7 @@ namespace AppForeach.Framework.MassTransit
     {
         public List<Action<IBusRegistrationConfigurator>> BusActions { get;  } = new();
         
-        public List<Action<IRabbitMqBusFactoryConfigurator>> RabbitBusActions { get; } = new();
+        public List<Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator>> RabbitBusActions { get; } = new();
         
         public List<(string, Action<IRabbitMqReceiveEndpointConfigurator>)> EndpointActions { get; } = new();
         
