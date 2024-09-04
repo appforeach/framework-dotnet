@@ -10,12 +10,15 @@ namespace AppForeach.Framework.EntityFrameworkCore
     {
         private readonly IOperationContext operationContext;
         private readonly IConnectionStringProvider connectionStringProvider;
+        private readonly IDbOptionsConfigurator dbOptionsConfigurator;
         private readonly IServiceProvider serviceProvider;
 
-        public DbContextActivator(IOperationContext operationContext, IConnectionStringProvider connectionStringProvider, IServiceProvider serviceProvider)
+        public DbContextActivator(IOperationContext operationContext, IConnectionStringProvider connectionStringProvider,
+            IDbOptionsConfigurator dbOptionsConfigurator, IServiceProvider serviceProvider)
         {
             this.operationContext = operationContext;
             this.connectionStringProvider = connectionStringProvider;
+            this.dbOptionsConfigurator = dbOptionsConfigurator;
             this.serviceProvider = serviceProvider;
         }
 
@@ -30,7 +33,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
                 var transationState = operationContext.State.Get<TransactionScopeState>();
 
                 var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-                optionsBuilder.UseSqlServer(transationState.DbContext.Database.GetDbConnection());
+                dbOptionsConfigurator.SetConnection(optionsBuilder, transationState.DbContext.Database.GetDbConnection());
 
                 db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
 
@@ -39,7 +42,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
             else
             {
                 var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-                optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString);
+                dbOptionsConfigurator.SetConnectionString(optionsBuilder, connectionStringProvider.ConnectionString);
 
                 db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
 

@@ -2,10 +2,10 @@
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
-    public class SqlFeatureOption<TDbContext> : ISqlFeatureOption, IApplicationFeatureOption
+    public abstract class SqlFeatureOption<TDbContext> : ISqlFeatureOption, IApplicationFeatureOption
         where TDbContext : DbContext
     {
-        public IApplicationFeatureInstaller Installer => new SqlFeatureInstaller<TDbContext>(this);
+        public abstract IApplicationFeatureInstaller Installer { get; }
 
         public string? ConnectionStringName {  get; set; }
     }

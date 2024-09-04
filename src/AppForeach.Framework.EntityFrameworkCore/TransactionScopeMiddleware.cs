@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,34 +9,30 @@ namespace AppForeach.Framework.EntityFrameworkCore
     {
         private readonly IOperationContext context;
         private readonly IConnectionStringProvider connectionStringProvider;
-        private readonly IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers;
+        private readonly IDbOptionsConfigurator dbOptionsConfigurator;
 
-        public TransactionScopeMiddleware(IOperationContext context, IConnectionStringProvider connectionStringProvider, IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers)
+        public TransactionScopeMiddleware(IOperationContext context, IConnectionStringProvider connectionStringProvider, IDbOptionsConfigurator dbOptionsConfigurator)
         {
             this.context = context;
             this.connectionStringProvider = connectionStringProvider;
-            this.retryExceptionHandlers = retryExceptionHandlers;
+            this.dbOptionsConfigurator = dbOptionsConfigurator;
         }
 
         public async Task ExecuteAsync(NextOperationDelegate next)
         {
             var scopeState = context.State.Get<TransactionScopeState>();
 
+            var retryFacet = context.Configuration.TryGet<TransactionRetryFacet>();
+            var retryCountFacet = context.Configuration.TryGet<TransactionRetryCountFacet>();
+            var retryDelayFacet = context.Configuration.TryGet<TransactionMaxRetryDelayFacet>();
+
+            var retrySettings = new TransactionRetrySettings();
+            retrySettings.Retry = retryFacet?.Retry ?? false;
+            retrySettings.RetryCount = retryCountFacet?.RetryCount ?? 3;
+            retrySettings.RetryDelay = retryDelayFacet?.MaxRetryDelay ?? TimeSpan.FromSeconds(30);
+
             var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
-            optionsBuilder.UseSqlServer(connectionStringProvider.ConnectionString, sqlOpt =>
-            {
-                var retryFacet = context.Configuration.TryGet<TransactionRetryFacet>();
-
-                if(retryFacet?.Retry ?? false)
-                {
-                    var retryCountFacet = context.Configuration.TryGet<TransactionRetryCountFacet>();
-                    var retryDelayFacet = context.Configuration.TryGet<TransactionMaxRetryDelayFacet>();
-
-                    int maxRetry = retryCountFacet?.RetryCount ?? 3;
-                    TimeSpan retryDelay = retryDelayFacet?.MaxRetryDelay ?? TimeSpan.FromSeconds(30);
-                    sqlOpt.ExecutionStrategy(dp => new CustomSqlServerRetryingExecutionStrategy(dp, maxRetry, retryDelay, retryExceptionHandlers));
-                }
-            });
+            dbOptionsConfigurator.SetConnectionString(optionsBuilder, connectionStringProvider.ConnectionString, retrySettings);
             
             using (var frameworkDb = new FrameworkDbContext(optionsBuilder.Options))
             {
