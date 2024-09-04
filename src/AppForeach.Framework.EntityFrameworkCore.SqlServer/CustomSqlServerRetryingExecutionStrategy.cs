@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace AppForeach.Framework.EntityFrameworkCore
 {
-    internal class CustomSqlServerRetryingExecutionStrategy : SqlServerRetryingExecutionStrategy
+    public class CustomSqlServerRetryingExecutionStrategy : SqlServerRetryingExecutionStrategy
     {
         private readonly IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers;
 
