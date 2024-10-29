@@ -1,30 +1,41 @@
 ﻿using MassTransit;
 
-namespace AppForeach.Framework.MassTransit
+namespace AppForeach.Framework.MassTransit;
+
+public class FrameworkEndpointConfiguration
+    (
+        string endpointName,
+        MessageHostDefinition hostDefinition
+    ): IFrameworkEndpointConfiguration
 {
-    public class FrameworkEndpointConfiguration : IFrameworkEndpointConfiguration
+
+    public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
     {
-        private readonly string endpointName;
-        private readonly MessageHostDefinition hostDefinition;
+        hostDefinition.EndpointActions.Add((endpointName, endpointAction));
+    }
 
-        public FrameworkEndpointConfiguration(
-            string endpointName,
-            MessageHostDefinition hostDefinition)
-        {
-            this.endpointName = endpointName;
-            this.hostDefinition = hostDefinition;
-        }
+    public void AddConsumerInstaller(IConsumerInstaller consumerInstaller)
+    {
+        hostDefinition.Consumers.Add((endpointName, consumerInstaller));
+    }
 
-        public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
-        {
-            hostDefinition.EndpointActions.Add((endpointName, endpointAction));
-        }
+    public IConsumerConfigurationBuilder<TConsumer> Consumer<TMessage, TConsumer>()
+        where TMessage : class
+        where TConsumer : class, IConsumer<TMessage>
+    {
+        var consumerInstaller = new FrameworkConsumerInstaller<TMessage, TConsumer>();
 
-        public void Consume<TMessage>(Action<IConsumerConfigurator<IConsumer<TMessage>>>? consumerAction = null) 
-            where TMessage : class
-        {
-            var consumerInstaller = new FrameworkConsumerInstaller<TMessage>(consumerAction);
-            hostDefinition.Consumers.Add((endpointName, consumerInstaller));
-        }
+        AddConsumerInstaller(consumerInstaller);
+
+        return consumerInstaller.ConfigurationBuilder;
+    }
+
+    public IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>() where TMessage : class
+    {
+        var consumerInstaller = new FrameworkMediatorConsumerInstaller<TMessage>();
+
+        AddConsumerInstaller(consumerInstaller);
+
+        return consumerInstaller.ConfigurationBuilder;
     }
 }

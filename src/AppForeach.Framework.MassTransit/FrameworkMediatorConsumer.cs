@@ -2,15 +2,12 @@
 
 namespace AppForeach.Framework.MassTransit
 {
-    public class FrameworkConsumer<TMessage> : IConsumer<TMessage>
+    public class FrameworkMediatorConsumer<TMessage>
+        (
+        IOperationMediator operationMediator
+        ) : IConsumer<TMessage>
         where TMessage : class
     {
-        private readonly IOperationMediator operationMediator;
-
-        public FrameworkConsumer(IOperationMediator operationMediator)
-        {
-            this.operationMediator = operationMediator;
-        }
 
         public async Task Consume(ConsumeContext<TMessage> context)
         {
