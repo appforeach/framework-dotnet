@@ -1,35 +1,21 @@
 ﻿using MassTransit;
 
-namespace AppForeach.Framework.MassTransit
+namespace AppForeach.Framework.MassTransit;
+
+public class FrameworkConsumerInstaller<TMessage, TConsumer> : IConsumerInstaller
+    where TMessage : class
+    where TConsumer : class, IConsumer<TMessage>
 {
-    public class FrameworkConsumerInstaller<TMessage> : IConsumerInstaller
-        where TMessage : class
+    public ConsumerConfigurationBuilder<TConsumer> ConfigurationBuilder { get; set; } = new();
+
+
+    public void AddConsumer(IRegistrationConfigurator registrationConfigurator)
     {
-        private readonly Action<IConsumerConfigurator<IConsumer<TMessage>>>? consumerAction;
+        registrationConfigurator.AddConsumer<TConsumer>();
+    }
 
-        public FrameworkConsumerInstaller(Action<IConsumerConfigurator<IConsumer<TMessage>>>? consumerAction = null)
-        {
-            this.consumerAction = consumerAction;
-        }
-
-        public void AddConsumer(IRegistrationConfigurator registrationConfigurator)
-        {
-            registrationConfigurator.AddConsumer<FrameworkConsumer<TMessage>>();
-        }
-
-        public void ConfigureConsumer(IReceiveEndpointConfigurator receiveEndpointConfigurator, IRegistrationContext registration)
-        {
-            Action<IConsumerConfigurator<IConsumer<TMessage>>> action = consumerAction!;
-
-            //receiveEndpointConfigurator.ConfigureConsumer<IConsumer<TMessage>>(registration, action);
-
-            receiveEndpointConfigurator.ConfigureConsumer<FrameworkConsumer<TMessage>>(registration);
-
-            //receiveEndpointConfigurator.ConfigureConsumer<FrameworkConsumer<TMessage>>(registration, cfg =>
-            //{
-            //    cfg.UseConcurrentMessageLimit
-            //    consumerAction(cfg);
-            //});
-        }
+    public void ConfigureConsumer(IReceiveEndpointConfigurator receiveEndpointConfigurator, IRegistrationContext registration)
+    {
+        receiveEndpointConfigurator.ConfigureConsumer<TConsumer>(registration, ConfigurationBuilder.ConfigureAll);
     }
 }
