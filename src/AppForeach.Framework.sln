@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Hostin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Hosting.Web", "AppForeach.Framework.Hosting.Web\AppForeach.Framework.Hosting.Web.csproj", "{BD0F5FFD-FFEB-4A18-A15F-97AB7D6804B9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.MassTransit", "AppForeach.Framework.MassTransit\AppForeach.Framework.MassTransit.csproj", "{00A7B6CD-F613-466F-913A-5E62D2181DEE}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.EntityFrameworkCore.SqlServer", "AppForeach.Framework.EntityFrameworkCore.SqlServer\AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj", "{715B32C2-7E5D-4E2B-8AF0-43891884A846}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Hosting.Features.SqlServer", "AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj", "{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}"
@@ -113,6 +115,10 @@ Global
 		{BD0F5FFD-FFEB-4A18-A15F-97AB7D6804B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD0F5FFD-FFEB-4A18-A15F-97AB7D6804B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD0F5FFD-FFEB-4A18-A15F-97AB7D6804B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A7B6CD-F613-466F-913A-5E62D2181DEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A7B6CD-F613-466F-913A-5E62D2181DEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A7B6CD-F613-466F-913A-5E62D2181DEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A7B6CD-F613-466F-913A-5E62D2181DEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{715B32C2-7E5D-4E2B-8AF0-43891884A846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{715B32C2-7E5D-4E2B-8AF0-43891884A846}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{715B32C2-7E5D-4E2B-8AF0-43891884A846}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -137,6 +143,7 @@ Global
 		{FD4CBA8E-F617-4A61-90FF-854E40543E1C} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{D3B1B5F6-3155-4F3B-A4F5-1EFB153A2C73} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{BD0F5FFD-FFEB-4A18-A15F-97AB7D6804B9} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{00A7B6CD-F613-466F-913A-5E62D2181DEE} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{715B32C2-7E5D-4E2B-8AF0-43891884A846} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
