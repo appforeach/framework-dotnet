@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 namespace AppForeach.Framework.DataType
 {
     public class BaseMapping<TTo, TFrom>
-        where TTo: new()
+        where TTo : new()
     {
         protected IFieldMappingSpecification<TFrom> Field<TFieldType>(Expression<Func<TTo, TFieldType>> expression)
         {
-            return new EmptyFieldMappingSpecification<TFrom>() ;
+            return new EmptyFieldMappingSpecification<TFrom>();
         }
 
         protected TTo BaseMap(TFrom from)
@@ -20,7 +20,7 @@ namespace AppForeach.Framework.DataType
         {
             public void From<TFieldType>(Expression<Func<TEmptyFrom, TFieldType>> expression)
             {
-                
+
             }
         }
     }
