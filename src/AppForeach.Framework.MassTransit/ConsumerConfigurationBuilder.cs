@@ -9,12 +9,16 @@ public class ConsumerConfigurationBuilder<TConsumer> : IConsumerConfigurationBui
 
     public IConsumerConfigurationBuilder<TConsumer> Configure(Action<IConsumerConfigurator<TConsumer>> action)
     {
+        ArgumentNullException.ThrowIfNull(action);
+
         actions.Add(action);
         return this;
     }
 
     public void ConfigureAll(IConsumerConfigurator<TConsumer> cfg)
     {
+        ArgumentNullException.ThrowIfNull(cfg);
+
         foreach (var action in actions) 
         {
             action(cfg);

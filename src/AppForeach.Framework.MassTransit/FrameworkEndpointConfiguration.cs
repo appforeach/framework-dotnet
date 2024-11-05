@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using MassTransit.Configuration;
 
 namespace AppForeach.Framework.MassTransit;
 
@@ -11,11 +12,15 @@ public class FrameworkEndpointConfiguration
 
     public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
     {
+        ArgumentNullException.ThrowIfNull(endpointAction);
+
         hostDefinition.EndpointActions.Add((endpointName, endpointAction));
     }
 
     public void AddConsumerInstaller(IConsumerInstaller consumerInstaller)
     {
+        ArgumentNullException.ThrowIfNull(consumerInstaller);
+
         hostDefinition.Consumers.Add((endpointName, consumerInstaller));
     }
 

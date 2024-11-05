@@ -10,11 +10,16 @@ public class FrameworkMediatorConsumerInstaller<TMessage> : IConsumerInstaller
 
     public void AddConsumer(IRegistrationConfigurator registrationConfigurator)
     {
+        ArgumentNullException.ThrowIfNull(registrationConfigurator);
+
         registrationConfigurator.AddConsumer<FrameworkMediatorConsumer<TMessage>>();
     }
 
     public void ConfigureConsumer(IReceiveEndpointConfigurator receiveEndpointConfigurator, IRegistrationContext registration)
     {
+        ArgumentNullException.ThrowIfNull(receiveEndpointConfigurator);
+        ArgumentNullException.ThrowIfNull(registration);
+
         receiveEndpointConfigurator.ConfigureConsumer<FrameworkMediatorConsumer<TMessage>>(registration, ConfigurationBuilder.ConfigureAll);
     }
 }

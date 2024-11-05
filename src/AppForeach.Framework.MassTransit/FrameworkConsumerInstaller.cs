@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using System;
+using static System.Collections.Specialized.BitVector32;
 
 namespace AppForeach.Framework.MassTransit;
 
@@ -11,11 +13,16 @@ public class FrameworkConsumerInstaller<TMessage, TConsumer> : IConsumerInstalle
 
     public void AddConsumer(IRegistrationConfigurator registrationConfigurator)
     {
+        ArgumentNullException.ThrowIfNull(registrationConfigurator);
+
         registrationConfigurator.AddConsumer<TConsumer>();
     }
 
     public void ConfigureConsumer(IReceiveEndpointConfigurator receiveEndpointConfigurator, IRegistrationContext registration)
     {
+        ArgumentNullException.ThrowIfNull(receiveEndpointConfigurator);
+        ArgumentNullException.ThrowIfNull(registration);
+
         receiveEndpointConfigurator.ConfigureConsumer<TConsumer>(registration, ConfigurationBuilder.ConfigureAll);
     }
 }
