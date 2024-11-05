@@ -10,6 +10,9 @@
     {
         public GetInvoiceByIdResult MapFrom(InvoiceEntity entity)
         {
+            if (entity is null)
+                return null;
+
             var output = new GetInvoiceByIdResult
             {
                 Id = entity.Id,
