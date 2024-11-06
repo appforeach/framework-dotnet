@@ -20,11 +20,11 @@ namespace AppForeach.Framework
         {
             object result;
 
-            var createScopeFacet = context.Configuration.TryGet<OperationCreateScopeForExecutionFacet>();
+            var createScopeFacet = context.Configuration.TryGet<OperationCreateScopeForHandlerFacet>();
 
             if (createScopeFacet?.CreateScopeForExecution ?? false)
             {
-                result = await scopedExecutor.Execute((IHandlerInvoker invoker) => invoker.Invoke(context.Input));
+                result = await scopedExecutor.Execute((IHandlerInvoker invoker) => invoker.Invoke(context.Input), true);
             }
             else
             {

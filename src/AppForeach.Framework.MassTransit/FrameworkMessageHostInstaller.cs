@@ -1,4 +1,5 @@
 ﻿using MassTransit;
+using MassTransit.Configuration;
 
 namespace AppForeach.Framework.MassTransit
 {
@@ -13,6 +14,8 @@ namespace AppForeach.Framework.MassTransit
 
         public void Setup(IBusRegistrationConfigurator bus)
         {
+            ArgumentNullException.ThrowIfNull(bus);
+
             foreach (var busAction in hostDefinition.BusActions)
             {
                 busAction(bus);
@@ -28,7 +31,7 @@ namespace AppForeach.Framework.MassTransit
             {
                 foreach(var rabbitMqAction in hostDefinition.RabbitBusActions)
                 {
-                    rabbitMqAction.Invoke(cfg);
+                    rabbitMqAction.Invoke(context, cfg);
                 }
 
                 SetupEndpoints(context, cfg);

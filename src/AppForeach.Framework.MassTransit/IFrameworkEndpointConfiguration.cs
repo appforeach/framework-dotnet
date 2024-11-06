@@ -6,7 +6,13 @@ namespace AppForeach.Framework.MassTransit
     {
         void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction);
 
-        void Consume<TMessage>(Action<IConsumerConfigurator<IConsumer<TMessage>>>? consumerAction = null)
-            where TMessage: class;
+        void AddConsumerInstaller(IConsumerInstaller consumerInstaller);
+
+        IConsumerConfigurationBuilder<TConsumer> Consumer<TMessage, TConsumer>()
+            where TMessage : class
+            where TConsumer : class, IConsumer<TMessage>;
+
+        IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>()
+            where TMessage : class;
     }
 }

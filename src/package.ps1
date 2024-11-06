@@ -3,8 +3,8 @@ $ErrorActionPreference = "Stop"
 $assemblies = @(
 "AppForeach.Framework",
 "AppForeach.Framework.Autofac",
+"AppForeach.Framework.Microsoft.Extensions",
 "AppForeach.Framework.EntityFrameworkCore",
-"AppForeach.Framework.Microsoft.Extensions"
 "AppForeach.Framework.MassTransit"
 )
 

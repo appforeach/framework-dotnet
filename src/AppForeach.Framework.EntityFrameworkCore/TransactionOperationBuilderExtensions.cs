@@ -24,7 +24,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
             };
             builder.Configuration.Set(transactionRetryFacet);
 
-            builder.OperationCreateScopeForExecution(true);
+            builder.OperationCreateScopeForHandler(true);
 
             return builder;
         }

@@ -8,6 +8,8 @@ namespace AppForeach.Framework.MassTransit
 
         public MessageHostDefinition HostDefinition { get; } = new MessageHostDefinition();
 
+        public bool IsMediatorEnabled { get; set; } = true;
+
         protected void ConfigureBus(Action<IBusRegistrationConfigurator> busAction)
         {
             HostDefinition.BusActions.Add(busAction);
@@ -19,6 +21,11 @@ namespace AppForeach.Framework.MassTransit
         }
 
         protected void ConfigureRabbitMqBus(Action<IRabbitMqBusFactoryConfigurator> rabbitBusAction)
+        {
+            ConfigureRabbitMqBus((context, config) => rabbitBusAction(config));
+        }
+
+        protected void ConfigureRabbitMqBus(Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator> rabbitBusAction)
         {
             HostDefinition.RabbitBusActions.Add(rabbitBusAction);
         }
@@ -34,13 +41,6 @@ namespace AppForeach.Framework.MassTransit
 
             var endpointConfigurator = new FrameworkEndpointConfiguration(endpointName, HostDefinition);
             endpointAction?.Invoke(endpointConfigurator);
-        }
-
-        protected void Consume<TMessage>(Action<IConsumerConfigurator<IConsumer<TMessage>>>? consumerAction = null)
-            where TMessage : class
-        {
-            var consumerInstaller = new FrameworkConsumerInstaller<TMessage>(consumerAction);
-            HostDefinition.Consumers.Add((lastEndpoint, consumerInstaller));
         }
     }
 }
