@@ -10,5 +10,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
         public IDbContextTransaction DbContextTransaction { get;set; }
 
         public bool IsTransactionInitialized { get; set; }
+
+        public int? TransactionId { get; set; }
     }
 }
