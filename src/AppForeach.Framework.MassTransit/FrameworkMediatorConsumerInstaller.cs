@@ -1,21 +1,18 @@
 ﻿using MassTransit;
-using System;
-using static System.Collections.Specialized.BitVector32;
 
 namespace AppForeach.Framework.MassTransit;
 
-public class FrameworkConsumerInstaller<TMessage, TConsumer> : IConsumerInstaller
+public class FrameworkMediatorConsumerInstaller<TMessage> : IConsumerInstaller
     where TMessage : class
-    where TConsumer : class, IConsumer<TMessage>
 {
-    public ConsumerConfigurationBuilder<TConsumer> ConfigurationBuilder { get; set; } = new();
+    public ConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> ConfigurationBuilder { get; set; } = new();
 
 
     public void AddConsumer(IRegistrationConfigurator registrationConfigurator)
     {
         ArgumentNullException.ThrowIfNull(registrationConfigurator);
 
-        registrationConfigurator.AddConsumer<TConsumer>();
+        registrationConfigurator.AddConsumer<FrameworkMediatorConsumer<TMessage>>();
     }
 
     public void ConfigureConsumer(IReceiveEndpointConfigurator receiveEndpointConfigurator, IRegistrationContext registration)
@@ -23,6 +20,7 @@ public class FrameworkConsumerInstaller<TMessage, TConsumer> : IConsumerInstalle
         ArgumentNullException.ThrowIfNull(receiveEndpointConfigurator);
         ArgumentNullException.ThrowIfNull(registration);
 
-        receiveEndpointConfigurator.ConfigureConsumer<TConsumer>(registration, ConfigurationBuilder.ConfigureAll);
+        receiveEndpointConfigurator.ConfigureConsumer<FrameworkMediatorConsumer<TMessage>>(registration, ConfigurationBuilder.ConfigureAll);
     }
 }
+

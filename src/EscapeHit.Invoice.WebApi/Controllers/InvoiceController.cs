@@ -18,7 +18,7 @@ namespace EscapeHit.Invoice.WebApi.Controllers
             this.operationMediator = operationMediator;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public Task<ActionResult> GetById(int id)
             => operationMediator.Execute(new GetInvoiceByIdQuery { Id = id }).OkOrNotFound();
 
