@@ -18,9 +18,9 @@ namespace EscapeHit.Invoice.Database.Repositories
             await db.SaveChangesAsync();
         }
 
-        public Task<InvoiceEntity> FindById(int id)
+        public async Task<InvoiceEntity> FindById(int id)
         {
-            return Task.FromResult(new InvoiceEntity());
+            return await db.Invoices.FindAsync(id);
         }
     }
 }
