@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace AppForeach.Framework.DataType
 {
     public class BaseEntitySpecification<TType>
     {
-        public IPrimitiveTypeSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> expression)
+        private readonly Dictionary<string, object> _fields = new Dictionary<string, object>();
+        public IPrimitiveTypeSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
         {
-            return null;
+            var fieldKey = selector.Body.ToString();
+            if (!_fields.TryGetValue(fieldKey, out object field))
+            {
+                field = new PrimitiveTypeSpecification<TFieldType>();
+                _fields[fieldKey] = field;
+            }
+
+            return field as IPrimitiveTypeSpecification<TFieldType>;
         }
     }
 }
