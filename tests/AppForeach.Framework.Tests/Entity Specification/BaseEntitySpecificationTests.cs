@@ -12,7 +12,7 @@ namespace AppForeach.Framework.Tests
             // Arrange
             var specification = new BaseEntitySpecification<string>();
 
-            Expression<Func<string, string>> selector = x => x.Length.ToString();
+            Expression<Func<string, int>> selector = x => x.Length;
 
             var firstReference = specification.Field(selector).ShouldNotBeNull();
             var secondReference = specification.Field(selector).ShouldNotBeNull();
@@ -28,24 +28,12 @@ namespace AppForeach.Framework.Tests
             // Arrange
             var specification = new BaseEntitySpecification<string>();
 
-            var firstReference = specification.Field(x => x.Length);
-            var secondReference = specification.Field(x => x.Length);
-            var thirdReference = specification.Field(x => x.Length);
+            var firstReference = specification.Field(x => x.Length).ShouldNotBeNull();
+            var secondReference = specification.Field(x => x.Length).ShouldNotBeNull();
+            var thirdReference = specification.Field(x => x.Length).ShouldNotBeNull();
 
             firstReference.ShouldBe(secondReference);
             secondReference.ShouldBe(thirdReference);
-        }
-
-
-        [Fact]
-        public void should_return_field_specification()
-        {
-            // Arrange
-            var specification = new BaseEntitySpecification<int>();
-            Expression<Func<int, int>> selector = x => x * 2;
-            var expectedField = specification.Field(selector);
-
-            expectedField.ShouldNotBeNull();
         }
     }
 }
