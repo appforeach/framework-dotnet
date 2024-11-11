@@ -9,7 +9,9 @@ namespace AppForeach.Framework.DataType
         private readonly Dictionary<string, object> _fields = new Dictionary<string, object>();
         public IPrimitiveTypeSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
         {
-            var fieldKey = selector.Body.ToString();
+            //todo: throw exception if selector is not a member expression
+            var fieldKey = ((MemberExpression)selector.Body).Member.Name;
+
             if (!_fields.TryGetValue(fieldKey, out object field))
             {
                 field = new PrimitiveTypeSpecification<TFieldType>();
