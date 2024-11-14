@@ -1,3 +1,4 @@
+using AppForeach.Framework.DataType.Facets;
 using AppForeach.Framework.Tests.Entity_Specification.Data;
 using Shouldly;
 
@@ -10,7 +11,7 @@ namespace AppForeach.Framework.Tests
         {
             var specification = new InvoiceEntitySpecification();
             var fieldSpec = specification.Field(x => x.CustomerNumber);
-            fieldSpec.Config.IsRequired.ShouldBe(true);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(true);
         }
 
         [Theory]
@@ -23,7 +24,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.CustomerNumber);
 
-            fieldSpec.Config.IsRequired.ShouldBe(required);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(required);
         }
 
         [Theory]
@@ -36,7 +37,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.CustomerNumber);
 
-            fieldSpec.Config.IsOptional.ShouldBe(optional);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(!optional);
         }
 
         [Theory]
@@ -49,7 +50,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Id);
 
-            fieldSpec.Config.IsRequired.ShouldBe(required);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(required);
         }
 
         [Theory]
@@ -62,7 +63,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Id);
 
-            fieldSpec.Config.IsOptional.ShouldBe(optional);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(!optional);
         }
 
         [Theory]
@@ -75,7 +76,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Number);
 
-            fieldSpec.Config.IsRequired.ShouldBe(required);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(required);
         }
 
         [Theory]
@@ -88,7 +89,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Number);
 
-            fieldSpec.Config.IsOptional.ShouldBe(optional);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(!optional);
         }
 
         [Theory]
@@ -101,7 +102,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Amount);
 
-            fieldSpec.Config.IsRequired.ShouldBe(required);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(required);
         }
 
         [Theory]
@@ -114,7 +115,7 @@ namespace AppForeach.Framework.Tests
 
             var fieldSpec = specification.Field(x => x.Amount);
 
-            fieldSpec.Config.IsOptional.ShouldBe(optional);
+            fieldSpec.Configuration.TryGet<FieldRequiredFacet>().Required.ShouldBe(!optional);
         }
     }
 }

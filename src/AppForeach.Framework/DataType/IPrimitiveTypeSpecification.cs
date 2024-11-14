@@ -8,6 +8,6 @@
 
         IPrimitiveTypeSpecification<TType> Is<TDataType>() where TDataType : IDataType;
 
-        IPrimitiveTypeSpecificationConfig Config { get; }
+        FacetBag Configuration{ get; }
     }
 }
