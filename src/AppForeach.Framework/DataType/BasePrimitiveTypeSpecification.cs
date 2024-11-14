@@ -3,7 +3,7 @@ namespace AppForeach.Framework.DataType
 {
     public class BasePrimitiveTypeSpecification
     {
-        protected IPrimitiveTypeSpecification<TType> Type<TType>()
+        protected IPrimitiveFieldSpecification<TType> Type<TType>()
         {
             return null;
         }

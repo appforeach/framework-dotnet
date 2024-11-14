@@ -7,7 +7,7 @@ namespace AppForeach.Framework.DataType
     public class BaseEntitySpecification<TType>
     {
         private readonly Dictionary<string, object> _fieldSpecifications = new Dictionary<string, object>();
-        public IPrimitiveTypeSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
+        public IPrimitiveFieldSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
         {
             //hint IPrimitiveFIeldSpecification
             //hint: base nongeneric inteface IPrimitiveTypeSpecification
@@ -20,7 +20,7 @@ namespace AppForeach.Framework.DataType
                 _fieldSpecifications[fieldKey] = field;
             }
 
-            return field as IPrimitiveTypeSpecification<TFieldType>;
+            return field as IPrimitiveFieldSpecification<TFieldType>;
         }
     }
 }
