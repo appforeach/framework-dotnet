@@ -8,7 +8,7 @@ namespace EscapeHit.Invoice.Specification
         {
             Field(e => e.CustomerNumber).IsRequired().MaxLength(10);
 
-            Field(e => e.Number).IsRequired().Is<NumberDataType>();
+            Field(e => e.Number).IsRequired();//.Is<NumberDataType>(); Is Is not ImplementedYet
         }
     }
 }
