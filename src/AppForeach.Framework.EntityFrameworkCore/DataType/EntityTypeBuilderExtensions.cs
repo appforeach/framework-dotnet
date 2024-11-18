@@ -22,7 +22,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.DataType
                 }
 
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
-                if (requiredFacet is not null)
+                if (maxLengthFacet is not null)
                 {
                     propertyBuilder.HasMaxLength(maxLengthFacet.MaxLength);
                 }
