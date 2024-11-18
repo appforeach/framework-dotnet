@@ -7,6 +7,7 @@ namespace EscapeHit
         public EscapeHitComponentModule()
         {
             DefaultHandlerRegistration();
+            DefaultEntitySpecificationRegistration();
         }
     }
 }

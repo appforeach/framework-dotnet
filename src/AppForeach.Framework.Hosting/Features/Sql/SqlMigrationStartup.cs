@@ -1,4 +1,6 @@
-﻿using AppForeach.Framework.Hosting.Startup;
+﻿using AppForeach.Framework.DependencyInjection;
+using AppForeach.Framework.EntityFrameworkCore;
+using AppForeach.Framework.Hosting.Startup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
@@ -13,10 +15,12 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         where TDbContext : DbContext
     {
         private readonly IOptions<SqlMigrationOptions<TDbContext>> migrationOptions;
+        private readonly IServiceLocator serviceLocator;
 
-        public SqlMigrationStartup(IOptions<SqlMigrationOptions<TDbContext>> migrationOptions)
+        public SqlMigrationStartup(IOptions<SqlMigrationOptions<TDbContext>> migrationOptions, IServiceLocator serviceLocator)
         {
             this.migrationOptions = migrationOptions;
+            this.serviceLocator = serviceLocator;
         }
 
         public async Task Run(CancellationToken cancellationToken)
@@ -24,17 +28,25 @@ namespace AppForeach.Framework.Hosting.Features.Sql
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
             optionsBuilder.UseSqlServer(migrationOptions.Value.ConnectionString, migrationOptions.Value.DbContextOptions);
 
-            using (var dbContext = CreateDbContext(optionsBuilder.Options))
+            using (var dbContext = CreateDbContext(optionsBuilder.Options, serviceLocator))
             {
                 dbContext.Database.SetCommandTimeout(TimeSpan.FromMinutes(10));
                 await dbContext.Database.MigrateAsync(cancellationToken);
             }
         }
 
-        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options) 
+        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options, IServiceLocator serviceLocator)
         {
-            return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
+            if (typeof(TDbContext) == typeof(FrameworkDbContext))
+            {
+                // service locator is not needed out there
+                return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
+                    ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
+            }
+
+            return (Activator.CreateInstance(typeof(TDbContext), options, serviceLocator) as TDbContext)
                 ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
+
             var factoryBaseType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(typeof(TDbContext));
 
             var dbContextDesignTimeFactoryType = typeof(TDbContext).Assembly.DefinedTypes
