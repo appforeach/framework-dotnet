@@ -12,7 +12,6 @@ namespace AppForeach.Framework.EntityFrameworkCore
             Scoped<TransactionScopeMiddleware, TransactionScopeMiddleware>();
             Scoped<AuditMiddleware, AuditMiddleware>();
             Scoped<IDbContextActivator, DbContextActivator>();
-            Scoped<IDbContextInternalActivator, DbContextInternalActivator>();
         }
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
-    public class SqlMigrationStartup<TDbContext> : IApplicationStartup
+    public abstract class SqlMigrationStartup<TDbContext> : IApplicationStartup
         where TDbContext : DbContext
     {
         private readonly IOptions<SqlMigrationOptions<TDbContext>> migrationOptions;
@@ -22,7 +22,7 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         public async Task Run(CancellationToken cancellationToken)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-            optionsBuilder.UseSqlServer(migrationOptions.Value.ConnectionString, migrationOptions.Value.DbContextOptions);
+            ConfigureDbOptions(optionsBuilder);
 
             using (var dbContext = CreateDbContext(optionsBuilder.Options))
             {
@@ -30,6 +30,8 @@ namespace AppForeach.Framework.Hosting.Features.Sql
                 await dbContext.Database.MigrateAsync(cancellationToken);
             }
         }
+
+        protected abstract void ConfigureDbOptions(DbContextOptionsBuilder<TDbContext> builder);
 
         private TDbContext CreateDbContext(DbContextOptions<TDbContext> options) 
         {

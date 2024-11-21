@@ -1,4 +1,6 @@
 ﻿using AppForeach.Framework.Logging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,14 +12,19 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
     {
         private readonly IOperationContext context;
         private readonly ILoggingCorrelationProvider loggingCorrelationProvider;
-        private readonly IDbContextInternalActivator dbContextInternalActivator;
+        private readonly IDbOptionsConfigurator dbOptionsConfigurator;
+        private readonly IConnectionStringProvider connectionStringProvider;
+        private readonly IServiceProvider serviceProvider;
 
         public AuditMiddleware(IOperationContext context, ILoggingCorrelationProvider loggingCorrelationProvider,
-            IDbContextInternalActivator dbContextInternalActivator)
+            IDbOptionsConfigurator dbOptionsConfigurator, IConnectionStringProvider connectionStringProvider,
+            IServiceProvider serviceProvider)
         {
             this.context = context;
             this.loggingCorrelationProvider = loggingCorrelationProvider;
-            this.dbContextInternalActivator = dbContextInternalActivator;
+            this.dbOptionsConfigurator = dbOptionsConfigurator;
+            this.connectionStringProvider = connectionStringProvider;
+            this.serviceProvider = serviceProvider;
         }
 
         public async Task ExecuteAsync(NextOperationDelegate next)
@@ -27,8 +34,10 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
 
             if (auditEnabled)
             {
-                using var db = dbContextInternalActivator.Activate<FrameworkDbContext>();
-
+                var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
+                dbOptionsConfigurator.SetConnectionString(optionsBuilder, connectionStringProvider.ConnectionString);
+                using var db = (FrameworkDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(FrameworkDbContext), optionsBuilder.Options);
+                
                 var inputAudit = await AuditInput(db);
 
                 await next();
