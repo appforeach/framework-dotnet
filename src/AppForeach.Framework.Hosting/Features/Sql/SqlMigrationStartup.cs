@@ -1,6 +1,4 @@
-﻿using AppForeach.Framework.DependencyInjection;
-using AppForeach.Framework.EntityFrameworkCore;
-using AppForeach.Framework.Hosting.Startup;
+﻿using AppForeach.Framework.Hosting.Startup;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Options;
@@ -11,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
-    public class SqlMigrationStartup<TDbContext> : IApplicationStartup
+    public abstract class SqlMigrationStartup<TDbContext> : IApplicationStartup
         where TDbContext : DbContext
     {
         private readonly IOptions<SqlMigrationOptions<TDbContext>> migrationOptions;
@@ -24,7 +22,7 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         public async Task Run(CancellationToken cancellationToken)
         {
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
-            optionsBuilder.UseSqlServer(migrationOptions.Value.ConnectionString, migrationOptions.Value.DbContextOptions);
+            ConfigureDbOptions(optionsBuilder);
 
             using (var dbContext = CreateDbContext(optionsBuilder.Options))
             {
@@ -33,13 +31,12 @@ namespace AppForeach.Framework.Hosting.Features.Sql
             }
         }
 
-        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options)
+        protected abstract void ConfigureDbOptions(DbContextOptionsBuilder<TDbContext> builder);
+
+        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options) 
         {
-            // service locator is not needed out there
             return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
                 ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
-
-
             var factoryBaseType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(typeof(TDbContext));
 
             var dbContextDesignTimeFactoryType = typeof(TDbContext).Assembly.DefinedTypes

@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AppForeach.Framework.EntityFrameworkCore
 {
-    internal class CustomSqlServerRetryingExecutionStrategy : SqlServerRetryingExecutionStrategy
+    public class CustomSqlServerRetryingExecutionStrategy : SqlServerRetryingExecutionStrategy
     {
         private readonly IEnumerable<ITransactionRetryExceptionHandler> retryExceptionHandlers;
 

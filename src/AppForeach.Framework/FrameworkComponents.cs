@@ -1,4 +1,5 @@
 ﻿using AppForeach.Framework.DependencyInjection;
+using AppForeach.Framework.Logging;
 
 namespace AppForeach.Framework
 {
@@ -26,6 +27,7 @@ namespace AppForeach.Framework
             Component(typeof(IValidationFailedEventHandler), typeof(DefaultValidationFailedEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IExceptionEventHandler), typeof(DefaultExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IUnhandledExceptionEventHandler), typeof(DefaultUnhandledExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);
+            Component(typeof(ILoggingCorrelationProvider), typeof(DefaultLoggingCorrelationProvider), ComponentLifetime.Scoped, isOptional: true);
         }
     }
 }

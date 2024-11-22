@@ -1,5 +1,4 @@
-﻿using AppForeach.Framework.Hosting.Features.Sql;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Scrutor;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -9,8 +8,7 @@ public static class SqlFeatureExtensions
     public static void AddEscapeHitSql<TDbContext>(this IServiceCollection services)
          where TDbContext : DbContext
     {
-        var options = new SqlFeatureOption<TDbContext>();
-        services.AddSingleton(options);
+        services.AddApplicationSqlServer<TDbContext>();
 
         //TODO: use internal scanner
         services.Scan(scan => scan
