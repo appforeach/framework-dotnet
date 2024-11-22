@@ -8,7 +8,5 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         where TDbContext : DbContext
     {
         public string? ConnectionString { get; set; }
-
-        public Action<SqlServerDbContextOptionsBuilder>? DbContextOptions { get; set; }
     }
 }
