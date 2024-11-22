@@ -15,12 +15,10 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         where TDbContext : DbContext
     {
         private readonly IOptions<SqlMigrationOptions<TDbContext>> migrationOptions;
-        private readonly IServiceLocator serviceLocator;
 
-        public SqlMigrationStartup(IOptions<SqlMigrationOptions<TDbContext>> migrationOptions, IServiceLocator serviceLocator)
+        public SqlMigrationStartup(IOptions<SqlMigrationOptions<TDbContext>> migrationOptions)
         {
             this.migrationOptions = migrationOptions;
-            this.serviceLocator = serviceLocator;
         }
 
         public async Task Run(CancellationToken cancellationToken)
@@ -28,24 +26,19 @@ namespace AppForeach.Framework.Hosting.Features.Sql
             var optionsBuilder = new DbContextOptionsBuilder<TDbContext>();
             optionsBuilder.UseSqlServer(migrationOptions.Value.ConnectionString, migrationOptions.Value.DbContextOptions);
 
-            using (var dbContext = CreateDbContext(optionsBuilder.Options, serviceLocator))
+            using (var dbContext = CreateDbContext(optionsBuilder.Options))
             {
                 dbContext.Database.SetCommandTimeout(TimeSpan.FromMinutes(10));
                 await dbContext.Database.MigrateAsync(cancellationToken);
             }
         }
 
-        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options, IServiceLocator serviceLocator)
+        private TDbContext CreateDbContext(DbContextOptions<TDbContext> options)
         {
-            if (typeof(TDbContext) == typeof(FrameworkDbContext))
-            {
-                // service locator is not needed out there
-                return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
-                    ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
-            }
-
-            return (Activator.CreateInstance(typeof(TDbContext), options, serviceLocator) as TDbContext)
+            // service locator is not needed out there
+            return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
                 ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
+
 
             var factoryBaseType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(typeof(TDbContext));
 

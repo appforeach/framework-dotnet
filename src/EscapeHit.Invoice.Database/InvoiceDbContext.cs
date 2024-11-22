@@ -8,14 +8,13 @@ namespace EscapeHit.Invoice.Database
 {
     public class InvoiceDbContext : DbContext
     {
-        private readonly IServiceLocator _serviceLocator;
         public InvoiceDbContext()
         {
         }
 
-        public InvoiceDbContext(DbContextOptions options, IServiceLocator serviceLocator) : base(options)
+        public InvoiceDbContext(DbContextOptions options) : base(options)
         {
-            _serviceLocator = serviceLocator;
+
         }
 
         public DbSet<InvoiceEntity> Invoices { get; set; }
@@ -28,10 +27,7 @@ namespace EscapeHit.Invoice.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            var invoiceEntitySpecification = _serviceLocator.GetService<InvoiceEntitySpecification>();
-            
-            modelBuilder.ApplyConfiguration(new InvoiceEntityConfiguration(invoiceEntitySpecification));
+            //modelBuilder.ApplyConfiguration(new InvoiceEntityConfiguration());
         }
 
         public override void Dispose()
