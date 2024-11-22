@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Entity
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Hosting.Features.SqlServer", "AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj", "{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Tests", "..\tests\AppForeach.Framework.Tests\AppForeach.Framework.Tests.csproj", "{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +129,10 @@ Global
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,6 +152,7 @@ Global
 		{00A7B6CD-F613-466F-913A-5E62D2181DEE} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{715B32C2-7E5D-4E2B-8AF0-43891884A846} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D619CF-2C52-4F0A-9034-C10A04583982}
