@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using AppForeach.Framework.DependencyInjection;
-using EscapeHit.Invoice.Database.Configuration;
-using EscapeHit.Invoice.Specification;
 using Microsoft.EntityFrameworkCore;
 
 namespace EscapeHit.Invoice.Database
@@ -27,12 +24,8 @@ namespace EscapeHit.Invoice.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.ApplyConfiguration(new InvoiceEntityConfiguration());
-        }
 
-        public override void Dispose()
-        {
-            base.Dispose();
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(InvoiceDbContext).Assembly);
         }
     }
 }
