@@ -8,7 +8,7 @@ namespace EscapeHit.Invoice.Database.Design
         public InvoiceDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<InvoiceDbContext>();
-            optionsBuilder.UseSqlServer("Server=(local); Initial Catalog=invoice; Integrated Security=true; MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer("Server=(local); Initial Catalog=invoice; Integrated Security=true; MultipleActiveResultSets=True;Trust Server Certificate=True;");
             return new InvoiceDbContext(optionsBuilder.Options);
         }
     }
