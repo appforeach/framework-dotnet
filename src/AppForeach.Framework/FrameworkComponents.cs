@@ -23,6 +23,7 @@ namespace AppForeach.Framework
             Singleton<IOperationNameResolver, OperationNameResolver>();
             Scoped<OperationNameResolutionMiddleware, OperationNameResolutionMiddleware>();
             Scoped<ValidationMiddleware, ValidationMiddleware>();
+            Scoped<ExceptionHandlerMiddleware, ExceptionHandlerMiddleware>();
 
             Component(typeof(IValidationFailedEventHandler), typeof(DefaultValidationFailedEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IExceptionEventHandler), typeof(DefaultExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);

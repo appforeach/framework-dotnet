@@ -9,48 +9,21 @@ namespace AppForeach.Framework
         private readonly IFrameworkHostConfiguration hostConfiguration;
         private readonly IMiddlewareExecutor middlewareExecutor;
         private readonly IScopedExecutor scopedExecutor;
-        private readonly IExceptionEventHandler exceptionEventHandler;
-        private readonly IUnhandledExceptionEventHandler unhandledExceptionEventHandler;
 
-        public OperationExecutor(IFrameworkHostConfiguration hostConfiguration, 
-            IMiddlewareExecutor middlewareExecutor, IScopedExecutor scopedExecutor,
-            IExceptionEventHandler exceptionEventHandler, IUnhandledExceptionEventHandler unhandledExceptionEventHandler)
+        public OperationExecutor(IFrameworkHostConfiguration hostConfiguration, IMiddlewareExecutor middlewareExecutor, IScopedExecutor scopedExecutor)
         {
             this.hostConfiguration = hostConfiguration;
             this.middlewareExecutor = middlewareExecutor;
             this.scopedExecutor = scopedExecutor;
-            this.exceptionEventHandler = exceptionEventHandler;
-            this.unhandledExceptionEventHandler = unhandledExceptionEventHandler;
         }
 
         public async Task<OperationResult> Execute(object input, Action<IOperationBuilder> options)
         {
-            try
-            {
-                var state = PrepareContext(input, options);
+            var state = PrepareContext(input, options);
 
-                var outputState = await ExecuteMiddlewares(state);
+            var outputState = await ExecuteMiddlewares(state);
 
-                return outputState.Result;
-            }
-            catch(Exception ex)
-            {
-                var exceptionHandlingResult = exceptionEventHandler.OnException(ex);
-
-                if(exceptionHandlingResult.IsHandled)
-                {
-                    return exceptionHandlingResult.Result;
-                }
-                
-                var unhandledExceptionHandlingResult = unhandledExceptionEventHandler.OnUnhandledException(ex);
-
-                if(unhandledExceptionHandlingResult.IsHandled)
-                {
-                    return unhandledExceptionHandlingResult.Result;
-                }
-
-                throw;
-            }
+            return outputState.Result;
         }
 
         private OperationContextState PrepareContext(object input, Action<IOperationBuilder> options)
