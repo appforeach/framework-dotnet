@@ -10,6 +10,7 @@ namespace EscapeHit.Service.Features.Mediator
         public static List<Type> GetDefault(bool hasDatabase)
         {
             List<Type> middlewares = new();
+            middlewares.Add(typeof(ExceptionHandlerMiddleware));
             middlewares.Add(typeof(OperationNameResolutionMiddleware));
             //middlewares.Add(typeof(ValidationMiddleware));
 
