@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace AppForeach.Framework.DataType
@@ -7,6 +8,7 @@ namespace AppForeach.Framework.DataType
     public class BaseEntitySpecification<TType>
     {
         private readonly Dictionary<string, object> _fieldSpecifications = new Dictionary<string, object>();
+        public IReadOnlyDictionary<string, IPrimitiveFieldSpecification> FieldSpecifications => _fieldSpecifications.ToDictionary(x => x.Key, x => (IPrimitiveFieldSpecification)x.Value);
         public IPrimitiveFieldSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
         {
             //hint IPrimitiveFIeldSpecification

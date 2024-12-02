@@ -87,6 +87,11 @@ namespace AppForeach.Framework.DependencyInjection
             componentScanners.Add(new DefaultHandlerScanner());
         }
 
+        public virtual void DefaultEntitySpecificationRegistration()
+        {
+            componentScanners.Add(new DefaulEntitySpecificationScanner());
+        }
+
         public void SetAssemblyToScan(Assembly assembly)
         {
             assemblyToScan = assembly;

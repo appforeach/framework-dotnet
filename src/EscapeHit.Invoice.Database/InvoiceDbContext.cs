@@ -11,6 +11,7 @@ namespace EscapeHit.Invoice.Database
 
         public InvoiceDbContext(DbContextOptions options) : base(options)
         {
+
         }
 
         public DbSet<InvoiceEntity> Invoices { get; set; }
@@ -20,9 +21,11 @@ namespace EscapeHit.Invoice.Database
             return base.DisposeAsync();
         }
 
-        public override void Dispose()
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.Dispose();
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(InvoiceDbContext).Assembly);
         }
     }
 }
