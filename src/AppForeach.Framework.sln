@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Hostin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Tests", "..\tests\AppForeach.Framework.Tests\AppForeach.Framework.Tests.csproj", "{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeHit.Invoice.Tests", "..\tests\EscapeHit.Invoice.Tests\EscapeHit.Invoice.Tests.csproj", "{E7BCDC17-6418-4050-A9CE-9173AED75445}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7BCDC17-6418-4050-A9CE-9173AED75445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7BCDC17-6418-4050-A9CE-9173AED75445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7BCDC17-6418-4050-A9CE-9173AED75445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7BCDC17-6418-4050-A9CE-9173AED75445}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

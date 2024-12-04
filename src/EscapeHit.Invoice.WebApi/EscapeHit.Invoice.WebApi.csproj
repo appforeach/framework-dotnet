@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!--This is the max version supporting .NET Standard 2.0-->
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EscapeHit.Invoice.Database\EscapeHit.Invoice.Database.csproj" />
     <ProjectReference Include="..\EscapeHit.Invoice\EscapeHit.Invoice.csproj" />
     <ProjectReference Include="..\EscapeHit.WebApi\EscapeHit.WebApi.csproj" />

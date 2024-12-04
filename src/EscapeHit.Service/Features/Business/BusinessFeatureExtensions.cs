@@ -16,8 +16,10 @@ public static class BusinessFeatureExtensions
         var validatorMap = new ValidatorMap([]);
         services.AddSingleton<IValidatorMap>(validatorMap);
 
+        services.AddAutoMapper(typeof(TBusinessComponents));
+
         //TODO: use internal scanner
-        services.Scan(scan => scan
+        var result = services.Scan(scan => scan
             .FromAssemblies(typeof(TBusinessComponents).Assembly)
             .AddClasses(filter => filter.InNamespaces("EscapeHit"), true)
             .UsingRegistrationStrategy(RegistrationStrategy.Append)
