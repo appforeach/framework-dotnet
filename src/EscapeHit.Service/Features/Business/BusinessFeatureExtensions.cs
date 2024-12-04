@@ -1,5 +1,5 @@
-﻿using AppForeach.Framework;
-using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+﻿using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+using AppForeach.Framework.Validation;
 using EscapeHit;
 using Scrutor;
 
@@ -11,10 +11,6 @@ public static class BusinessFeatureExtensions
         where TBusinessComponents : EscapeHitComponentModule, new()
     {
         services.AddFrameworkModule<TBusinessComponents>();
-
-        //TODO: validation support is not yet implemented
-        var validatorMap = new ValidatorMap([]);
-        services.AddSingleton<IValidatorMap>(validatorMap);
 
         //TODO: use internal scanner
         services.Scan(scan => scan

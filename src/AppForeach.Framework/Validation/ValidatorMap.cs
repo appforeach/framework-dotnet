@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace AppForeach.Framework
+namespace AppForeach.Framework.Validation
 {
     public class ValidatorMap : IValidatorMap
     {
         private readonly Dictionary<Type, Type> map;
 
-        public ValidatorMap(Dictionary<Type, Type> map)
+        public ValidatorMap(IEnumerable<IValidatorDefinition> validatorDefinitions)
         {
-            this.map = map;
+            this.map = validatorDefinitions.ToDictionary(vd => vd.InputType, vd => vd.ValidatorType);
         }
 
         public Type GetValidatorType(Type inputType)
         {
-            if(map.ContainsKey(inputType))
+            if (map.ContainsKey(inputType))
             {
                 return map[inputType];
             }

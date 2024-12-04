@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AppForeach.Framework
+namespace AppForeach.Framework.Validation
 {
     public interface IValidatorMap
     {

@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace AppForeach.Framework
+namespace AppForeach.Framework.Validation
 {
     public class ValidationMiddleware : IOperationMiddleware
     {
@@ -23,21 +23,21 @@ namespace AppForeach.Framework
         {
             var validationFacet = context.Configuration.TryGet<ValidationHasValidatorFacet>();
 
-            if(validationFacet?.HasValidator ?? true)
+            if (validationFacet?.HasValidator ?? true)
             {
                 Type inputType = context.Input.GetType();
                 Type validatorType = validatorMap.GetValidatorType(inputType);
 
-                if(validatorType == null)
+                if (validatorType == null)
                 {
-                    throw new FrameworkException($"Validator type not found for input of type { inputType }.");
+                    throw new FrameworkException($"Validator type not found for input of type {inputType}.");
                 }
 
                 IValidator validator = serviceLocator.GetService(validatorType) as IValidator;
 
                 var validationResult = validator.Validate(context.Input);
 
-                if(validationResult.Outcome != OperationOutcome.Success || validationResult.Errors.Count > 0)
+                if (validationResult.Outcome != OperationOutcome.Success || validationResult.Errors.Count > 0)
                 {
                     var outputState = context.State.Get<OperationOutputState>();
                     var result = outputState.Result;

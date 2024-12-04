@@ -1,5 +1,4 @@
-﻿
-namespace AppForeach.Framework
+﻿namespace AppForeach.Framework.Validation
 {
     public static class ValidationOperationBuilderExtensions
     {
