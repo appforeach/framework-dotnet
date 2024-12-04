@@ -23,5 +23,11 @@ namespace AppForeach.Framework.DataType
 
             }
         }
+
+        public virtual TTo MapFrom(TFrom from)
+        {
+            //TODO: discuss idea to implement mapping here and override it in child classes if needed
+            return new TTo();
+        }
     }
 }
