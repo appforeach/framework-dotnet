@@ -19,12 +19,12 @@ public static class BusinessFeatureExtensions
         services.AddAutoMapper(typeof(TBusinessComponents));
 
         //TODO: use internal scanner
-        var result = services.Scan(scan => scan
-            .FromAssemblies(typeof(TBusinessComponents).Assembly)
-            .AddClasses(filter => filter.InNamespaces("EscapeHit"), true)
-            .UsingRegistrationStrategy(RegistrationStrategy.Append)
-            .AsImplementedInterfaces()
-            .WithLifetime(ServiceLifetime.Transient)
-            );
+        services.Scan(scan => scan
+          .FromAssemblies(typeof(TBusinessComponents).Assembly)
+          .AddClasses(filter => filter.InNamespaces("EscapeHit"), true)
+          .UsingRegistrationStrategy(RegistrationStrategy.Append)
+          .AsImplementedInterfaces()
+          .WithLifetime(ServiceLifetime.Transient)
+          );
     }
 }
