@@ -1,4 +1,5 @@
 ﻿using AppForeach.Framework.DependencyInjection;
+using AppForeach.Framework.FluentValidation;
 
 namespace EscapeHit
 {
@@ -8,6 +9,8 @@ namespace EscapeHit
         {
             DefaultHandlerRegistration();
             DefaultEntitySpecificationRegistration();
+
+            componentScanners.Add(new FluentValidatorScanner());
         }
     }
 }
