@@ -1,6 +1,6 @@
 ﻿
+using AppForeach.Framework.Automapper;
 using AppForeach.Framework.DataType;
-using AutoMapper;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {

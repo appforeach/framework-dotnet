@@ -6,12 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Scrutor" Version="4.2.2" />
-    <!--This is the max version supporting .NET Standard 2.0-->
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AppForeach.Framework.Automapper\AppForeach.Framework.Automapper.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
     <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />

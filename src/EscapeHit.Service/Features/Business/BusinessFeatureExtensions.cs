@@ -1,5 +1,6 @@
 ﻿using AppForeach.Framework;
 using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+using AppForeach.Framework.Automapper;
 using EscapeHit;
 using Scrutor;
 
@@ -16,7 +17,7 @@ public static class BusinessFeatureExtensions
         var validatorMap = new ValidatorMap([]);
         services.AddSingleton<IValidatorMap>(validatorMap);
 
-        services.AddAutoMapper(typeof(TBusinessComponents));
+        services.AddAutoMapper<TBusinessComponents>();
 
         //TODO: use internal scanner
         services.Scan(scan => scan
