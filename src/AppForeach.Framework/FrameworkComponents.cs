@@ -1,5 +1,6 @@
 ﻿using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Logging;
+using AppForeach.Framework.Validation;
 
 namespace AppForeach.Framework
 {
@@ -12,6 +13,7 @@ namespace AppForeach.Framework
             Transient<IOperationMediator, OperationMediator>();
 
             Singleton<IHandlerMap, HandlerMap>(isOptional: true);
+            Singleton<IValidatorMap, ValidatorMap>(isOptional: true);
 
             Scoped<IHandlerInvoker, HandlerInvoker>();
             Scoped<IHandlerInvokerMiddleware, HandlerInvokerMiddleware>();

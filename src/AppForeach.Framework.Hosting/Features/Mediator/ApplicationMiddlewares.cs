@@ -1,4 +1,5 @@
 ﻿using AppForeach.Framework.EntityFrameworkCore;
+using AppForeach.Framework.Validation;
 using System;
 using System.Collections.Generic;
 
