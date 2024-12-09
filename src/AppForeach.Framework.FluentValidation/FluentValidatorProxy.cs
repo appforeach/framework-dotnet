@@ -6,17 +6,16 @@ namespace AppForeach.Framework.FluentValidation
 {
     public class FluentValidatorProxy<TAbstractValidator> : IValidator
     {
-        private readonly IServiceLocator serviceLocator;
+        private readonly TAbstractValidator fluentValidator;
 
-        public FluentValidatorProxy(IServiceLocator serviceLocator)
+        public FluentValidatorProxy(TAbstractValidator fluentValidator)
         {
-            this.serviceLocator = serviceLocator;
+            this.fluentValidator = fluentValidator;
         }
 
         public OperationResult Validate(object input)
         {
             Type fluentValidatorType = typeof(TAbstractValidator);
-            var fluentValidator = serviceLocator.GetService(fluentValidatorType);
 
             var method = fluentValidatorType.GetMethod("Validate", new Type[] { input.GetType() })
                 ?? throw new FrameworkException($"{ fluentValidatorType } does not contain expected method Validate.");
