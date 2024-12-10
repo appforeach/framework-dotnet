@@ -1,5 +1,5 @@
-﻿using AppForeach.Framework;
-using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+﻿using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+using AppForeach.Framework.Validation;
 using AppForeach.Framework.Automapper;
 using EscapeHit;
 using Scrutor;
