@@ -13,10 +13,6 @@ public static class BusinessFeatureExtensions
     {
         services.AddFrameworkModule<TBusinessComponents>();
 
-        //TODO: validation support is not yet implemented
-        var validatorMap = new ValidatorMap([]);
-        services.AddSingleton<IValidatorMap>(validatorMap);
-
         services.AddAutoMapper<TBusinessComponents>();
 
         //TODO: use internal scanner
