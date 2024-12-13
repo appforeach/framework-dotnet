@@ -23,15 +23,15 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
 
         protected void InheritFromMappingAndSpecification()
         {
-            var typeMap = configurationProvider.GetAllTypeMaps()?.FirstOrDefault(x => x.SourceType == GetCommandType());
-            if (typeMap is null)
+            var mappingProvider = configurationProvider.GetAllTypeMaps()?.FirstOrDefault(x => x.SourceType == GetCommandType());
+            if (mappingProvider is null)
                 return;
 
-            var propertyMaps = typeMap.PropertyMaps.Where(x => x.HasSource);
-            if (!propertyMaps.Any())
+            var mappingMetaData = mappingProvider.PropertyMaps.Where(x => x.HasSource);
+            if (!mappingMetaData.Any())
                 return;
 
-            var entityType = typeMap.DestinationType;
+            var entityType = mappingProvider.DestinationType;
             if (entityType is null)
                 return;
 
@@ -40,22 +40,22 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
                 return;
 
 
-            foreach (var propertyMap in propertyMaps)
+            foreach (var mapping in mappingMetaData)
             {
-                if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.SourceMember.Name, out var fieldSpecification))
+                if (entitySpecification.FieldSpecifications.TryGetValue(mapping.SourceMember.Name, out var fieldSpecification))
                 {
                     var facets = fieldSpecification.Configuration;
 
                     var requiredFacet = facets.TryGet<FieldRequiredFacet>();
                     if (requiredFacet is not null)
                     {
-                        this.RuleFor(propertyMap.SourceMember.Name).NotNull();
+                        this.RuleFor(mapping.SourceMember.Name).NotNull();
                     }
 
                     var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
                     if (maxLengthFacet is not null)
                     {
-                        this.RuleForProperty<CreateInvoiceCommand, string>(propertyMap.SourceMember.Name).Length(maxLengthFacet.MaxLength);
+                        this.RuleForProperty<CreateInvoiceCommand, string>(mapping.SourceMember.Name).Length(maxLengthFacet.MaxLength);
                     }
                 }
             }
