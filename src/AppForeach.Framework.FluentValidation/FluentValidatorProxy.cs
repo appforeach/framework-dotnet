@@ -1,5 +1,4 @@
-﻿using AppForeach.Framework.DependencyInjection;
-using AppForeach.Framework.Validation;
+﻿using AppForeach.Framework.Validation;
 using FluentValidation.Results;
 
 namespace AppForeach.Framework.FluentValidation
