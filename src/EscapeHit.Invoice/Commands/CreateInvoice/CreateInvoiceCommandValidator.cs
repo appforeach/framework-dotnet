@@ -1,13 +1,14 @@
-﻿using AutoMapper;
+﻿using AppForeach.Framework.Mapping;
+using AutoMapper;
 using FluentValidation;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
     public class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceCommand>
     {
-        public CreateInvoiceCommandValidator(IConfigurationProvider configurationProvider)
+        public CreateInvoiceCommandValidator(IMappingMetadataProvider metadataProvider)
         {
-            this.InheritFromMappingAndSpecification(configurationProvider);
+            this.InheritFromMappingAndSpecification(metadataProvider);
 
             RuleFor(x => x.CustomerNumber).NotNull();
         }

@@ -1,23 +1,18 @@
 ﻿using AppForeach.Framework.DataType.Facets;
 using AppForeach.Framework.DataType;
 using AppForeach.Framework.DependencyInjection;
-using FluentValidation;
-using AutoMapper;
+using AppForeach.Framework.Mapping;
 
 namespace FluentValidation;
 public static class AbstractValidatorExtensions
 {
-    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IConfigurationProvider configurationProvider)
+    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider)
     {
-        var mappingProvider = configurationProvider.GetAllTypeMaps()?.FirstOrDefault(x => x.SourceType == GetCommandType());
-        if (mappingProvider is null)
+        var mappingMetadata = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
+        if (mappingMetadata is null)
             return;
 
-        var mappingMetaData = mappingProvider.PropertyMaps.Where(x => x.HasSource);
-        if (!mappingMetaData.Any())
-            return;
-
-        var entityType = mappingProvider.DestinationType;
+        var entityType = mappingMetadata.DestinationType;
         if (entityType is null)
             return;
 
@@ -26,22 +21,22 @@ public static class AbstractValidatorExtensions
             return;
 
 
-        foreach (var mapping in mappingMetaData)
+        foreach (var propertyMap in mappingMetadata.PropertyMaps)
         {
-            if (entitySpecification.FieldSpecifications.TryGetValue(mapping.SourceMember.Name, out var fieldSpecification))
+            if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.SourceName, out var fieldSpecification))
             {
                 var facets = fieldSpecification.Configuration;
 
                 var requiredFacet = facets.TryGet<FieldRequiredFacet>();
                 if (requiredFacet is not null)
                 {
-                    validator.RuleFor(mapping.SourceMember.Name).NotNull();
+                    validator.RuleFor(propertyMap.SourceName).NotNull();
                 }
 
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
                 if (maxLengthFacet is not null)
                 {
-                    validator.RuleFor<TCommand, string>(mapping.SourceMember.Name).Length(maxLengthFacet.MaxLength);
+                    validator.RuleFor<TCommand, string>(propertyMap.SourceName).Length(maxLengthFacet.MaxLength);
                 }
             }
         }
