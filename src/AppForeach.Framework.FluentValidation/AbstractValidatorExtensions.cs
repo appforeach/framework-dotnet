@@ -23,7 +23,7 @@ public static class AbstractValidatorExtensions
 
         foreach (var propertyMap in mappingMetadata.PropertyMaps)
         {
-            if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.SourceName, out var fieldSpecification))
+            if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
                 var facets = fieldSpecification.Configuration;
 
