@@ -1,4 +1,4 @@
-﻿using AppForeach.Framework.Automapper;
+﻿using AutoMapper;
 
 namespace EscapeHit.Invoice.Queries.GetInvoiceById
 {

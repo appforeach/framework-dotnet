@@ -8,7 +8,6 @@ public static class ServiceCollectionExtensions
     public static void AddAutoMapper<T>(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(T));
-        services.AddSingleton<IMapper, MapperDecorator>();
         services.AddSingleton<IMappingMetadataProvider, MappingMetadataProvider>();
     }
 }
