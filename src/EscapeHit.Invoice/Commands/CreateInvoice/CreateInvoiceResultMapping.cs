@@ -1,4 +1,5 @@
-﻿
+﻿using AutoMapper;
+
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
     public interface ICreateInvoiceOutputMapping
@@ -8,14 +9,19 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
 
     public class CreateInvoiceResultMapping : ICreateInvoiceOutputMapping
     {
-        public CreateInvoiceResult MapFrom(InvoiceEntity entity)
+        private readonly IMapper mapper;
+        public CreateInvoiceResultMapping(IMapper mapper)
         {
-            var output = new CreateInvoiceResult();
-            
-            output.InvoiceId = entity.Id;
-            output.InvoiceNumber = entity.Number;
-            
-            return output;
+            this.mapper = mapper;
         }
+
+        /// <summary>
+        /// This is an example of custom mappping without inheriting from BaseMapping
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        public CreateInvoiceResult MapFrom(InvoiceEntity entity) =>
+            mapper.Map<CreateInvoiceResult>(entity);
+
     }
 }
