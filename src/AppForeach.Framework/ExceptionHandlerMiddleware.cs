@@ -31,6 +31,7 @@ namespace AppForeach.Framework
                 if (exceptionHandlingResult.IsHandled)
                 {
                     outputState.Result = exceptionHandlingResult.Result;
+                    return;
                 }
 
                 var unhandledExceptionHandlingResult = unhandledExceptionEventHandler.OnUnhandledException(ex);
@@ -38,6 +39,7 @@ namespace AppForeach.Framework
                 if (unhandledExceptionHandlingResult.IsHandled)
                 {
                     outputState.Result = unhandledExceptionHandlingResult.Result;
+                    return;
                 }
 
                 throw;
