@@ -2,12 +2,21 @@
 using AppForeach.Framework.DataType;
 using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Mapping;
+using System.Linq.Expressions;
+using FluentValidation;
 
-namespace FluentValidation;
+namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
 {
-    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider)
+    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider, Action<ValidationOptions<TCommand>> actionWithOptions = null)
     {
+        var validationOptions = ValidationOptions<TCommand>.Default();
+
+        if (actionWithOptions is not null)
+        {
+            actionWithOptions(validationOptions);
+        }
+
         var mappingMetadata = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
         if (mappingMetadata is null)
             return;
@@ -25,12 +34,16 @@ public static class AbstractValidatorExtensions
         {
             if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
+                if (validationOptions.ShouldSkip(propertyMap.SourceName))
+                    continue;
+
                 var facets = fieldSpecification.Configuration;
 
                 var requiredFacet = facets.TryGet<FieldRequiredFacet>();
                 if (requiredFacet is not null)
                 {
-                    validator.RuleFor(propertyMap.SourceName).NotNull();
+                    validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
+                    //validator.Include
                 }
 
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
