@@ -1,8 +1,9 @@
-using AppForeach.Framework.Automapper;
 using AppForeach.Framework.Automapper.Metadata;
 using AppForeach.Framework.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
+
+namespace AppForeach.Framework.Automapper.Tests;
 
 public class ServiceCollectionExtensionsTests
 {
