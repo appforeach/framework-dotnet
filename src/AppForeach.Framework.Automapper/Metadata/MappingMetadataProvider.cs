@@ -9,20 +9,16 @@ internal class MappingMetadataProvider : IMappingMetadataProvider
     {
         this.configurationProvider = configurationProvider;
     }
-    public IMappingMetadata GetMappingMetadata(Type sourceType)
+    public IEnumerable<IMappingMetadata> GetMappingMetadata(Type sourceType)
     {
-        TypeMap? typeMap = configurationProvider.GetAllTypeMaps()?.FirstOrDefault(x => x.SourceType == sourceType /*&& x.DestinationType == destinationType*/);
+        IEnumerable<TypeMap> typeMaps = configurationProvider.GetAllTypeMaps().Where(x => x.SourceType == sourceType /*&& x.DestinationType == destinationType*/);
 
-        var propertyMaps = typeMap.PropertyMaps.Where(x => x.HasSource).Select(x => new PropertyMap { SourceName = x.SourceMember.Name, DestinationName = x.DestinationName });
-
-        var metadata = new MappingMetadata
+        return typeMaps.Select(t => new MappingMetadata
         {
-            SourceType = typeMap.SourceType,
-            DestinationType = typeMap.DestinationType,
-            PropertyMaps = propertyMaps
-        };
-
-        return metadata;
-    } 
+            SourceType = t.SourceType,
+            DestinationType = t.DestinationType,
+            PropertyMaps = t.PropertyMaps.Where(x => x.HasSource).Select(x => new PropertyMap { SourceName = x.SourceMember.Name, DestinationName = x.DestinationName })
+        }).ToList();
+    }
 }
 

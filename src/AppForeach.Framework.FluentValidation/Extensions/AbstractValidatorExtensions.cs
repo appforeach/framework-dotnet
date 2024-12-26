@@ -2,8 +2,8 @@
 using AppForeach.Framework.DataType;
 using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Mapping;
-using System.Linq.Expressions;
 using FluentValidation;
+using AppForeach.Framework.FluentValidation.Exceptions;
 
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
@@ -13,24 +13,17 @@ public static class AbstractValidatorExtensions
         var validationOptions = ValidationOptions<TCommand>.Default();
 
         if (actionWithOptions is not null)
-        {
             actionWithOptions(validationOptions);
-        }
 
-        var mappingMetadata = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
-        if (mappingMetadata is null)
+        var mappingMetadataCollection = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
+
+        if (mappingMetadataCollection is null)
             return;
 
-        var entityType = mappingMetadata.DestinationType;
-        if (entityType is null)
-            return;
+        if (!TryFindSpecification(mappingMetadataCollection, out BaseEntitySpecification entitySpecification, out IEnumerable<IPropertyMap> propertyMapBetweenCommandAndEntity))
+            throw new UnableToMapCommandToSpecificationException($"Unable to map command {GetCommandType()} to specification");
 
-        var entitySpecification = FindSpecification(entityType);
-        if (entitySpecification is null)
-            return;
-
-
-        foreach (var propertyMap in mappingMetadata.PropertyMaps)
+        foreach (var propertyMap in propertyMapBetweenCommandAndEntity)
         {
             if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
@@ -43,7 +36,6 @@ public static class AbstractValidatorExtensions
                 if (requiredFacet is not null)
                 {
                     validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
-                    //validator.Include
                 }
 
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
@@ -55,24 +47,35 @@ public static class AbstractValidatorExtensions
         }
 
 
-        static BaseEntitySpecification FindSpecification(Type entityType)
+        bool TryFindSpecification(IEnumerable<IMappingMetadata> mappingMetadataList, out BaseEntitySpecification specification, out IEnumerable<IPropertyMap> propertyMaps)
         {
             var scanner = new DefaulEntitySpecificationScanner();
+            specification = null!;
+            propertyMaps = null!;
 
-            var entitySpecificationTypeToFind = typeof(BaseEntitySpecification<>).MakeGenericType(entityType);
+            bool oneSpecificationAlreadyFound = false;
 
-            var scannedDefinition = scanner
-                .ScanTypes(entityType.Assembly.GetTypes())
-                .FirstOrDefault(t => entitySpecificationTypeToFind.IsAssignableFrom(t.ComponentType));
-
-            if (scannedDefinition is not null)
+            foreach (var mappingMetadata in mappingMetadataList)
             {
-                var entitySpecification = (BaseEntitySpecification)Activator.CreateInstance(scannedDefinition.ComponentType);
+                var entityType = mappingMetadata.DestinationType;
+                var entitySpecificationTypeToFind = typeof(BaseEntitySpecification<>).MakeGenericType(mappingMetadata.DestinationType);
 
-                return entitySpecification;
+                var scannedDefinition = scanner
+                    .ScanTypes(entityType.Assembly.GetTypes())
+                    .FirstOrDefault(t => entitySpecificationTypeToFind.IsAssignableFrom(t.ComponentType));
+
+                if (scannedDefinition is not null)
+                {
+                    specification = (BaseEntitySpecification)Activator.CreateInstance(scannedDefinition.ComponentType);
+                    propertyMaps = mappingMetadata.PropertyMaps;
+
+                    if (oneSpecificationAlreadyFound)
+                        throw new MultipleSpecificationsPerCommandFoundException($"Multiple specifications per command {GetCommandType()} found");
+                    oneSpecificationAlreadyFound = true;
+                }
             }
 
-            return null;
+            return oneSpecificationAlreadyFound;
         }
 
         Type GetCommandType() =>
