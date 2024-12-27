@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeHit.Invoice.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Automapper.Tests", "..\tests\AppForeach.Framework.Automapper.Tests\AppForeach.Framework.Automapper.Tests.csproj", "{FED6689C-A438-4543-9878-DB5560CDF79C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.FluentValidation.Tests", "..\tests\AppForeach.Framework.FluentValidation.Tests\AppForeach.Framework.FluentValidation.Tests.csproj", "{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -157,6 +159,10 @@ Global
 		{FED6689C-A438-4543-9878-DB5560CDF79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FED6689C-A438-4543-9878-DB5560CDF79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FED6689C-A438-4543-9878-DB5560CDF79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -181,6 +187,7 @@ Global
 		{517BBEC2-6740-49B4-8395-CE7FDEDD9062} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{FED6689C-A438-4543-9878-DB5560CDF79C} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D619CF-2C52-4F0A-9034-C10A04583982}
