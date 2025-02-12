@@ -24,6 +24,7 @@ namespace AppForeach.Framework
 
             Singleton<IOperationNameResolver, OperationNameResolver>();
             Scoped<OperationNameResolutionMiddleware, OperationNameResolutionMiddleware>();
+            Scoped<OperationLoggingMiddleware, OperationLoggingMiddleware>();
             Scoped<ValidationMiddleware, ValidationMiddleware>();
             Scoped<ExceptionHandlerMiddleware, ExceptionHandlerMiddleware>();
 
@@ -31,6 +32,9 @@ namespace AppForeach.Framework
             Component(typeof(IExceptionEventHandler), typeof(DefaultExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IUnhandledExceptionEventHandler), typeof(DefaultUnhandledExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(ILoggingCorrelationProvider), typeof(DefaultLoggingCorrelationProvider), ComponentLifetime.Scoped, isOptional: true);
+
+            Transient<IFrameworkLogger, DefaultEmptyFrameworkLogger>(isOptional: true);
+            Singleton<ILoggingPropertyAggregator, LoggingPropertyAggregator>(isOptional: true);
         }
     }
 }

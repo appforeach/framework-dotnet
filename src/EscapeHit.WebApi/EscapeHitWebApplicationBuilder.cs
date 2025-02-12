@@ -1,48 +1,60 @@
 ﻿using AppForeach.Framework.Hosting.Web;
-using NLog.Config;
-using NLog.Targets;
-using NLog.Web;
-using NLog;
+using Elastic.Apm.SerilogEnricher;
+using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using Serilog.Events;
+using System;
 
 namespace EscapeHit.WebApi
 {
     public class EscapeHitWebApplicationBuilder : FrameworkWebApplicationBuilder
     {
+        private Serilog.ILogger logger;
+
         public EscapeHitWebApplicationBuilder(string[] args) : base(args)
         {
         }
 
         public override void Run()
         {
-            LoggingConfiguration nlogConfig = new LoggingConfiguration();
-            var consoleTarget = new ColoredConsoleTarget();
-            nlogConfig.AddTarget("console", consoleTarget);
-            var logger = NLogBuilder.ConfigureNLog(nlogConfig).GetCurrentClassLogger();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .Enrich.WithElasticApmCorrelationInfo()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(new EcsTextFormatter())
+                .CreateLogger();
 
             try
             {
                 base.Run();
             }
-#if !DEBUG
             catch (Exception ex)
             {
-                logger.Error(ex);
+                Log.Fatal(ex, "Application terminated unexpectedly");
             }
-#endif
             finally
             {
-                LogManager.Shutdown();
-            } 
+                Log.CloseAndFlush();
+            }
         }
 
         protected override void ConfigureHost(WebApplicationBuilder webBuilder)
         {
             base.ConfigureHost(webBuilder);
 
-            webBuilder.Host.UseNLog();
+            webBuilder.Host.UseSerilog((context, services, configure) =>
+            {
+                configure
+                    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                    .Enrich.WithElasticApmCorrelationInfo()
+                    .Enrich.FromLogContext()
+                    .ReadFrom.Services(services)
+                    .WriteTo.Console(new EcsTextFormatter());
+
+            });
 
             webBuilder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
         }

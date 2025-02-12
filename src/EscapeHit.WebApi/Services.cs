@@ -1,4 +1,6 @@
-﻿using EscapeHit.WebApi.Features;
+﻿using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
+using AppForeach.Framework.Serilog;
+using EscapeHit.WebApi.Features;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EscapeHit.WebApi
@@ -7,6 +9,8 @@ namespace EscapeHit.WebApi
     {
         public static void Configure(IServiceCollection services) 
         {
+            services.AddFrameworkModule<SerilogFrameworkComponents>();
+
             services.AddDefaultEscapeHitWebApiFeatures();
 
             services.AddControllers();
