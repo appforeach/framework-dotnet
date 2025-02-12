@@ -5,7 +5,7 @@ namespace AppForeach.Framework
     {
         public static IOperationBuilder OperationCreateScopeForHandler(this IOperationBuilder builder, bool createScopeForExecution)
         {
-            var facet = new OperationCreateScopeForExecutionFacet
+            var facet = new OperationCreateScopeForHandlerFacet
             {
                 CreateScopeForExecution = createScopeForExecution
             };
