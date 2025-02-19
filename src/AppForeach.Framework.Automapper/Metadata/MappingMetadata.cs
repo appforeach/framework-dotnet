@@ -1,6 +1,6 @@
 ﻿using AppForeach.Framework.Mapping;
 
-namespace AppForeach.Framework.Automapper.Metadata;
+namespace AppForeach.Framework.AutoMapper.Metadata;
 internal class MappingMetadata : IMappingMetadata
 {
     public Type DestinationType { get; init; }

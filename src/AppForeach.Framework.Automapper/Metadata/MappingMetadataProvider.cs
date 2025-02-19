@@ -1,7 +1,7 @@
 ﻿using AppForeach.Framework.Mapping;
 using AutoMapper;
 
-namespace AppForeach.Framework.Automapper.Metadata;
+namespace AppForeach.Framework.AutoMapper.Metadata;
 internal class MappingMetadataProvider : IMappingMetadataProvider
 {
     readonly IConfigurationProvider configurationProvider;

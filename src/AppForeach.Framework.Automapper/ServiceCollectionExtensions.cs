@@ -1,8 +1,8 @@
-﻿using AppForeach.Framework.Automapper.Metadata;
+﻿using AppForeach.Framework.AutoMapper.Metadata;
 using AppForeach.Framework.Mapping;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AppForeach.Framework.Automapper;
+namespace AppForeach.Framework.AutoMapper;
 public static class ServiceCollectionExtensions
 {
     public static void AddAutoMapper<T>(this IServiceCollection services)

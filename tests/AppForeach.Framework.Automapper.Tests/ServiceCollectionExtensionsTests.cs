@@ -1,9 +1,10 @@
-using AppForeach.Framework.Automapper.Metadata;
+using AppForeach.Framework.AutoMapper.Metadata;
 using AppForeach.Framework.Mapping;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 
-namespace AppForeach.Framework.Automapper.Tests;
+namespace AppForeach.Framework.AutoMapper.Tests;
 
 public class ServiceCollectionExtensionsTests
 {
@@ -18,7 +19,7 @@ public class ServiceCollectionExtensionsTests
 
         // Assert
         var serviceProvider = services.BuildServiceProvider();
-        var mapper = serviceProvider.GetService<AutoMapper.IMapper>();
+        var mapper = serviceProvider.GetService<IMapper>();
         mapper.ShouldNotBeNull();
     }
 

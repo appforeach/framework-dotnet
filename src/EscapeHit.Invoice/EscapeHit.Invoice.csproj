@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.Automapper\AppForeach.Framework.Automapper.csproj" />
+    <ProjectReference Include="..\AppForeach.Framework.Automapper\AppForeach.Framework.AutoMapper.csproj" />
     <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
     <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
   </ItemGroup>
