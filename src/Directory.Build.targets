@@ -1,6 +1,5 @@
 <Project>
 	<PropertyGroup>
-		<Version>0.10.3</Version>
 		<Company>AppForeach</Company>
 		<Authors>AppForeach</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>		
