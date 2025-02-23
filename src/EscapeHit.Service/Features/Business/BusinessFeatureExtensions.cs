@@ -11,8 +11,9 @@ public static class BusinessFeatureExtensions
         where TBusinessComponents : EscapeHitComponentModule, new()
     {
         services.AddFrameworkModule<TBusinessComponents>();
-
-        services.AddAutoMapper<TBusinessComponents>();
+       
+        services.AddFrameworkModule<AutoMapperFrameworkModule>();
+        services.AddAutoMapper(typeof(TBusinessComponents));
 
         //TODO: use internal scanner
         services.Scan(scan => scan
