@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\AppForeach.Framework.Automapper\AppForeach.Framework.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Microsoft.Extensions\AppForeach.Framework.Microsoft.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

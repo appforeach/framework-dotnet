@@ -1,5 +1,6 @@
 using AppForeach.Framework.AutoMapper.Metadata;
 using AppForeach.Framework.Mapping;
+using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -15,7 +16,10 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddAutoMapper<ServiceCollectionExtensionsTests>();
+
+        services.AddFrameworkModule<AutoMapperFrameworkModule>();
+        services.AddAutoMapper(typeof(ServiceCollectionExtensionsTests));
+
 
         // Assert
         var serviceProvider = services.BuildServiceProvider();
@@ -30,7 +34,8 @@ public class ServiceCollectionExtensionsTests
         var services = new ServiceCollection();
 
         // Act
-        services.AddAutoMapper<ServiceCollectionExtensionsTests>();
+        services.AddFrameworkModule<AutoMapperFrameworkModule>();
+        services.AddAutoMapper(typeof(ServiceCollectionExtensionsTests));
 
         // Assert
         var serviceProvider = services.BuildServiceProvider();

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.Automapper\AppForeach.Framework.AutoMapper1.csproj" />
+    <ProjectReference Include="..\AppForeach.Framework.Automapper\AppForeach.Framework.AutoMapper.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
     <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
