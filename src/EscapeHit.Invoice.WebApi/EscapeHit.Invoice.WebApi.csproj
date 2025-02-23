@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!--This is the max version supporting .NET Standard 2.0-->
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
   </ItemGroup>
 
   <ItemGroup>
