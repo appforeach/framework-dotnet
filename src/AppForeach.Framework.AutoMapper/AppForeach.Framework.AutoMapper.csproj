@@ -2,12 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
-    <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
   </ItemGroup>
 
   <ItemGroup>
