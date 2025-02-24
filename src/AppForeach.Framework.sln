@@ -49,11 +49,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.FluentValidation", "AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj", "{3C775D76-45F2-437E-BE87-7D2AF5D672E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper", "AppForeach.Framework.Automapper\AppForeach.Framework.AutoMapper.csproj", "{517BBEC2-6740-49B4-8395-CE7FDEDD9062}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper", "AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj", "{517BBEC2-6740-49B4-8395-CE7FDEDD9062}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeHit.Invoice.Tests", "..\tests\EscapeHit.Invoice.Tests\EscapeHit.Invoice.Tests.csproj", "{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper.Tests", "..\tests\AppForeach.Framework.Automapper.Tests\AppForeach.Framework.AutoMapper.Tests.csproj", "{FED6689C-A438-4543-9878-DB5560CDF79C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper.Tests", "..\tests\AppForeach.Framework.AutoMapper.Tests\AppForeach.Framework.AutoMapper.Tests.csproj", "{FED6689C-A438-4543-9878-DB5560CDF79C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.FluentValidation.Tests", "..\tests\AppForeach.Framework.FluentValidation.Tests\AppForeach.Framework.FluentValidation.Tests.csproj", "{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}"
 EndProject
