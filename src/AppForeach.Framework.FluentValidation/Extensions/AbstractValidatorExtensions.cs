@@ -8,7 +8,7 @@ using AppForeach.Framework.FluentValidation.Exceptions;
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
 {
-    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider, Action<ValidationOptions<TCommand>> actionWithOptions = null)
+    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider, Action<ValidationOptions<TCommand>>? actionWithOptions = null)
     {
         var validationOptions = ValidationOptions<TCommand>.Default();
 
@@ -66,7 +66,7 @@ public static class AbstractValidatorExtensions
 
                 if (scannedDefinition is not null)
                 {
-                    specification = (BaseEntitySpecification)Activator.CreateInstance(scannedDefinition.ComponentType);
+                    specification = (BaseEntitySpecification)Activator.CreateInstance(scannedDefinition.ComponentType)!;
                     propertyMaps = mappingMetadata.PropertyMaps;
 
                     if (oneSpecificationAlreadyFound)
@@ -79,7 +79,7 @@ public static class AbstractValidatorExtensions
         }
 
         Type GetCommandType() =>
-            validator.GetType().BaseType.GetGenericArguments().FirstOrDefault();
+            validator?.GetType()?.BaseType?.GetGenericArguments()?.FirstOrDefault()!;
 
     }
 }

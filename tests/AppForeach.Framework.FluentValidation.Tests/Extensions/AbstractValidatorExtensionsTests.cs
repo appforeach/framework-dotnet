@@ -10,36 +10,28 @@ namespace AppForeach.Framework.FluentValidation.Tests.Extensions;
 
 public class AbstractValidatorExtensionsTests
 {
-    private class CreateInvoiceCommand { public string Name { get; set; } }
-    private class InvoiceEntity { public string Name { get; set; } }
+    private class CreateInvoiceCommand { public string Name { get; set; } = "Test Invoice"; }
+    private class InvoiceEntity { public string Name { get; set; } = "Test Invoice Entity"; }
 
     private class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceCommand> { }
 
     private class TestMappingMetadata : IMappingMetadata
     {
-        public Type DestinationType { get; set; }
-        public Type SourceType { get; set; }
-        public IEnumerable<IPropertyMap> PropertyMaps { get; set; }
+        public required Type DestinationType { get; set; }
+        public required Type SourceType { get; set; }
+        public required IEnumerable<IPropertyMap> PropertyMaps { get; set; }
     }
 
     private class TestPropertyMap : IPropertyMap
     {
-        public string SourceName { get; set; }
-        public string DestinationName { get; set; }
+        public required string SourceName { get; set; }
+        public required string DestinationName { get; set; }
     }
 
-    private class InvoiceEntitySpecification : BaseEntitySpecification<InvoiceEntity>
-    {
-        public InvoiceEntitySpecification()
-        {
-            Field(x => x.Name).IsRequired();
-        }
-    }
-
-    CreateInvoiceCommandValidator validator = new CreateInvoiceCommandValidator();
-    Mock<IMappingMetadataProvider> metadataProviderMock = new Mock<IMappingMetadataProvider>();
-    TestPropertyMap propertyMap = new TestPropertyMap { SourceName = "Name", DestinationName = "Name" };
-    TestMappingMetadata mappingMetadata;
+    readonly CreateInvoiceCommandValidator validator = new CreateInvoiceCommandValidator();
+    readonly Mock<IMappingMetadataProvider> metadataProviderMock = new Mock<IMappingMetadataProvider>();
+    readonly TestPropertyMap propertyMap = new TestPropertyMap { SourceName = "Name", DestinationName = "Name" };
+    readonly TestMappingMetadata mappingMetadata;
 
     public AbstractValidatorExtensionsTests()
     {
@@ -98,7 +90,6 @@ public class AbstractValidatorExtensionsTests
     public void InheritFromMappingAndSpecification_ShouldThrowExceptionWhenNoSpecificationFound()
     {
         // Arrange
-        var validator = new CreateInvoiceCommandValidator();
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(Enumerable.Empty<IMappingMetadata>());
 
         // Act & Assert

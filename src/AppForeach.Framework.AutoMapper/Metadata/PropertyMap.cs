@@ -3,6 +3,6 @@
 namespace AppForeach.Framework.AutoMapper.Metadata;
 internal class PropertyMap : IPropertyMap
 {
-    public string SourceName { get; init; }
-    public string DestinationName { get; init; }
+    public required string SourceName { get; init; }
+    public required string DestinationName { get; init; }
 }
