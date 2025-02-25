@@ -5,13 +5,14 @@ using AppForeach.Framework.Mapping;
 using FluentValidation;
 using Moq;
 using Shouldly;
+using Shouldly.Configuration;
 
 namespace AppForeach.Framework.FluentValidation.Tests.Extensions;
 
 public class AbstractValidatorExtensionsTests
 {
-    private class CreateInvoiceCommand { public string Name { get; set; } = "Test Invoice"; }
-    private class InvoiceEntity { public string Name { get; set; } = "Test Invoice Entity"; }
+    private class CreateInvoiceCommand { public required string Name { get; set; } }
+    private class InvoiceEntity { public required string Name { get; set; } }
 
     private class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceCommand> { }
 
@@ -26,6 +27,15 @@ public class AbstractValidatorExtensionsTests
     {
         public required string SourceName { get; set; }
         public required string DestinationName { get; set; }
+    }
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "This type is used in reflection activities")]
+    private class InvoiceEntitySpecification : BaseEntitySpecification<InvoiceEntity>
+    {
+        public InvoiceEntitySpecification()
+        {
+            Field(x => x.Name).IsRequired();
+        }
     }
 
     readonly CreateInvoiceCommandValidator validator = new CreateInvoiceCommandValidator();
@@ -44,7 +54,7 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldApplyRequiredFacet()
+    public void InheritFromMappingAndSpecification_ShouldApplyRequiredFacet_and_SucceedValidation()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
@@ -53,7 +63,22 @@ public class AbstractValidatorExtensionsTests
         validator.InheritFromMappingAndSpecification(metadataProviderMock.Object);
 
         // Assert
-        var result = validator.Validate(new CreateInvoiceCommand());
+        var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command" });
+
+        result.IsValid.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void InheritFromMappingAndSpecification_ShouldApplyRequiredFacet_and_FailValidation()
+    {
+        // Arrange
+        metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
+
+        // Act
+        validator.InheritFromMappingAndSpecification(metadataProviderMock.Object);
+
+        // Assert
+        var result = validator.Validate(new CreateInvoiceCommand() { Name = null! });
 
         result.IsValid.ShouldBeFalse();
 
@@ -72,7 +97,7 @@ public class AbstractValidatorExtensionsTests
         validator.InheritFromMappingAndSpecification(metadataProviderMock.Object, options => options.Skip(x => x.Name));
 
         // Assert
-        var result = validator.Validate(new CreateInvoiceCommand());
+        var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command" });
         result.IsValid.ShouldBeTrue();
     }
 
