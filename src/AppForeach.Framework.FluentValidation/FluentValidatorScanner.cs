@@ -16,13 +16,21 @@ namespace AppForeach.Framework.FluentValidation
                     && baseType.GetGenericTypeDefinition() == typeof(AbstractValidator<>))
                 {
                     Type validatorInputType = baseType.GetGenericArguments()[0];
+                    Type specificationValidatorType = typeof(FluentValidatorSpecificationValidator<,>).MakeGenericType(validatorInputType, type); ;
 
-                    Type fluentValidatorProxyType = typeof(FluentValidatorProxy<>).MakeGenericType(type);
+                    Type fluentValidatorProxyType = typeof(FluentValidatorProxy<>).MakeGenericType(specificationValidatorType);
 
                     yield return new ComponentDefinition
                     {
                         ComponentType = type,
                         ImplementationType = type,
+                        Lifetime = ComponentLifetime.Scoped
+                    };
+
+                    yield return new ComponentDefinition
+                    {
+                        ComponentType = specificationValidatorType,
+                        ImplementationType = specificationValidatorType,
                         Lifetime = ComponentLifetime.Scoped
                     };
 

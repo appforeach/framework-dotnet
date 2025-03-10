@@ -83,9 +83,20 @@ public static class AbstractValidatorExtensions
 
     }
 
-    public static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider)
+    // this is very dirty of couse but just for prototype
+    private static List<Type> validatorsWithInheritanceFromSpecification = new List<Type>();
+
+    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator)
     {
-        var overridenProperties = validator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
+        validatorsWithInheritanceFromSpecification.Add(validator.GetType());
+    }
+
+    public static bool IsValidatorInheritingFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator)
+        => validatorsWithInheritanceFromSpecification.Contains(validator.GetType());
+
+    public static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
+    {
+        var overridenProperties = sourceValidator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
 
         var validationOptions = ValidationOptions<TCommand>.Default();
 
