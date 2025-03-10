@@ -8,13 +8,18 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
     {
         public CreateInvoiceCommandValidator(IMappingMetadataProvider metadataProvider)
         {
-            // an example of how to skip validation at specification level
-            // this.InheritFromMappingAndSpecification(metadataProvider, options => options.Skip(x=>x.CustomerNumber));
+            /*
+                Original Idea:
+                - 1 put marker while calling InheritRulesFromSpecification
+                - 2 Create a validator and set rules defined via RuleFor(x => x.CustomerNumber)
+                - 3 If there is a marker, then inherit all rules from the spec except the ones defined in the validator
+             */
 
-            this.InheritFromMappingAndSpecification(metadataProvider);
 
-            // an example of how to enrich with custom validation beside specification
-            // RuleFor(x => x.CustomerNumber).MaximumLength(100);
+
+            // This solution is based on a temporary coupling. Some analyer is needed to warn the developers
+            RuleFor(x => x.CustomerNumber).MaximumLength(2);
+            this.InheritOtherRulesFromSpecification(metadataProvider);
         }
     }
 }
