@@ -3,7 +3,7 @@
 namespace AppForeach.Framework.AutoMapper.Metadata;
 internal class MappingMetadata : IMappingMetadata
 {
-    public Type DestinationType { get; init; }
-    public Type SourceType { get; init; }
-    public IEnumerable<IPropertyMap> PropertyMaps { get; init; }
+    public required Type DestinationType { get; init; }
+    public required Type SourceType { get; init; }
+    public required IEnumerable<IPropertyMap> PropertyMaps { get; init; }
 }
