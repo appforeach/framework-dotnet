@@ -7,10 +7,12 @@ namespace AppForeach.Framework.Serilog
     public class SerilogFrameworkLogger : IFrameworkLogger
     {
         private readonly ILogger logger;
+        private readonly ILoggingPropertyMap propertyMap;
 
-        public SerilogFrameworkLogger(ILogger logger)
+        public SerilogFrameworkLogger(ILogger logger, ILoggingPropertyMap propertyMap)
         {
             this.logger = logger;
+            this.propertyMap = propertyMap;
         }
 
         public void Log(FrameworkLogEventId eventId, FrameworkLogLevel logLevel, string message, Dictionary<string, object>?properties = null)
@@ -19,6 +21,8 @@ namespace AppForeach.Framework.Serilog
 
             properties.Add("EventId", eventId.Id);
             properties.Add("EventName", eventId.Name);
+
+            properties = propertyMap.MapProperties(properties);
 
             var enrichedLogger = logger.ForContext(new SerilogFrameworkPropertiesEnricher(properties));
 

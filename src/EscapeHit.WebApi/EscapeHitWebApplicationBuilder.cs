@@ -1,4 +1,5 @@
-﻿using AppForeach.Framework.Hosting.Web;
+﻿using AppForeach.Framework.Hosting.Features.Serilog.Ecs;
+using AppForeach.Framework.Hosting.Web;
 using Elastic.Apm.SerilogEnricher;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Builder;
@@ -24,7 +25,7 @@ namespace EscapeHit.WebApi
                 .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
                 .Enrich.WithElasticApmCorrelationInfo()
                 .Enrich.FromLogContext()
-                .WriteTo.Console(new EcsTextFormatter())
+                .WriteTo.Console(new EcsSerilogTextFormatter())
                 .CreateLogger();
 
             try
@@ -52,8 +53,7 @@ namespace EscapeHit.WebApi
                     .Enrich.WithElasticApmCorrelationInfo()
                     .Enrich.FromLogContext()
                     .ReadFrom.Services(services)
-                    .WriteTo.Console(new EcsTextFormatter());
-
+                    .WriteTo.Console(new EcsSerilogTextFormatter());
             });
 
             webBuilder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);

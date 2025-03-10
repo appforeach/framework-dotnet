@@ -1,7 +1,7 @@
 ﻿
 namespace AppForeach.Framework.Logging
 {
-    internal class FrameworkLogProperties
+    public class FrameworkLogProperties
     {
         public const string Logger = "Logger";
 

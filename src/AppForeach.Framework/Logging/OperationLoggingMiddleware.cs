@@ -34,6 +34,7 @@ namespace AppForeach.Framework.Logging
                 {
                     { FrameworkLogProperties.Logger, nameof(OperationLoggingMiddleware) },
                     { FrameworkLogProperties.OperationName, contextState.OperationName },
+                    { FrameworkLogProperties.OperationKind, context.IsCommand ? "Command" : "Query" },
                     { FrameworkLogProperties.OperationOutcome, outputState.Result?.Outcome.ToString() },
                     { FrameworkLogProperties.OperationDuration, elapsed },
                 });

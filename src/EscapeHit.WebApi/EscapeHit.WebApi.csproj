@@ -11,13 +11,14 @@
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.12.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
-	<PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />	  
+	<PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.0" />	  
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.EntityFrameworkCore\AppForeach.Framework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Hosting.Web\AppForeach.Framework.Hosting.Web.csproj" />
     <ProjectReference Include="..\AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj" />
     <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />

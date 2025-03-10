@@ -51,6 +51,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Fluent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Serilog", "AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj", "{1EF1F53E-075D-4329-B970-134E5716C0ED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Hosting.Features.Serilog.Ecs", "AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj", "{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,10 @@ Global
 		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,6 +173,7 @@ Global
 		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{3C775D76-45F2-437E-BE87-7D2AF5D672E8} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{1EF1F53E-075D-4329-B970-134E5716C0ED} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D619CF-2C52-4F0A-9034-C10A04583982}
