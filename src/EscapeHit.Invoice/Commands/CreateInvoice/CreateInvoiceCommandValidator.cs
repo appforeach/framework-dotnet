@@ -8,7 +8,7 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
     {
         public CreateInvoiceCommandValidator()
         {
-            this.InheritFromMappingAndSpecification();
+            this.InheritFromEntitySpecification();
 
             RuleFor(x => x.CustomerNumber).MaximumLength(10);
         }
