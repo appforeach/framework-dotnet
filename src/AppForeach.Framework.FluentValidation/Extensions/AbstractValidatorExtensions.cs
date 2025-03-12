@@ -8,7 +8,6 @@ using AppForeach.Framework.FluentValidation.Exceptions;
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
 {
-    // this is very dirty of couse but just for prototype
     private static List<Type> validatorsWithInheritanceFromSpecification = new List<Type>();
 
     public static void InheritFromEntitySpecification<TCommand>(this AbstractValidator<TCommand> validator)
