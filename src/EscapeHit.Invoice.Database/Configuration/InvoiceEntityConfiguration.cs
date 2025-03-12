@@ -9,7 +9,7 @@ namespace EscapeHit.Invoice.Database.Configuration
     {
         public void Configure(EntityTypeBuilder<InvoiceEntity> builder)
         {
-            builder.FromEntitySpecification();
+            builder.InheritFromEntitySpecification();
             builder.Property(e => e.CustomerNumber).IsUnicode(false);
         }
     }

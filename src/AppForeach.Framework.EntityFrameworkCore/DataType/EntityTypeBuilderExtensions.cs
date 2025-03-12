@@ -9,7 +9,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.DataType
 {
     public static class EntityTypeBuilderExtensions
     {
-        public static void FromEntitySpecification<T>(this EntityTypeBuilder<T> builder) where T : class
+        public static void InheritFromEntitySpecification<T>(this EntityTypeBuilder<T> builder) where T : class
         {
             var assemblyToScan = typeof(T).Assembly;
             var types = assemblyToScan.GetTypes();
