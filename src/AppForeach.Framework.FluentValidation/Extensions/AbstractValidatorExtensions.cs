@@ -16,10 +16,10 @@ public static class AbstractValidatorExtensions
         validatorsWithInheritanceFromSpecification.Add(validator.GetType());
     }
 
-    public static bool IsValidatorInheritingFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator)
+    internal static bool IsValidatorInheritingFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator)
         => validatorsWithInheritanceFromSpecification.Contains(validator.GetType());
 
-    public static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
+    internal static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
     {
         var overridenProperties = sourceValidator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
 
