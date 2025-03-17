@@ -5,7 +5,6 @@ using AppForeach.Framework.Mapping;
 using FluentValidation;
 using Moq;
 using Shouldly;
-using Shouldly.Configuration;
 
 namespace AppForeach.Framework.FluentValidation.Tests.Extensions;
 
@@ -15,6 +14,17 @@ public class AbstractValidatorExtensionsTests
     private class InvoiceEntity { public required string Name { get; set; } }
 
     private class CreateInvoiceCommandValidator : AbstractValidator<CreateInvoiceCommand> { }
+
+    private class SourceVaidator : AbstractValidator<CreateInvoiceCommand> { }
+
+    private class SourceVaidatorWithOverridenName : AbstractValidator<CreateInvoiceCommand>
+    {
+        public SourceVaidatorWithOverridenName()
+        {
+            RuleFor(x => x.Name).NotEmpty();
+        }
+    }
+
 
     private class TestMappingMetadata : IMappingMetadata
     {
@@ -35,10 +45,12 @@ public class AbstractValidatorExtensionsTests
         public InvoiceEntitySpecification()
         {
             Field(x => x.Name).IsRequired();
+            Field(x => x.Name).MaxLength(25);
         }
     }
 
     readonly CreateInvoiceCommandValidator validator = new CreateInvoiceCommandValidator();
+    readonly SourceVaidator emptySourceValidator = new SourceVaidator();
     readonly Mock<IMappingMetadataProvider> metadataProviderMock = new Mock<IMappingMetadataProvider>();
     readonly TestPropertyMap propertyMap = new TestPropertyMap { SourceName = "Name", DestinationName = "Name" };
     readonly TestMappingMetadata mappingMetadata;
@@ -54,13 +66,13 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldApplyRequiredFacet_and_SucceedValidation()
+    public void InheritOtherRulesFromSpecification_ShouldApplyRequiredFacet_and_SucceedValidation()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
 
         // Act
-        validator.InheritFromMappingAndSpecification(metadataProviderMock.Object);
+        validator.InheritOtherRulesFromSpecification(emptySourceValidator, metadataProviderMock.Object);
 
         // Assert
         var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command" });
@@ -69,13 +81,13 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldApplyRequiredFacet_and_FailValidation()
+    public void InheritOtherRulesFromSpecification_ShouldApplyRequiredFacet_and_FailValidation()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
 
         // Act
-        validator.InheritFromMappingAndSpecification(metadataProviderMock.Object);
+        validator.InheritOtherRulesFromSpecification(emptySourceValidator, metadataProviderMock.Object);
 
         // Assert
         var result = validator.Validate(new CreateInvoiceCommand() { Name = null! });
@@ -88,36 +100,36 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldSkipValidationForSkippedProperties()
+    public void InheritOtherRulesFromSpecification_ShouldSkipValidationForSkippedProperties()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
 
         // Act
-        validator.InheritFromMappingAndSpecification(metadataProviderMock.Object, options => options.Skip(x => x.Name));
+        validator.InheritOtherRulesFromSpecification(new SourceVaidatorWithOverridenName(), metadataProviderMock.Object);
 
         // Assert
-        var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command" });
+        var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command Very Large Text" });
         result.IsValid.ShouldBeTrue();
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldThrowExceptionWhenMultipleSpecificationsFound()
+    public void InheritOtherRulesFromSpecification_ShouldThrowExceptionWhenMultipleSpecificationsFound()
     {
         // Arranges
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata, mappingMetadata });
 
         // Act & Assert
-        Should.Throw<MultipleSpecificationsPerCommandFoundException>(() => validator.InheritFromMappingAndSpecification(metadataProviderMock.Object));
+        Should.Throw<MultipleSpecificationsPerCommandFoundException>(() => validator.InheritOtherRulesFromSpecification(emptySourceValidator, metadataProviderMock.Object));
     }
 
     [Fact]
-    public void InheritFromMappingAndSpecification_ShouldThrowExceptionWhenNoSpecificationFound()
+    public void InheritOtherRulesFromSpecification_ShouldThrowExceptionWhenNoSpecificationFound()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(Enumerable.Empty<IMappingMetadata>());
 
         // Act & Assert
-        Should.Throw<UnableToMapCommandToSpecificationException>(() => validator.InheritFromMappingAndSpecification(metadataProviderMock.Object));
+        Should.Throw<UnableToMapCommandToSpecificationException>(() => validator.InheritOtherRulesFromSpecification(emptySourceValidator, metadataProviderMock.Object));
     }
 }

@@ -8,12 +8,21 @@ using AppForeach.Framework.FluentValidation.Exceptions;
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
 {
-    public static void InheritFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator, IMappingMetadataProvider metadataProvider, Action<ValidationOptions<TCommand>>? actionWithOptions = null)
-    {
-        var validationOptions = ValidationOptions<TCommand>.Default();
+    private static List<Type> validatorsWithInheritanceFromSpecification = new List<Type>();
 
-        if (actionWithOptions is not null)
-            actionWithOptions(validationOptions);
+    public static void InheritFromEntitySpecification<TCommand>(this AbstractValidator<TCommand> validator)
+    {
+        validatorsWithInheritanceFromSpecification.Add(validator.GetType());
+    }
+
+    internal static bool IsValidatorInheritingFromMappingAndSpecification<TCommand>(this AbstractValidator<TCommand> validator)
+        => validatorsWithInheritanceFromSpecification.Contains(validator.GetType());
+
+    internal static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
+    {
+        var overridenProperties = sourceValidator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
+
+        var validationOptions = ValidationOptions<TCommand>.Default();
 
         var mappingMetadataCollection = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
 
@@ -27,7 +36,8 @@ public static class AbstractValidatorExtensions
         {
             if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
-                if (validationOptions.ShouldSkip(propertyMap.SourceName))
+                // skip overriden rules
+                if (overridenProperties.Contains(propertyMap.SourceName))
                     continue;
 
                 var facets = fieldSpecification.Configuration;
@@ -41,7 +51,7 @@ public static class AbstractValidatorExtensions
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
                 if (maxLengthFacet is not null)
                 {
-                    validator.RuleFor<TCommand, string>(propertyMap.SourceName).Length(maxLengthFacet.MaxLength);
+                    validator.RuleFor<TCommand, string>(propertyMap.SourceName).MaximumLength(maxLengthFacet.MaxLength);
                 }
             }
         }

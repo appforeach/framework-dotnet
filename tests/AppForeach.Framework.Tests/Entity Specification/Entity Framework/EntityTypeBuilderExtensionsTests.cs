@@ -87,7 +87,7 @@ public class EntityTypeBuilderExtensionsTests
     {
         public void Configure(EntityTypeBuilder<Product> builder)
         {
-            builder.FromEntitySpecification();
+            builder.InheritFromEntitySpecification();
         }
     }
 
