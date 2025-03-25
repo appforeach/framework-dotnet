@@ -6,7 +6,7 @@ namespace AppForeach.Framework.Tests
 {
     public class PrimitiveFieldSpecificationTests
     {
-        readonly PrimitiveFieldSpecification<int> _specification = new PrimitiveFieldSpecification<int>();
+        readonly PrimitiveFieldSpecification<int> _specification = new PrimitiveFieldSpecification<int>(new FacetBag());
 
         [Fact]
         public void shold_throw_when_Is_called()

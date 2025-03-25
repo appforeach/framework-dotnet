@@ -7,7 +7,7 @@ namespace AppForeach.Framework.Tests.Entity_Specification;
 
 public class StringFieldSpecificationTests
 {
-    readonly PrimitiveFieldSpecification<string> _specification = new PrimitiveFieldSpecification<string>();
+    readonly PrimitiveFieldSpecification<string> _specification = new PrimitiveFieldSpecification<string>(new FacetBag());
 
     [Fact]
     public void shold_throw_when_Is_called()
