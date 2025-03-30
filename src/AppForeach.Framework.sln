@@ -41,17 +41,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Hostin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.MassTransit", "AppForeach.Framework.MassTransit\AppForeach.Framework.MassTransit.csproj", "{00A7B6CD-F613-466F-913A-5E62D2181DEE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.EntityFrameworkCore.SqlServer", "AppForeach.Framework.EntityFrameworkCore.SqlServer\AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj", "{715B32C2-7E5D-4E2B-8AF0-43891884A846}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.EntityFrameworkCore.SqlServer", "AppForeach.Framework.EntityFrameworkCore.SqlServer\AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj", "{715B32C2-7E5D-4E2B-8AF0-43891884A846}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Hosting.Features.SqlServer", "AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj", "{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.Tests", "..\tests\AppForeach.Framework.Tests\AppForeach.Framework.Tests.csproj", "{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Tests", "..\tests\AppForeach.Framework.Tests\AppForeach.Framework.Tests.csproj", "{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppForeach.Framework.FluentValidation", "AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj", "{3C775D76-45F2-437E-BE87-7D2AF5D672E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.FluentValidation", "AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj", "{3C775D76-45F2-437E-BE87-7D2AF5D672E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Serilog", "AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj", "{1EF1F53E-075D-4329-B970-134E5716C0ED}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper", "AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj", "{517BBEC2-6740-49B4-8395-CE7FDEDD9062}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.Hosting.Features.Serilog.Ecs", "AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj", "{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeHit.Invoice.Tests", "..\tests\EscapeHit.Invoice.Tests\EscapeHit.Invoice.Tests.csproj", "{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.AutoMapper.Tests", "..\tests\AppForeach.Framework.AutoMapper.Tests\AppForeach.Framework.AutoMapper.Tests.csproj", "{FED6689C-A438-4543-9878-DB5560CDF79C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppForeach.Framework.FluentValidation.Tests", "..\tests\AppForeach.Framework.FluentValidation.Tests\AppForeach.Framework.FluentValidation.Tests.csproj", "{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,14 +147,22 @@ Global
 		{3C775D76-45F2-437E-BE87-7D2AF5D672E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C775D76-45F2-437E-BE87-7D2AF5D672E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C775D76-45F2-437E-BE87-7D2AF5D672E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1EF1F53E-075D-4329-B970-134E5716C0ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{517BBEC2-6740-49B4-8395-CE7FDEDD9062}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{517BBEC2-6740-49B4-8395-CE7FDEDD9062}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{517BBEC2-6740-49B4-8395-CE7FDEDD9062}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{517BBEC2-6740-49B4-8395-CE7FDEDD9062}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED6689C-A438-4543-9878-DB5560CDF79C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED6689C-A438-4543-9878-DB5560CDF79C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED6689C-A438-4543-9878-DB5560CDF79C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED6689C-A438-4543-9878-DB5560CDF79C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,8 +184,10 @@ Global
 		{AE8CB98C-EF0A-40BA-94DD-1FA329D048F9} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{C9D13CE3-A6A1-4C68-A56B-16B095EB9DB0} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 		{3C775D76-45F2-437E-BE87-7D2AF5D672E8} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
-		{1EF1F53E-075D-4329-B970-134E5716C0ED} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
-		{F38A5F0F-5D99-4E37-A2E2-B5F79F7166D8} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{517BBEC2-6740-49B4-8395-CE7FDEDD9062} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{0C074CE5-1DF2-4565-8A6A-2B3AD6716204} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{FED6689C-A438-4543-9878-DB5560CDF79C} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
+		{76CCEA85-4990-4AD6-AF7C-B708B54BC2AF} = {05C7432E-1129-4FDA-A1C1-4E6B02F29A68}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1D619CF-2C52-4F0A-9034-C10A04583982}

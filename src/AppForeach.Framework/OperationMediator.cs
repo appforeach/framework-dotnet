@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
@@ -13,7 +14,11 @@ namespace AppForeach.Framework
             this.operationExecutor = operationExecutor;
         }
 
-        public Task<OperationResult> Execute<TInput>(TInput input, Action<IOperationBuilder> options = null)
+
+        public Task<OperationResult> Execute<TInput>(TInput input, Action<IOperationBuilder> options = null, CancellationToken cancellationToken = default)
             => operationExecutor.Execute(input, options);
+
+        public Task<OperationResult> Execute<TInput>(TInput input, CancellationToken cancellationToken)
+            => operationExecutor.Execute(input, null);
     }
 }

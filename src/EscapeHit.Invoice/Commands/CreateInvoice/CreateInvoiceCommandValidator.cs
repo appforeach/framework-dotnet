@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AppForeach.Framework.FluentValidation.Extensions;
+using FluentValidation;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
@@ -6,9 +7,9 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
     {
         public CreateInvoiceCommandValidator()
         {
-            //InheritFromMappingAndSpecification();
+            this.InheritFromEntitySpecification();
 
-            RuleFor(x => x.CustomerNumber).NotNull();
+            RuleFor(x => x.CustomerNumber).MaximumLength(10);
         }
     }
 }

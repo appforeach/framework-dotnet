@@ -1,6 +1,7 @@
-﻿namespace EscapeHit.Invoice.Queries.GetInvoiceById
-{
+﻿using AutoMapper;
 
+namespace EscapeHit.Invoice.Queries.GetInvoiceById
+{
     public interface IGetInvoiceByIdResultMapping
     {
         GetInvoiceByIdResult MapFrom(InvoiceEntity entity);
@@ -8,20 +9,11 @@
 
     public class GetInvoiceByIdResultMapping : IGetInvoiceByIdResultMapping
     {
-        public GetInvoiceByIdResult MapFrom(InvoiceEntity entity)
-        {
-            if (entity is null)
-                return null;
+        private readonly IMapper mapper;
+        public GetInvoiceByIdResultMapping(IMapper mapper) =>
+            this.mapper = mapper;
 
-            var output = new GetInvoiceByIdResult
-            {
-                Id = entity.Id,
-                Amount = entity.Amount,
-                Number = entity.Number,
-                CustomerNumber = entity.CustomerNumber
-            };
-
-            return output;
-        }
+        public GetInvoiceByIdResult MapFrom(InvoiceEntity entity) =>
+            mapper.Map<GetInvoiceByIdResult>(entity);
     }
 }

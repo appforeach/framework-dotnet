@@ -1,5 +1,4 @@
-﻿using AppForeach.Framework.DependencyInjection;
-using AppForeach.Framework.Validation;
+﻿using AppForeach.Framework.Validation;
 using FluentValidation.Results;
 
 namespace AppForeach.Framework.FluentValidation
@@ -21,7 +20,7 @@ namespace AppForeach.Framework.FluentValidation
                 ?? throw new FrameworkException($"{ fluentValidatorType } does not contain expected method Validate.");
 
             var fluentValidatorResult = (method.Invoke(fluentValidator, new object[] { input }) as ValidationResult)
-                ?? throw new FrameworkException($"{fluentValidatorType} does not contain expected method Validate."); ;
+                ?? throw new FrameworkException($"{fluentValidatorType} does not contain expected method Validate.");
 
             var operationResult = new OperationResult();
 

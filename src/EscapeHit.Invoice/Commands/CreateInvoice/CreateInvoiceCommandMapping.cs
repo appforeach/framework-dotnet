@@ -1,5 +1,5 @@
-﻿
-using AppForeach.Framework.DataType;
+﻿using AppForeach.Framework.DataType;
+using AutoMapper;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
 {
@@ -10,21 +10,11 @@ namespace EscapeHit.Invoice.Commands.CreateInvoice
 
     public class CreateInvoiceCommandMapping : BaseMapping<InvoiceEntity, CreateInvoiceCommand>, ICreateInvoiceInputMapping
     {
-        public CreateInvoiceCommandMapping()
-        {
-            //todo: implement declarative mapping
-            Field(e => e.CustomerNumber).From(e => e.CustomerNumber);
-            Field(e => e.Amount).From(e => e.Amount);
-        }
+        private readonly IMapper mapper;
+        public CreateInvoiceCommandMapping(IMapper mapper) =>
+            this.mapper = mapper;
 
-        public InvoiceEntity MapFrom(CreateInvoiceCommand input)
-        {
-            var output = new InvoiceEntity();
-
-            output.CustomerNumber = input.CustomerNumber;
-            output.Amount = input.Amount;
-
-            return output;
-        }
+        public override InvoiceEntity MapFrom(CreateInvoiceCommand input) =>
+            mapper.Map<InvoiceEntity>(input);
     }
 }
