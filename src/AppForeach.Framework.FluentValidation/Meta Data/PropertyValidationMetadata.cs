@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
 namespace AppForeach.Framework.FluentValidation.Meta_Data;
-internal class PropertyValidatioMetadata
+internal class PropertyValidationMetadata
 {
-    internal PropertyValidatioMetadata() { }
+    internal PropertyValidationMetadata() { }
     [SetsRequiredMembers]
-    internal PropertyValidatioMetadata(string name, IEnumerable<string> validators)
+    internal PropertyValidationMetadata(string name, IEnumerable<string> validators)
     {
         Name = name;
         Validators = validators;

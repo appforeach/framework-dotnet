@@ -10,7 +10,7 @@ public class ClassValidationMetadataTests
     public void HasRequiredValidator_ShouldReturnTrue_WhenNotNullValidatorExists()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
             new("Name", new List<string> { "NotNullValidator" })
         };
@@ -27,9 +27,9 @@ public class ClassValidationMetadataTests
     public void HasRequiredValidator_ShouldReturnTrue_WhenNotEmptyValidatorExists()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "NotEmptyValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "NotEmptyValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
@@ -44,9 +44,9 @@ public class ClassValidationMetadataTests
     public void HasRequiredValidator_ShouldReturnFalse_WhenNoRequiredValidatorExists()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "SomeOtherValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "SomeOtherValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
@@ -61,9 +61,9 @@ public class ClassValidationMetadataTests
     public void HasRequiredValidator_ShouldReturnFalse_WhenPropertyDoesNotExist()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "NotNullValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "NotNullValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
@@ -78,9 +78,9 @@ public class ClassValidationMetadataTests
     public void HasMaxLengthsValidator_ShouldReturnTrue_WhenMaximumLengthValidatorExists()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "MaximumLengthValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "MaximumLengthValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
@@ -95,9 +95,9 @@ public class ClassValidationMetadataTests
     public void HasMaxLengthsValidator_ShouldReturnFalse_WhenNoMaximumLengthValidatorExists()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "SomeOtherValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "SomeOtherValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
@@ -112,9 +112,9 @@ public class ClassValidationMetadataTests
     public void HasMaxLengthsValidator_ShouldReturnFalse_WhenPropertyDoesNotExist()
     {
         // Arrange
-        var propertyValidators = new List<PropertyValidatioMetadata>
+        var propertyValidators = new List<PropertyValidationMetadata>
         {
-            new PropertyValidatioMetadata("Name", new List<string> { "MaximumLengthValidator" })
+            new PropertyValidationMetadata("Name", new List<string> { "MaximumLengthValidator" })
         };
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 

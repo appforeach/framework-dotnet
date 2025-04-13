@@ -4,12 +4,12 @@ namespace AppForeach.Framework.FluentValidation.Meta_Data;
 internal class ClassValidationMetadata
 {
     [SetsRequiredMembers]
-    internal ClassValidationMetadata(IEnumerable<PropertyValidatioMetadata> propertyValidators)
+    internal ClassValidationMetadata(IEnumerable<PropertyValidationMetadata> propertyValidators)
     {
         this.PropertyValidators = propertyValidators;
     }
 
-    internal required IEnumerable<PropertyValidatioMetadata> PropertyValidators { get; init; }
+    internal required IEnumerable<PropertyValidationMetadata> PropertyValidators { get; init; }
 
     internal bool HasRequiredValidator(string propertyName)
     {
