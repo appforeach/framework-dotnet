@@ -21,7 +21,7 @@ public static class AbstractValidatorExtensions
 
     internal static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
     {
-        var overriddenValidationMetadata = ClassValidationMetadataBuilder.Build(sourceValidator.CreateDescriptor());
+        var overriddenValidationRules = ClassValidationMetadataBuilder.Build(sourceValidator.CreateDescriptor());
 
         var mappingMetadataCollection = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
 
@@ -54,8 +54,8 @@ public static class AbstractValidatorExtensions
                 }
             }
 
-            bool SkipRequiredValidatorOverrides() => overriddenValidationMetadata.HasRequiredValidator(propertyMap.SourceName);
-            bool SkipMaxLengthValidatorOverrides() => overriddenValidationMetadata.HasMaxLengthsValidator(propertyMap.SourceName);
+            bool SkipRequiredValidatorOverrides() => overriddenValidationRules.HasRequiredValidator(propertyMap.SourceName);
+            bool SkipMaxLengthValidatorOverrides() => overriddenValidationRules.HasMaxLengthsValidator(propertyMap.SourceName);
         }
 
 
