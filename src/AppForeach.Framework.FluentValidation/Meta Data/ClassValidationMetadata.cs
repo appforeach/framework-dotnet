@@ -1,0 +1,36 @@
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace AppForeach.Framework.FluentValidation.Meta_Data;
+internal class ClassValidationMetadata
+{
+    [SetsRequiredMembers]
+    internal ClassValidationMetadata(IEnumerable<PropertyValidatioMetadata> propertyValidators)
+    {
+        this.PropertyValidators = propertyValidators;
+    }
+
+    internal required IEnumerable<PropertyValidatioMetadata> PropertyValidators { get; init; }
+
+    internal bool HasRequiredValidator(string propertyName)
+    {
+        var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
+
+        if (propertyMetadata == null)
+            return false;
+
+        return 
+            propertyMetadata.Validators.Contains("NotNullValidator") || 
+            propertyMetadata.Validators.Contains("NotEmptyValidator");
+    }
+
+    internal bool HasMaxLengthsValidator(string propertyName)
+    {
+        var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
+
+        if (propertyMetadata == null)
+            return false;
+
+        return
+            propertyMetadata.Validators.Contains("MaximumLengthValidator");
+    }
+}

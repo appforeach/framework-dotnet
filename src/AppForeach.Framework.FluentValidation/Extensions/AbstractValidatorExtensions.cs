@@ -4,6 +4,7 @@ using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Mapping;
 using FluentValidation;
 using AppForeach.Framework.FluentValidation.Exceptions;
+using AppForeach.Framework.FluentValidation.Meta_Data;
 
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
@@ -20,9 +21,7 @@ public static class AbstractValidatorExtensions
 
     internal static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
     {
-        var overridenProperties = sourceValidator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
-
-        var validationOptions = ValidationOptions<TCommand>.Default();
+        var overridenValidationMetadata = ClassValidationMetadataBuilder.Build(sourceValidator.CreateDescriptor());
 
         var mappingMetadataCollection = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
 
@@ -37,23 +36,26 @@ public static class AbstractValidatorExtensions
             if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
                 // skip overriden rules
-                if (overridenProperties.Contains(propertyMap.SourceName))
-                    continue;
-
                 var facets = fieldSpecification.Configuration;
 
                 var requiredFacet = facets.TryGet<FieldRequiredFacet>();
                 if (requiredFacet is not null)
                 {
-                    validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
+                    if (!SkipRequiredValidatorOverrides())
+                        validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
+
                 }
 
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
                 if (maxLengthFacet is not null)
                 {
-                    validator.RuleFor<TCommand, string>(propertyMap.SourceName).MaximumLength(maxLengthFacet.MaxLength);
+                    if (!SkipMaxLengthValidatorOverrides())
+                        validator.RuleFor<TCommand, string>(propertyMap.SourceName).MaximumLength(maxLengthFacet.MaxLength);
                 }
             }
+
+            bool SkipRequiredValidatorOverrides() => overridenValidationMetadata.HasRequiredValidator(propertyMap.SourceName);
+            bool SkipMaxLengthValidatorOverrides() => overridenValidationMetadata.HasMaxLengthsValidator(propertyMap.SourceName);
         }
 
 
