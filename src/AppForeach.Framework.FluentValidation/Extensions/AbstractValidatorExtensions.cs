@@ -4,7 +4,7 @@ using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Mapping;
 using FluentValidation;
 using AppForeach.Framework.FluentValidation.Exceptions;
-using AppForeach.Framework.FluentValidation.Meta_Data;
+using AppForeach.Framework.FluentValidation.MetaData;
 
 namespace AppForeach.Framework.FluentValidation.Extensions;
 public static class AbstractValidatorExtensions
@@ -42,7 +42,7 @@ public static class AbstractValidatorExtensions
                 if (requiredFacet is not null)
                 {
                     if (!SkipRequiredValidatorOverrides())
-                        validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
+                        validator.RuleFor(propertyMap.SourceName).NotNull();
 
                 }
 
