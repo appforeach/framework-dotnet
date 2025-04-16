@@ -49,13 +49,13 @@ public static class AbstractValidatorExtensions
                 var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
                 if (maxLengthFacet is not null)
                 {
-                    if (!SkipMaxLengthValidatorOverrides())
+                    if (!SkipMaximumLengthValidatorOverrides())
                         validator.RuleFor<TCommand, string>(propertyMap.SourceName).MaximumLength(maxLengthFacet.MaxLength);
                 }
             }
 
             bool SkipRequiredValidatorOverrides() => overriddenValidationRules.HasRequiredValidator(propertyMap.SourceName);
-            bool SkipMaxLengthValidatorOverrides() => overriddenValidationRules.HasMaximumLengthValidator(propertyMap.SourceName);
+            bool SkipMaximumLengthValidatorOverrides() => overriddenValidationRules.HasMaximumLengthValidator(propertyMap.SourceName);
         }
 
 
