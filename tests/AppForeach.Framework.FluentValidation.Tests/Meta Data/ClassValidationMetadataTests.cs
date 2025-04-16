@@ -85,7 +85,7 @@ public class ClassValidationMetadataTests
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
         // Act
-        var result = classValidationMetadata.HasMaxLengthsValidator("Name");
+        var result = classValidationMetadata.HasMaximumLengthValidator("Name");
 
         // Assert
         result.ShouldBeTrue();
@@ -102,7 +102,7 @@ public class ClassValidationMetadataTests
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
         // Act
-        var result = classValidationMetadata.HasMaxLengthsValidator("Name");
+        var result = classValidationMetadata.HasMaximumLengthValidator("Name");
 
         // Assert
         result.ShouldBeFalse();
@@ -119,7 +119,7 @@ public class ClassValidationMetadataTests
         var classValidationMetadata = new ClassValidationMetadata(propertyValidators);
 
         // Act
-        var result = classValidationMetadata.HasMaxLengthsValidator("NonExistentProperty");
+        var result = classValidationMetadata.HasMaximumLengthValidator("NonExistentProperty");
 
         // Assert
         result.ShouldBeFalse();

@@ -23,7 +23,7 @@ internal class ClassValidationMetadata
             propertyMetadata.Validators.Contains("NotEmptyValidator");
     }
 
-    internal bool HasMaxLengthsValidator(string propertyName)
+    internal bool HasMaximumLengthValidator(string propertyName)
     {
         var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
 

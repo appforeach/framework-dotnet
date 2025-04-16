@@ -55,7 +55,7 @@ public static class AbstractValidatorExtensions
             }
 
             bool SkipRequiredValidatorOverrides() => overriddenValidationRules.HasRequiredValidator(propertyMap.SourceName);
-            bool SkipMaxLengthValidatorOverrides() => overriddenValidationRules.HasMaxLengthsValidator(propertyMap.SourceName);
+            bool SkipMaxLengthValidatorOverrides() => overriddenValidationRules.HasMaximumLengthValidator(propertyMap.SourceName);
         }
 
 
