@@ -1,7 +1,7 @@
-﻿using AppForeach.Framework.FluentValidation.Meta_Data;
+﻿using AppForeach.Framework.FluentValidation.MetaData;
 using Shouldly;
 
-namespace AppForeach.Framework.FluentValidation.Tests.Meta_Data;
+namespace AppForeach.Framework.FluentValidation.Tests.MetaData;
 
 public class ClassValidationMetadataTests
 {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace AppForeach.Framework.FluentValidation.Meta_Data;
+namespace AppForeach.Framework.FluentValidation.MetaData;
 internal static class ClassValidationMetadataBuilder
 {
     internal static ClassValidationMetadata Build(IValidatorDescriptor validatorDescriptor)

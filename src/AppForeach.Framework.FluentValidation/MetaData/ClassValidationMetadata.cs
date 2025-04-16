@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace AppForeach.Framework.FluentValidation.Meta_Data;
+namespace AppForeach.Framework.FluentValidation.MetaData;
 internal class ClassValidationMetadata
 {
     [SetsRequiredMembers]
