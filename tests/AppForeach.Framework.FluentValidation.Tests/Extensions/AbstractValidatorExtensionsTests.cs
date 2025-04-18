@@ -100,7 +100,7 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritOtherRulesFromSpecification_ShouldSkipValidationForSkippedProperties()
+    public void InheritOtherRulesFromSpecification_ShouldNotSkipOtherValidationForTheSameProperties()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
@@ -110,7 +110,7 @@ public class AbstractValidatorExtensionsTests
 
         // Assert
         var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command Very Large Text" });
-        result.IsValid.ShouldBeTrue();
+        result.IsValid.ShouldBeFalse();
     }
 
     [Fact]
