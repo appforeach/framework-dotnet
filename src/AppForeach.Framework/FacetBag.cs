@@ -35,5 +35,17 @@ namespace AppForeach.Framework
                 return default(TFacet);
             }
         }
+
+        public FacetBag Combine(FacetBag bag)
+        {
+            FacetBag combined = new FacetBag(this);
+
+            foreach (var kvp in bag.store)
+            {
+                combined.store[kvp.Key] = kvp.Value;
+            }
+
+            return combined;
+        }
     }
 }
