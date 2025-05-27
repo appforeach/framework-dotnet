@@ -1,4 +1,4 @@
-﻿using AppForeach.Framework.FluentValidation.Extensions;
+﻿using AppForeach.Framework.FluentValidation;
 using FluentValidation;
 
 namespace EscapeHit.Invoice.Commands.CreateInvoice
