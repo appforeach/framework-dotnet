@@ -11,26 +11,15 @@ internal class ClassValidationMetadata
 
     internal required IEnumerable<PropertyValidationMetadata> PropertyValidators { get; init; }
 
-    internal bool HasRequiredValidator(string propertyName)
+    public IEnumerable<string> GetValidators(string propertyName)
     {
         var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
 
         if (propertyMetadata == null)
-            return false;
+        {
+            return Enumerable.Empty<string>();
+        }
 
-        return 
-            propertyMetadata.Validators.Contains("NotNullValidator") || 
-            propertyMetadata.Validators.Contains("NotEmptyValidator");
-    }
-
-    internal bool HasMaximumLengthValidator(string propertyName)
-    {
-        var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
-
-        if (propertyMetadata == null)
-            return false;
-
-        return
-            propertyMetadata.Validators.Contains("MaximumLengthValidator");
+        return propertyMetadata.Validators;
     }
 }

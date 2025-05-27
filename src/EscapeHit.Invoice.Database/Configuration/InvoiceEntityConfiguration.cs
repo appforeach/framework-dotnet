@@ -1,7 +1,7 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using AppForeach.Framework.EntityFrameworkCore.DataType;
+using AppForeach.Framework.EntityFrameworkCore;
 
 namespace EscapeHit.Invoice.Database.Configuration
 {

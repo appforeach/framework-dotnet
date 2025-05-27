@@ -10,9 +10,8 @@ namespace AppForeach.Framework.DependencyInjection
         {
             foreach (var type in types)
             {
-                if (type.BaseType != null && 
-                    type.BaseType.IsGenericType && 
-                    type.BaseType.GetGenericTypeDefinition() == typeof(BaseEntitySpecification<>))
+                if (typeof(BaseEntitySpecification).IsAssignableFrom(type)
+                    && ! type.ContainsGenericParameters)
                 {
                     yield return new ComponentDefinition
                     {
