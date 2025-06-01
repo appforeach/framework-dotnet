@@ -19,7 +19,7 @@ namespace AppForeach.Framework.Microsoft.Extensions.DependencyInjection
             }
         }
 
-        private static void AddComponent(IServiceCollection serviceCollection, ComponentDefinition componentDefinition)
+        public static void AddComponent(this IServiceCollection serviceCollection, ComponentDefinition componentDefinition)
         {
             var serviceDescriptor = MapToServiceDescriptor(componentDefinition);
             

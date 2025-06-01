@@ -6,7 +6,7 @@ using FluentValidation;
 using Moq;
 using Shouldly;
 
-namespace AppForeach.Framework.FluentValidation.Tests.Extensions;
+namespace AppForeach.Framework.FluentValidation.Tests;
 
 public class AbstractValidatorExtensionsTests
 {

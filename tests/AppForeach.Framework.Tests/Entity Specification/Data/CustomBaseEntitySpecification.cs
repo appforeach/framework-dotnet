@@ -7,5 +7,6 @@ internal class CustomBaseEntitySpecification<TEntity> : BaseEntitySpecification<
     public CustomBaseEntitySpecification()
     {
         Type<string>().MaxLength(50);
+        Type<decimal>().HasPrecision(4, 2);
     }
 }

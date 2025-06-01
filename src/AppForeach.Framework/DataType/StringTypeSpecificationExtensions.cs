@@ -11,6 +11,12 @@ namespace AppForeach.Framework.DataType
             return spec;
         }
 
+        public static IPrimitiveFieldSpecification<string> IsEmptyAllowed(this IPrimitiveFieldSpecification<string> spec, bool isEmptyAllowed)
+        {
+            spec.Configuration.Set(new FieldIsEmptyAllowedFacet { IsEmptyAllowed = isEmptyAllowed });
+            return spec;
+        }
+
         public static IPrimitiveFieldSpecification<string> Pattern(this IPrimitiveFieldSpecification<string> spec, string pattern) => null;
     }
 }

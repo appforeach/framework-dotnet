@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="DataType\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
   

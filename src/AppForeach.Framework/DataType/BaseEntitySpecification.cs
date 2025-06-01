@@ -18,7 +18,7 @@ namespace AppForeach.Framework.DataType
                 foreach(var property in typeof(TType).GetProperties())
                 {
                     FacetBag facets = null;
-                    var propertyType = property.PropertyType;
+                    var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
 
                     _typeSpecifications.TryGetValue(propertyType, out facets);
 
