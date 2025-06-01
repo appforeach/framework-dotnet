@@ -8,7 +8,7 @@ namespace AppForeach.Framework.FluentValidation
     {
         public override bool IsValid(ValidationContext<T> context, TProperty value)
         {
-            if(value == null)
+            if(value is null)
             {
                 return true;
             }
