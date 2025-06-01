@@ -25,7 +25,6 @@ namespace AppForeach.Framework.EntityFrameworkCore
             foreach (var scannedDefinition in scannedDefinitions)
             {
                 var entitySpecification = (BaseEntitySpecification<T>)Activator.CreateInstance(scannedDefinition.ComponentType);
-                Console.WriteLine("ha " + scannedDefinition.ComponentType.ToString());
 
                 //todo: make field name part of specification
                 foreach (var fieldSpecification in entitySpecification.FieldSpecifications)
@@ -49,7 +48,6 @@ namespace AppForeach.Framework.EntityFrameworkCore
                     var precisionFacet = facets.TryGet<FieldPrecisionFacet>();
                     if (precisionFacet is not null)
                     {
-                        Console.WriteLine("set precision {0}-{1}", precisionFacet.Precision, precisionFacet.Scale);
                         propertyBuilder.HasPrecision(precisionFacet.Precision, precisionFacet.Scale);
                     }
                 }

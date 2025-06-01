@@ -15,7 +15,7 @@ internal class ClassValidationMetadata
     {
         var propertyMetadata = PropertyValidators.FirstOrDefault(x => x.Name == propertyName);
 
-        if (propertyMetadata == null)
+        if (propertyMetadata is null)
         {
             return Enumerable.Empty<string>();
         }
