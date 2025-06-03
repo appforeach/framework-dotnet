@@ -7,10 +7,17 @@ public class FrameworkEndpointConfiguration
     (
         string endpointName,
         MessageHostDefinition hostDefinition
-    ): IFrameworkEndpointConfiguration
+    ) : IFrameworkEndpointConfiguration
 {
 
     public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
+    {
+        ArgumentNullException.ThrowIfNull(endpointAction);
+
+        hostDefinition.EndpointActions.Add((endpointName, (_, cfg) => endpointAction(cfg)));
+    }
+
+    public void Configure(Action<IBusRegistrationContext, IRabbitMqReceiveEndpointConfigurator> endpointAction)
     {
         ArgumentNullException.ThrowIfNull(endpointAction);
 
