@@ -103,7 +103,7 @@ public class EntityTypeBuilderExtensionsTests
     {
         public ProductEntitySpecification()
         {
-            Field(e => e.Name).IsRequired().MaxLength(50);
+            Field(e => e.Name).IsRequired().HasMaxLength(50);
             Field(e => e.Price).HasPrecision(4, 2);
         }
     }
@@ -126,7 +126,7 @@ public class EntityTypeBuilderExtensionsTests
     {
         public CustomerSpecification()
         {
-            Field(e => e.Name).IsRequired().MaxLength(50);
+            Field(e => e.Name).IsRequired().HasMaxLength(50);
         }
     }
 }

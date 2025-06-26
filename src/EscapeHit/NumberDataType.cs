@@ -6,7 +6,7 @@ namespace EscapeHit
     {
         public NumberDataType()
         {
-            Is().MaxLength(6).Pattern(@"^\d+$");
+            Is().HasMaxLength(6);
         }
     }
 }

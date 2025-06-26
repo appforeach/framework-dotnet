@@ -6,6 +6,6 @@ internal class InvoiceEntitySpecification : BaseEntitySpecification<InvoiceEntit
 {
     public InvoiceEntitySpecification()
     {
-        Field(e => e.CustomerNumber).IsRequired().MaxLength(10);
+        Field(e => e.CustomerNumber).IsRequired().HasMaxLength(10);
     }
 }
