@@ -26,7 +26,7 @@ public class StringFieldSpecificationTests
     [InlineData(250)]
     public void should_set_IsRequired(int maxLength)
     {
-        _specification.MaxLength(maxLength);
+        _specification.HasMaxLength(maxLength);
         _specification.Configuration.TryGet<FieldMaxLengthFacet>().MaxLength.ShouldBe(maxLength);
     }
 }

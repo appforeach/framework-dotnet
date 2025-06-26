@@ -9,7 +9,7 @@ namespace EscapeHit
         {
             ByDefaultNotRequired();
 
-            Type<string>().MaxLength(50);
+            Type<string>().HasMaxLength(50);
 
             Type<decimal>().HasPrecision(30, 2);
 

@@ -5,6 +5,6 @@ internal class UserEntitySpecification : CustomBaseEntitySpecification<UserEntit
 {
     public UserEntitySpecification()
     {
-        Field(x => x.LastName).MaxLength(20);
+        Field(x => x.LastName).HasMaxLength(20);
     }
 }

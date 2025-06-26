@@ -45,7 +45,7 @@ public class AbstractValidatorExtensionsTests
         public InvoiceEntitySpecification()
         {
             Field(x => x.Name).IsRequired();
-            Field(x => x.Name).MaxLength(25);
+            Field(x => x.Name).HasMaxLength(25);
         }
     }
 
