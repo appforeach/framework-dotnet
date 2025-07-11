@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
@@ -27,7 +28,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
             this.serviceProvider = serviceProvider;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             var auditFacet = context.Configuration.TryGet<AuditEnabledFacet>();
             bool auditEnabled = auditFacet?.AuditEnabled ?? false;
@@ -38,11 +39,11 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
                 dbOptionsConfigurator.SetConnectionString(optionsBuilder, connectionStringProvider.ConnectionString);
                 using var db = (FrameworkDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(FrameworkDbContext), optionsBuilder.Options);
                 
-                var inputAudit = await AuditInput(db);
+                var inputAudit = await AuditInput(db, cancellationToken);
 
                 await next();
 
-                await AuditOutput(db, inputAudit);
+                await AuditOutput(db, inputAudit, cancellationToken);
             }
             else
             {
@@ -50,7 +51,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
             }
         }
 
-        private async Task<AuditEntity> AuditInput(FrameworkDbContext db)
+        private async Task<AuditEntity> AuditInput(FrameworkDbContext db, CancellationToken cancellationToken)
         {
             var transactionState = context.State.Get<TransactionScopeState>();
             var loggingCorrelation = loggingCorrelationProvider.CorrelationInfo;
@@ -71,12 +72,12 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
             inputAudit.Payload = JsonSerializer.Serialize(context.Input);
 
             db.Audit.Add(inputAudit);
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(cancellationToken);
 
             return inputAudit;
         }
 
-        private async Task AuditOutput(FrameworkDbContext db, AuditEntity inputAuditEntity)
+        private async Task AuditOutput(FrameworkDbContext db, AuditEntity inputAuditEntity, CancellationToken cancellationToken)
         {
             var transactionState = context.State.Get<TransactionScopeState>();
             var loggingCorrelation = loggingCorrelationProvider.CorrelationInfo;
@@ -102,7 +103,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
             outputAudit.Payload = JsonSerializer.Serialize(outputState?.Result?.Result);
 
             db.Audit.Add(outputAudit);
-            await db.SaveChangesAsync();
+            await db.SaveChangesAsync(cancellationToken);
         }
     }
 }

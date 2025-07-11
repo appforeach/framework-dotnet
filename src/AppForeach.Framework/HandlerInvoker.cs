@@ -16,7 +16,7 @@ namespace AppForeach.Framework
             this.handlerMap = handlerMap;
         }
 
-        public async Task<object> Invoke(object operationInput)
+        public async Task<object> Invoke(object operationInput, CancellationToken cancellationToken)
         {
             Type operationType = operationInput.GetType();
 
@@ -31,7 +31,7 @@ namespace AppForeach.Framework
             }
             else if(handlerMethodParameters.Length == 2 && handlerMethodParameters[1].ParameterType == typeof(CancellationToken))
             {
-                invocationParameters = new object[] { operationInput, null /* TODO: get token from cancellation token provider */ };
+                invocationParameters = new object[] { operationInput, cancellationToken };
             }
             else
             {

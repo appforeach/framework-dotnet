@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
@@ -16,7 +17,7 @@ namespace AppForeach.Framework
             this.operationNameResolver = operationNameResolver;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             var contextState = operationContext.State.Get<OperationContextState>();
 
@@ -32,7 +33,6 @@ namespace AppForeach.Framework
             {
                 throw new FrameworkException($"Handler not found for input of type { inputType }.");
             }
-
             
             var operationNameFacet = contextState.Configuration.TryGet<OperationNameFacet>();
             var operationIsCommandFacet = contextState.Configuration.TryGet<OperationIsCommandFacet>();
