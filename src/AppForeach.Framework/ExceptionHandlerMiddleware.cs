@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
@@ -16,7 +17,7 @@ namespace AppForeach.Framework
             this.unhandledExceptionEventHandler = unhandledExceptionEventHandler;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             try
             {

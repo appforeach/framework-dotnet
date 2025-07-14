@@ -16,9 +16,9 @@ namespace AppForeach.Framework
 
 
         public Task<OperationResult> Execute<TInput>(TInput input, Action<IOperationBuilder> options = null, CancellationToken cancellationToken = default)
-            => operationExecutor.Execute(input, options);
+            => operationExecutor.Execute(input, options, cancellationToken);
 
         public Task<OperationResult> Execute<TInput>(TInput input, CancellationToken cancellationToken)
-            => operationExecutor.Execute(input, null);
+            => operationExecutor.Execute(input, null, cancellationToken);
     }
 }

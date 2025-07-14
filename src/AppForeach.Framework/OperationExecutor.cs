@@ -1,5 +1,6 @@
 ﻿using AppForeach.Framework.DependencyInjection;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
@@ -17,11 +18,11 @@ namespace AppForeach.Framework
             this.scopedExecutor = scopedExecutor;
         }
 
-        public async Task<OperationResult> Execute(object input, Action<IOperationBuilder> options)
+        public async Task<OperationResult> Execute(object input, Action<IOperationBuilder> options, CancellationToken cancellationToken)
         {
             var state = PrepareContext(input, options);
 
-            var outputState = await ExecuteMiddlewares(state);
+            var outputState = await ExecuteMiddlewares(state, cancellationToken);
 
             return outputState.Result;
         }
@@ -45,17 +46,17 @@ namespace AppForeach.Framework
             return state;
         }
 
-        public Task<OperationOutputState> ExecuteMiddlewares(OperationContextState operationState)
+        public Task<OperationOutputState> ExecuteMiddlewares(OperationContextState operationState, CancellationToken cancellationToken)
         {
             var createScopeFacet = operationState.Configuration.TryGet<OperationCreateScopeForExecutionFacet>();
 
             if (createScopeFacet?.CreateScopeForExecution ?? false)
             {
-                return scopedExecutor.Execute((IMiddlewareExecutor executor) => executor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares), false);
+                return scopedExecutor.Execute((IMiddlewareExecutor executor) => executor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares, cancellationToken), false);
             }
             else
             {
-                return middlewareExecutor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares);
+                return middlewareExecutor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares, cancellationToken);
             }
         }
     }

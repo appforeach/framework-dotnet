@@ -1,5 +1,6 @@
 ﻿using AppForeach.Framework.DependencyInjection;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Validation
@@ -19,7 +20,7 @@ namespace AppForeach.Framework.Validation
             this.validationFailedEventHandler = validationFailedEventHandler;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             var validationFacet = context.Configuration.TryGet<ValidationHasValidatorFacet>();
 
