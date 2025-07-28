@@ -50,7 +50,7 @@ namespace AppForeach.Framework.MassTransit
                 {
                     foreach(var endpointAction in hostDefinition.EndpointActions.Where(ea => ea.Item1 == endpointName))
                     {
-                        endpointAction.Item2(endpointConfig);
+                        endpointAction.Item2(context, endpointConfig);
                     }
 
                     foreach(var consumerInstaller in endpoint.Select(e => e.Item2))

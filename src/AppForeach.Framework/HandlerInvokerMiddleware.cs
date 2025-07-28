@@ -1,4 +1,5 @@
 ﻿using AppForeach.Framework.DependencyInjection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework
@@ -16,7 +17,7 @@ namespace AppForeach.Framework
             this.handlerInvoker = handlerInvoker;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             object result;
 
@@ -24,11 +25,11 @@ namespace AppForeach.Framework
 
             if (createScopeFacet?.CreateScopeForExecution ?? false)
             {
-                result = await scopedExecutor.Execute((IHandlerInvoker invoker) => invoker.Invoke(context.Input), true);
+                result = await scopedExecutor.Execute((IHandlerInvoker invoker) => invoker.Invoke(context.Input, cancellationToken), true);
             }
             else
             {
-                result = await handlerInvoker.Invoke(context.Input);
+                result = await handlerInvoker.Invoke(context.Input, cancellationToken);
             }
 
             var outputState = context.State.Get<OperationOutputState>();

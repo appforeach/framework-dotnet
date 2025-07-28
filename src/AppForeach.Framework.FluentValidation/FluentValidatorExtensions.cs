@@ -1,6 +1,6 @@
 ﻿namespace FluentValidation;
 
-public static class FluentValidatorExtensions
+internal static class FluentValidatorExtensions
 {
     public static IRuleBuilderInitial<T, TProperty> RuleFor<T, TProperty>(this AbstractValidator<T> validator, string propertyName)
     {

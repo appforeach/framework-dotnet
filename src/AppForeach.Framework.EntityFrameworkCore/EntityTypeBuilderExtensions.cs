@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
 
-namespace AppForeach.Framework.EntityFrameworkCore.DataType
+namespace AppForeach.Framework.EntityFrameworkCore
 {
     public static class EntityTypeBuilderExtensions
     {
@@ -17,7 +17,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.DataType
             var scanner = new DefaulEntitySpecificationScanner();
 
             var entitySpecificationTypeToFind = typeof(BaseEntitySpecification<>).MakeGenericType(typeof(T));
-  
+
             var scannedDefinitions = scanner
                 .ScanTypes(types)
                 .Where(t => entitySpecificationTypeToFind.IsAssignableFrom(t.ComponentType));
@@ -25,7 +25,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.DataType
             foreach (var scannedDefinition in scannedDefinitions)
             {
                 var entitySpecification = (BaseEntitySpecification<T>)Activator.CreateInstance(scannedDefinition.ComponentType);
-             
+
                 //todo: make field name part of specification
                 foreach (var fieldSpecification in entitySpecification.FieldSpecifications)
                 {
@@ -43,6 +43,12 @@ namespace AppForeach.Framework.EntityFrameworkCore.DataType
                     if (maxLengthFacet is not null)
                     {
                         propertyBuilder.HasMaxLength(maxLengthFacet.MaxLength);
+                    }
+
+                    var precisionFacet = facets.TryGet<FieldPrecisionFacet>();
+                    if (precisionFacet is not null)
+                    {
+                        propertyBuilder.HasPrecision(precisionFacet.Precision, precisionFacet.Scale);
                     }
                 }
             }

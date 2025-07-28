@@ -1,5 +1,5 @@
 using AppForeach.Framework.DataType;
-using AppForeach.Framework.EntityFrameworkCore.DataType;
+using AppForeach.Framework.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shouldly;
@@ -25,10 +25,32 @@ public class EntityTypeBuilderExtensionsTests
 
         // Assert
         var entityType = modelBuilder.Model.FindEntityType(typeof(Product));
-        var nameProperty = entityType.FindProperty(nameof(Product.Name));
+        var nameProperty = entityType?.FindProperty(nameof(Product.Name));
 
-        nameProperty.IsNullable.ShouldBe(false);
-        nameProperty.GetMaxLength().ShouldBe(50);
+        nameProperty?.IsNullable.ShouldBe(false);
+        nameProperty?.GetMaxLength().ShouldBe(50);
+    }
+
+    [Fact]
+    public void should_apply_precision_entity_configuration_from_model_specification()
+    {
+        // Arrange
+        var options = new DbContextOptionsBuilder<TestDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .Options;
+
+        using var context = new TestDbContext(options);
+        var modelBuilder = new ModelBuilder();
+
+        // Act
+        context.TriggerOnModelCreating(modelBuilder);
+
+        // Assert
+        var entityType = modelBuilder.Model.FindEntityType(typeof(Product));
+        var priceProperty = entityType?.FindProperty(nameof(Product.Price));
+
+        priceProperty?.GetPrecision().ShouldBe(4);
+        priceProperty?.GetScale().ShouldBe(2);
     }
 
 
@@ -72,14 +94,17 @@ public class EntityTypeBuilderExtensionsTests
     private class Product
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
+
+        public decimal? Price { get; set; }
     }
 
     private class ProductEntitySpecification : BaseEntitySpecification<Product>
     {
         public ProductEntitySpecification()
         {
-            Field(e => e.Name).IsRequired().MaxLength(50);
+            Field(e => e.Name).IsRequired().HasMaxLength(50);
+            Field(e => e.Price).HasPrecision(4, 2);
         }
     }
 
@@ -101,7 +126,7 @@ public class EntityTypeBuilderExtensionsTests
     {
         public CustomerSpecification()
         {
-            Field(e => e.Name).IsRequired().MaxLength(50);
+            Field(e => e.Name).IsRequired().HasMaxLength(50);
         }
     }
 }

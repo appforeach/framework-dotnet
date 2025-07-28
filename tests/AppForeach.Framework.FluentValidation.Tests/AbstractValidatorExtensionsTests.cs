@@ -6,7 +6,7 @@ using FluentValidation;
 using Moq;
 using Shouldly;
 
-namespace AppForeach.Framework.FluentValidation.Tests.Extensions;
+namespace AppForeach.Framework.FluentValidation.Tests;
 
 public class AbstractValidatorExtensionsTests
 {
@@ -45,7 +45,7 @@ public class AbstractValidatorExtensionsTests
         public InvoiceEntitySpecification()
         {
             Field(x => x.Name).IsRequired();
-            Field(x => x.Name).MaxLength(25);
+            Field(x => x.Name).HasMaxLength(25);
         }
     }
 
@@ -100,7 +100,7 @@ public class AbstractValidatorExtensionsTests
     }
 
     [Fact]
-    public void InheritOtherRulesFromSpecification_ShouldSkipValidationForSkippedProperties()
+    public void InheritOtherRulesFromSpecification_ShouldNotSkipOtherValidationForTheSameProperties()
     {
         // Arrange
         metadataProviderMock.Setup(m => m.GetMappingMetadata(It.IsAny<Type>())).Returns(new List<IMappingMetadata> { mappingMetadata });
@@ -110,7 +110,7 @@ public class AbstractValidatorExtensionsTests
 
         // Assert
         var result = validator.Validate(new CreateInvoiceCommand() { Name = "Test Invoice Command Very Large Text" });
-        result.IsValid.ShouldBeTrue();
+        result.IsValid.ShouldBeFalse();
     }
 
     [Fact]

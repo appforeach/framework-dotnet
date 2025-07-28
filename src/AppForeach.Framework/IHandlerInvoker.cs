@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace AppForeach.Framework
 {
     public interface IHandlerInvoker
     {
-        Task<object> Invoke(object operationInput);
+        Task<object> Invoke(object operationInput, CancellationToken cancellationToken);
     }
 }

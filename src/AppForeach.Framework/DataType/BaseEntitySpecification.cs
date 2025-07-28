@@ -1,14 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace AppForeach.Framework.DataType
 {
     public class BaseEntitySpecification<TType>: BaseEntitySpecification
     {
-        private readonly Dictionary<string, object> _fieldSpecifications = new Dictionary<string, object>();
-        public override IReadOnlyDictionary<string, IPrimitiveFieldSpecification> FieldSpecifications => _fieldSpecifications.ToDictionary(x => x.Key, x => (IPrimitiveFieldSpecification)x.Value);
+        private readonly Dictionary<string, FacetBag> _fieldSpecifications = new Dictionary<string, FacetBag>();
+        private readonly Dictionary<Type, FacetBag> _typeSpecifications = new Dictionary<Type, FacetBag>();
+        
+        public override IReadOnlyDictionary<string, IPrimitiveFieldSpecification> FieldSpecifications
+        {
+            get
+            {
+                Dictionary<string, IPrimitiveFieldSpecification> specifications = new Dictionary<string, IPrimitiveFieldSpecification>();
+
+                foreach(var property in typeof(TType).GetProperties())
+                {
+                    FacetBag facets = null;
+                    var propertyType = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+
+                    _typeSpecifications.TryGetValue(propertyType, out facets);
+
+                    if(_fieldSpecifications.TryGetValue(property.Name, out var fieldFacets))
+                    {
+                        if(facets == null)
+                        {
+                            facets = fieldFacets;
+                        }
+                        else
+                        {
+                            facets = facets.Combine(fieldFacets);
+                        }
+                    }
+
+                    if (facets != null)
+                    {
+                        specifications[property.Name] = new PrimitiveFieldSpecification(facets);
+                    }
+                }
+
+                return specifications;
+            }
+        }            
+        
         public IPrimitiveFieldSpecification<TFieldType> Field<TFieldType>(Expression<Func<TType, TFieldType>> selector)
         {
             //hint IPrimitiveFIeldSpecification
@@ -16,18 +51,29 @@ namespace AppForeach.Framework.DataType
             //todo: throw exception if selector is not a member expression
             var fieldKey = ((MemberExpression)selector.Body).Member.Name;
 
-            if (!_fieldSpecifications.TryGetValue(fieldKey, out object field))
+            if (!_fieldSpecifications.TryGetValue(fieldKey, out FacetBag facets))
             {
-                field = new PrimitiveFieldSpecification<TFieldType>();
-                _fieldSpecifications[fieldKey] = field;
+                facets = new FacetBag();
+                _fieldSpecifications[fieldKey] = facets;
             }
 
-            return field as IPrimitiveFieldSpecification<TFieldType>;
+            return new PrimitiveFieldSpecification<TFieldType>(facets);
+        }
+
+        public IPrimitiveFieldSpecification<TFieldType> Type<TFieldType>()
+        {
+            if(!_typeSpecifications.TryGetValue(typeof(TFieldType), out FacetBag facets))
+            {
+                facets = new FacetBag();
+                _typeSpecifications[typeof(TFieldType)] = facets;
+            }
+
+            return new PrimitiveFieldSpecification<TFieldType>(facets);
         }
     }
 
     public abstract class BaseEntitySpecification
     {
-        public virtual IReadOnlyDictionary<string, IPrimitiveFieldSpecification> FieldSpecifications { get; }
+        public abstract IReadOnlyDictionary<string, IPrimitiveFieldSpecification> FieldSpecifications { get; }
     }
 }

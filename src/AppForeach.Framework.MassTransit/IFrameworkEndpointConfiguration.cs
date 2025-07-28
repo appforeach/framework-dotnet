@@ -6,6 +6,8 @@ namespace AppForeach.Framework.MassTransit
     {
         void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction);
 
+        void Configure(Action<IBusRegistrationContext, IRabbitMqReceiveEndpointConfigurator> endpointAction);
+        
         void AddConsumerInstaller(IConsumerInstaller consumerInstaller);
 
         IConsumerConfigurationBuilder<TConsumer> Consumer<TMessage, TConsumer>()

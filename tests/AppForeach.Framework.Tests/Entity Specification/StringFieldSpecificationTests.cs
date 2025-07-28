@@ -7,7 +7,7 @@ namespace AppForeach.Framework.Tests.Entity_Specification;
 
 public class StringFieldSpecificationTests
 {
-    readonly PrimitiveFieldSpecification<string> _specification = new PrimitiveFieldSpecification<string>();
+    readonly PrimitiveFieldSpecification<string> _specification = new PrimitiveFieldSpecification<string>(new FacetBag());
 
     [Fact]
     public void shold_throw_when_Is_called()
@@ -26,7 +26,7 @@ public class StringFieldSpecificationTests
     [InlineData(250)]
     public void should_set_IsRequired(int maxLength)
     {
-        _specification.MaxLength(maxLength);
+        _specification.HasMaxLength(maxLength);
         _specification.Configuration.TryGet<FieldMaxLengthFacet>().MaxLength.ShouldBe(maxLength);
     }
 }

@@ -21,7 +21,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
             this.dbOptionsConfigurator = dbOptionsConfigurator;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken cancellationToken)
         {
             var scopeState = context.State.Get<TransactionScopeState>();
 
@@ -50,8 +50,8 @@ namespace AppForeach.Framework.EntityFrameworkCore
                         frameworkDb = frameworkDb,
                         next = next
                     }, 
-                    ExecuteInStrategy, 
-                    CancellationToken.None // TODO: Pass CancellationToken from above
+                    ExecuteInStrategy,
+                    cancellationToken
                 );
             }
         }

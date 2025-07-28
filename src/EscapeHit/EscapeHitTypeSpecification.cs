@@ -9,9 +9,9 @@ namespace EscapeHit
         {
             ByDefaultNotRequired();
 
-            Type<string>().MaxLength(50);
+            Type<string>().HasMaxLength(50);
 
-            Type<decimal>().Digits(10, 2);
+            Type<decimal>().HasPrecision(30, 2);
 
             Type<DateTime>().MinValue(1900, 1, 1);
         }

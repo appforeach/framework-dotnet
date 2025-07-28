@@ -4,8 +4,9 @@ using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Mapping;
 using FluentValidation;
 using AppForeach.Framework.FluentValidation.Exceptions;
+using AppForeach.Framework.FluentValidation.MetaData;
 
-namespace AppForeach.Framework.FluentValidation.Extensions;
+namespace AppForeach.Framework.FluentValidation;
 public static class AbstractValidatorExtensions
 {
     private static List<Type> validatorsWithInheritanceFromSpecification = new List<Type>();
@@ -20,9 +21,7 @@ public static class AbstractValidatorExtensions
 
     internal static void InheritOtherRulesFromSpecification<TCommand>(this AbstractValidator<TCommand> validator, AbstractValidator<TCommand> sourceValidator, IMappingMetadataProvider metadataProvider)
     {
-        var overridenProperties = sourceValidator.CreateDescriptor().Rules.Select(x => x.PropertyName).Distinct();
-
-        var validationOptions = ValidationOptions<TCommand>.Default();
+        var overriddenValidationRules = ClassValidationMetadataBuilder.Build(sourceValidator.CreateDescriptor());
 
         var mappingMetadataCollection = metadataProvider.GetMappingMetadata(sourceType: GetCommandType());
 
@@ -32,30 +31,15 @@ public static class AbstractValidatorExtensions
         if (!TryFindSpecification(mappingMetadataCollection, out BaseEntitySpecification entitySpecification, out IEnumerable<IPropertyMap> propertyMapBetweenCommandAndEntity))
             throw new UnableToMapCommandToSpecificationException($"Unable to map command {GetCommandType()} to specification");
 
+        var validationApplicationService = new ValidationApplicationService(overriddenValidationRules);
+
         foreach (var propertyMap in propertyMapBetweenCommandAndEntity)
         {
             if (entitySpecification.FieldSpecifications.TryGetValue(propertyMap.DestinationName, out var fieldSpecification))
             {
-                // skip overriden rules
-                if (overridenProperties.Contains(propertyMap.SourceName))
-                    continue;
-
-                var facets = fieldSpecification.Configuration;
-
-                var requiredFacet = facets.TryGet<FieldRequiredFacet>();
-                if (requiredFacet is not null)
-                {
-                    validator.RuleFor(propertyMap.SourceName).NotNull().When(x => true);
-                }
-
-                var maxLengthFacet = facets.TryGet<FieldMaxLengthFacet>();
-                if (maxLengthFacet is not null)
-                {
-                    validator.RuleFor<TCommand, string>(propertyMap.SourceName).MaximumLength(maxLengthFacet.MaxLength);
-                }
+                validationApplicationService.ApplyToValidator(fieldSpecification, propertyMap.SourceName, validator);
             }
         }
-
 
         bool TryFindSpecification(IEnumerable<IMappingMetadata> mappingMetadataList, out BaseEntitySpecification specification, out IEnumerable<IPropertyMap> propertyMaps)
         {
