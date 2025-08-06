@@ -24,10 +24,10 @@ public class PostgreSqlFeatureInstaller<TDbContext> : SqlFeatureInstaller<TDbCon
 
         services.AddFrameworkModule<PostgreSqlEntityFrameworkComponents>();
 
-        services.AddApplicationStartup<PostgreSqlMigrationStartup<TDbContext>>();
+        services.AddApplicationStartup<PostgreSqlMigrationStartup<TDbContext>>(option.MigrationStartupConfigureAction);
         services.Configure<PostgreSqlMigrationOptions<TDbContext>>(opt => opt.ConnectionString = connectionString);
 
-        services.AddApplicationStartup<PostgreSqlMigrationStartup<FrameworkDbContext>>();
+        services.AddApplicationStartup<PostgreSqlMigrationStartup<FrameworkDbContext>>(option.MigrationStartupConfigureAction);
         services.Configure<PostgreSqlMigrationOptions<FrameworkDbContext>>(opt =>
         {
             opt.ConnectionString = connectionString;
@@ -35,6 +35,5 @@ public class PostgreSqlFeatureInstaller<TDbContext> : SqlFeatureInstaller<TDbCon
                 .MigrationsHistoryTable("__FrameworkEFMigrationsHistory", "framework")
                 .MigrationsAssembly(typeof(PostgreSqlEntityFrameworkComponents).Assembly.FullName);
         });
-
     }
 }

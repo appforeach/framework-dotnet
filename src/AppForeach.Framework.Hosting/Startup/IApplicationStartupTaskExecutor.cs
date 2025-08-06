@@ -5,6 +5,6 @@ namespace AppForeach.Framework.Hosting.Startup
 {
     public interface IApplicationStartupTaskExecutor
     {
-        Task ExecuteApplicationStartup(CancellationToken cancellationToken);
+        Task<ApplicationStartupExecutionResult> ExecuteApplicationStartup(CancellationToken cancellationToken);
     }
 }

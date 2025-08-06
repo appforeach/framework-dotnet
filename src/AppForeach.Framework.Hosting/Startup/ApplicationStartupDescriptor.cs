@@ -7,5 +7,7 @@ namespace AppForeach.Framework.Hosting.Startup
         where TImplementation : IApplicationStartup
     {
         public Type ImplemenationType => typeof(TImplementation);
+
+        public ApplicationStartupOptions? Options { get; set; }
     }
 }

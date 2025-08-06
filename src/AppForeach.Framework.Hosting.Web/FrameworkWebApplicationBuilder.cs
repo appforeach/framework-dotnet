@@ -3,7 +3,6 @@ using AppForeach.Framework.Hosting.Web.Features;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace AppForeach.Framework.Hosting.Web
 {
@@ -31,11 +30,14 @@ namespace AppForeach.Framework.Hosting.Web
 
             var app = builder.Build();
 
-            app.ExecuteApplicationStartupTasks();
+            var executionResult = app.ExecuteApplicationStartupTasks();
 
-            ConfigureWeb(app, featureInstaller);
+            if(!executionResult.IsApplicationTerminationRequested)
+            {
+                ConfigureWeb(app, featureInstaller);
 
-            app.Run();
+                app.Run();
+            }
         }
 
         protected virtual void ConfigureHost(WebApplicationBuilder webBuilder)
