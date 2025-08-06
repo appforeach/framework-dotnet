@@ -9,9 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework\AppForeach.Framework.csproj" />
     <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
   </ItemGroup>
 

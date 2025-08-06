@@ -16,12 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.EntityFrameworkCore\AppForeach.Framework.EntityFrameworkCore.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.Hosting.Web\AppForeach.Framework.Hosting.Web.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.EntityFrameworkCore\AppForeach.Framework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Hosting.Web\AppForeach.Framework.Hosting.Web.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework\AppForeach.Framework.csproj" />
     <ProjectReference Include="..\EscapeHit.Invoice.Service\EscapeHit.Invoice.Service.csproj" />
   </ItemGroup>
 

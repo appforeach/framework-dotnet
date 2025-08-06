@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj" />
-    <ProjectReference Include="..\AppForeach.Framework\AppForeach.Framework.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\src\AppForeach.Framework\AppForeach.Framework.csproj" />
   </ItemGroup>
 
 </Project>
