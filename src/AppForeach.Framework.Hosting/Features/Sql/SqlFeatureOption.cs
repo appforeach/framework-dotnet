@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AppForeach.Framework.Hosting.Startup;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
@@ -8,5 +10,7 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         public abstract IApplicationFeatureInstaller Installer { get; }
 
         public string? ConnectionStringName {  get; set; }
+
+        public Action<IApplicationStartupOptionsConfigurator>? MigrationStartupConfigureAction { get; set; }
     }
 }

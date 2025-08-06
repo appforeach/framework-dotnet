@@ -24,10 +24,10 @@ namespace AppForeach.Framework.Hosting.Features.Sql
 
             services.AddFrameworkModule<SqlEntityFrameworkComponents>();
 
-            services.AddApplicationStartup<SqlServerMigrationStartup<TDbContext>>();
+            services.AddApplicationStartup<SqlServerMigrationStartup<TDbContext>>(option.MigrationStartupConfigureAction);
             services.Configure<SqlServerMigrationOptions<TDbContext>>(opt => opt.ConnectionString = connectionString);
 
-            services.AddApplicationStartup<SqlServerMigrationStartup<FrameworkDbContext>>();
+            services.AddApplicationStartup<SqlServerMigrationStartup<FrameworkDbContext>>(option.MigrationStartupConfigureAction);
             services.Configure<SqlServerMigrationOptions<FrameworkDbContext>>(opt =>
             {
                 opt.ConnectionString = connectionString;
@@ -35,7 +35,6 @@ namespace AppForeach.Framework.Hosting.Features.Sql
                     .MigrationsHistoryTable("__FrameworkEFMigrationsHistory", "framework")
                     .MigrationsAssembly("AppForeach.Framework.EntityFrameworkCore.SqlServer");
             });
-
         }
     }
 }

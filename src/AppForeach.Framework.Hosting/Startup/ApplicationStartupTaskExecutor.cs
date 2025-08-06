@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,20 +20,38 @@ namespace AppForeach.Framework.Hosting.Startup
             this.logger = logger;
         }
 
-        public async Task ExecuteApplicationStartup(CancellationToken cancellationToken)
+        public async Task<ApplicationStartupExecutionResult> ExecuteApplicationStartup(CancellationToken cancellationToken)
         {
+            var executionResult = new ApplicationStartupExecutionResult();
+
             foreach (var taskDescriptor in startupDescriptors)
             {
                 using (var scope = serviceScopeFactory.CreateScope())
                 {
                     var startupTask = (IApplicationStartup)scope.ServiceProvider.GetRequiredService(taskDescriptor.ImplemenationType);
 
-                    string startupName = taskDescriptor.GetType().Name;
-                    logger.LogInformation("Executing startup task {taskName}", startupName);
-                    await startupTask.Run(CancellationToken.None);
-                    logger.LogInformation("Executed startup task {taskName}", startupName);
+                    string startupName = taskDescriptor.ImplemenationType.Name;
+
+                    if(taskDescriptor.Options?.RunCondition?.Invoke() ?? true) 
+                    { 
+                        logger.LogInformation("Executing startup task {taskName}", startupName);
+                        await startupTask.Run(cancellationToken);
+                        logger.LogInformation("Executed startup task {taskName}", startupName);
+                    }
+                    else
+                    {
+                        logger.LogInformation("Skipped startup task {taskName} due to RunCondition", startupName);
+                    }
+
+                    if (taskDescriptor.Options?.ApplicationTerminateCondition?.Invoke() ?? false)
+                    {
+                        executionResult.IsApplicationTerminationRequested = true;
+                        logger.LogInformation("Startup task {taskName} requested application termination", startupName);
+                    }
                 }
             }
+
+            return executionResult;
         }
     }
 }

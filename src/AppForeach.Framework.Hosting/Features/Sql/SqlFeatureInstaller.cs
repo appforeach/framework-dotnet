@@ -19,7 +19,7 @@ namespace AppForeach.Framework.Hosting.Features.Sql
 
         public virtual void SetUpServices(IApplicationFeatureInstallContext installContext, IServiceCollection services)
         {
-            string connectionStringName = "Sql";
+            string connectionStringName = option.ConnectionStringName ?? "Sql";
             connectionString = installContext.Configuration.GetConnectionString(connectionStringName)
                 ?? throw new FrameworkException($"Connection string '{connectionStringName}' not found.");
 
