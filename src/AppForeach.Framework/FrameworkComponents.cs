@@ -35,7 +35,7 @@ namespace AppForeach.Framework
 
             Transient<IFrameworkLogger, DefaultEmptyFrameworkLogger>(isOptional: true);
             Singleton<ILoggingPropertyAggregator, LoggingPropertyAggregator>(isOptional: true);
-            Singleton<ILoggingPropertyMap, DefaultLoggingPropertyMap>(isOptional: true);
+            Singleton<ILoggingPropertyMapAggregator, LoggingPropertyMapAggregator>(isOptional: true);
         }
     }
 }

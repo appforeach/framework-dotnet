@@ -3,6 +3,10 @@ namespace AppForeach.Framework.Logging
 {
     public class FrameworkLogProperties
     {
+        public const string EventId = "EventId";
+
+        public const string EventName = "EventName";
+
         public const string Logger = "Logger";
 
         public const string OperationName = "OperationName";

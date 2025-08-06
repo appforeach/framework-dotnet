@@ -12,7 +12,7 @@ namespace EscapeHit.WebApi
         public static void Configure(IServiceCollection services) 
         {
             services.AddFrameworkModule<SerilogFrameworkComponents>();
-            services.AddSingleton<ILoggingPropertyMap, EcsLoggingPropertyMap>();
+            services.AddSingleton<ILoggingPropertyMap, EcsFrameworkLoggingPropertyMap>();
             services.AddApplicationConfigurationLoggingProperty<string>("service.name", "app:name");
             services.AddApplicationConfigurationLoggingProperty("service.environment", "app:environment", "local");
 

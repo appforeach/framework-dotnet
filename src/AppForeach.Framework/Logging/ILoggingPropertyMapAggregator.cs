@@ -2,7 +2,7 @@
 
 namespace AppForeach.Framework.Logging
 {
-    public interface ILoggingPropertyMap
+    public interface ILoggingPropertyMapAggregator
     {
         IEnumerable<KeyValuePair<string, object>> MapProperties(IEnumerable<KeyValuePair<string, object>> properties);
     }

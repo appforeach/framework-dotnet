@@ -55,7 +55,7 @@ namespace AppForeach.Framework.Validation
 
             logger.Log(FrameworkLogEvents.ValidationFailed, FrameworkLogLevel.Warning, "Validation failed", new Dictionary<string, object>
             {
-                { FrameworkLogProperties.Logger, nameof(OperationLoggingMiddleware) },
+                { FrameworkLogProperties.Logger, nameof(DefaultValidationFailedEventHandler) },
                 { FrameworkLogProperties.OperationName, contextState.OperationName },
                 { FrameworkLogProperties.ErrorMessage, error.ToString() }
             });

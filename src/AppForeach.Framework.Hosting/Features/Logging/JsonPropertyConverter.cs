@@ -8,7 +8,7 @@ namespace AppForeach.Framework.Hosting.Features.Logging
 {
     public class JsonPropertyConverter
     {
-        public string GetJson(List<(string PropertyName, object Value)> properties)
+        public string GetJson(IEnumerable<(string PropertyName, object Value)> properties)
         {
             using var stream = new MemoryStream();
             using var writer = new Utf8JsonWriter(stream, new JsonWriterOptions() { Indented = false});
@@ -46,6 +46,9 @@ namespace AppForeach.Framework.Hosting.Features.Logging
                     break;
                 case float floatValue:
                     writer.WriteProperty(propertyName, floatValue);
+                    break;
+                case double doubleValue:
+                    writer.WriteProperty(propertyName, doubleValue);
                     break;
                 case decimal decimalValue:
                     writer.WriteProperty(propertyName, decimalValue);

@@ -49,6 +49,12 @@ namespace AppForeach.Framework.Hosting.Features.Logging
             jsonWriter.WriteNumberValue(value);
         }
 
+        public void WriteProperty(string property, double value)
+        {
+            WritePropertyName(property);
+            jsonWriter.WriteNumberValue(value);
+        }
+
         public void WriteProperty(string property, bool value)
         {
             WritePropertyName(property);

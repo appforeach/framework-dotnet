@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Logging
@@ -15,7 +16,7 @@ namespace AppForeach.Framework.Logging
             this.context = context;
         }
 
-        public async Task ExecuteAsync(NextOperationDelegate next)
+        public async Task ExecuteAsync(NextOperationDelegate next, CancellationToken ct)
         {
             long start = Stopwatch.GetTimestamp();
             

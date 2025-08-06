@@ -11,6 +11,6 @@
   </ItemGroup>
 	
   <ItemGroup>
-	  <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.0" />
+	  <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.18.2" />
   </ItemGroup>
 </Project>
