@@ -3,6 +3,7 @@ using AppForeach.Framework;
 using System;
 using System.Collections.Generic;
 using AppForeach.Framework.Validation;
+using AppForeach.Framework.Logging;
 
 namespace EscapeHit.Service.Features.Mediator
 {
@@ -11,6 +12,7 @@ namespace EscapeHit.Service.Features.Mediator
         public static List<Type> GetDefault(bool hasDatabase)
         {
             List<Type> middlewares = new();
+            middlewares.Add(typeof(OperationLoggingMiddleware));
             middlewares.Add(typeof(ExceptionHandlerMiddleware));
             middlewares.Add(typeof(OperationNameResolutionMiddleware));
             middlewares.Add(typeof(ValidationMiddleware));

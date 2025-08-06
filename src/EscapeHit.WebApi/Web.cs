@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Serilog;
 
 namespace EscapeHit.WebApi
 {
@@ -6,6 +7,7 @@ namespace EscapeHit.WebApi
     {
         public static void Configure(WebApplication app)
         {
+            app.UseSerilogRequestLogging();
             app.MapControllers();
         }
     }
