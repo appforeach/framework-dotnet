@@ -4,7 +4,7 @@ using System;
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
-    public abstract class SqlFeatureOption<TDbContext> : ISqlFeatureOption, IApplicationFeatureOption
+    public abstract class SqlFeatureOption<TDbContext> : IApplicationFeatureOption
         where TDbContext : DbContext
     {
         public abstract IApplicationFeatureInstaller Installer { get; }

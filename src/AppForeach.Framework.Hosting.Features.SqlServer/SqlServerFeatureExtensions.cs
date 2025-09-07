@@ -1,4 +1,6 @@
-﻿using AppForeach.Framework.Hosting.Features.SqlServer;
+﻿using AppForeach.Framework.Hosting.Features;
+using AppForeach.Framework.Hosting.Features.SqlServer;
+using AppForeach.Framework.Hosting.Features.Tag;
 using Microsoft.EntityFrameworkCore;
 
 namespace Microsoft.Extensions.DependencyInjection
@@ -14,6 +16,8 @@ namespace Microsoft.Extensions.DependencyInjection
             configureAction?.Invoke(configurator);
 
             services.AddSingleton(options);
+
+            services.AddApplicationFeatureTag(FrameworkFeatureTags.Sql);
         }
     }
 }
