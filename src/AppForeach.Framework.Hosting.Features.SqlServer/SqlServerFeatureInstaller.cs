@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
 using AppForeach.Framework.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AppForeach.Framework.Hosting.Features.Sql
 {
@@ -21,19 +22,31 @@ namespace AppForeach.Framework.Hosting.Features.Sql
         {
             base.SetUpServices(installContext, services);
 
-
             services.AddFrameworkModule<SqlEntityFrameworkComponents>();
+            services.Configure<SqlDbOptions>(opt =>
+            {
+                opt.DbOptions = option.ExecutionDbContextOptions;
+            });
 
             services.AddApplicationStartup<SqlServerMigrationStartup<TDbContext>>(option.MigrationStartupConfigureAction);
-            services.Configure<SqlServerMigrationOptions<TDbContext>>(opt => opt.ConnectionString = connectionString);
+            services.Configure<SqlServerMigrationOptions<TDbContext>>(opt =>
+            {
+                opt.ConnectionString = connectionString;
+                opt.DbContextOptions = option.MigrationDbContextOptions;
+            });
 
             services.AddApplicationStartup<SqlServerMigrationStartup<FrameworkDbContext>>(option.MigrationStartupConfigureAction);
             services.Configure<SqlServerMigrationOptions<FrameworkDbContext>>(opt =>
             {
                 opt.ConnectionString = connectionString;
-                opt.DbContextOptions = opt => opt
+                opt.DbContextOptions = o =>
+                {
+                    o
                     .MigrationsHistoryTable("__FrameworkEFMigrationsHistory", "framework")
                     .MigrationsAssembly("AppForeach.Framework.EntityFrameworkCore.SqlServer");
+
+                    option.FrameworkMigrationDbContextOptions?.Invoke(o);
+                };
             });
         }
     }
