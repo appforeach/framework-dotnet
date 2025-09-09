@@ -35,8 +35,6 @@ namespace AppForeach.Framework.Hosting.Features.Sql
 
         private TDbContext CreateDbContext(DbContextOptions<TDbContext> options) 
         {
-            return (Activator.CreateInstance(typeof(TDbContext), options) as TDbContext)
-                ?? throw new FrameworkException("Could not activate " + nameof(TDbContext));
             var factoryBaseType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(typeof(TDbContext));
 
             var dbContextDesignTimeFactoryType = typeof(TDbContext).Assembly.DefinedTypes
