@@ -1,5 +1,6 @@
 ﻿using AppForeach.Framework.DependencyInjection;
 using AppForeach.Framework.Logging;
+using AppForeach.Framework.Mapping;
 using AppForeach.Framework.Validation;
 
 namespace AppForeach.Framework
@@ -26,6 +27,7 @@ namespace AppForeach.Framework
             Scoped<OperationNameResolutionMiddleware, OperationNameResolutionMiddleware>();
             Scoped<ValidationMiddleware, ValidationMiddleware>();
             Scoped<ExceptionHandlerMiddleware, ExceptionHandlerMiddleware>();
+            Scoped<MappingMiddleware, MappingMiddleware>();
 
             Component(typeof(IValidationFailedEventHandler), typeof(DefaultValidationFailedEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IExceptionEventHandler), typeof(DefaultExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);

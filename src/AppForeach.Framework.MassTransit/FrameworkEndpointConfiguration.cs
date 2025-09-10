@@ -42,9 +42,9 @@ public class FrameworkEndpointConfiguration
         return consumerInstaller.ConfigurationBuilder;
     }
 
-    public IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>() where TMessage : class
+    public IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>(Action<IOperationBuilder>? options = null) where TMessage : class
     {
-        var consumerInstaller = new FrameworkMediatorConsumerInstaller<TMessage>();
+        var consumerInstaller = new FrameworkMediatorConsumerInstaller<TMessage>(options);
 
         AddConsumerInstaller(consumerInstaller);
 
