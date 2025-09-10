@@ -1,7 +1,6 @@
-﻿using AppForeach.Framework.Hosting.Features.Sql;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using AppForeach.Framework.Microsoft.Extensions.DependencyInjection;
-using System.Linq;
+using AppForeach.Framework.Hosting.Features.Tag;
 
 namespace AppForeach.Framework.Hosting.Features.Mediator
 {
@@ -16,7 +15,8 @@ namespace AppForeach.Framework.Hosting.Features.Mediator
 
         public void SetUpServices(IApplicationFeatureInstallContext installContext, IServiceCollection services)
         {
-            bool hasDatabase = installContext.Options.OfType<ISqlFeatureOption>().Any();
+            var tags = installContext.Options.GetApplicationFeatureTags();
+            bool hasDatabase = tags.Contains(FrameworkFeatureTags.Sql);
 
             services.AddFrameworkModule<FrameworkComponents>();
 
