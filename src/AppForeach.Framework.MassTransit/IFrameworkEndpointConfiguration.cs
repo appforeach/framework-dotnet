@@ -14,7 +14,7 @@ namespace AppForeach.Framework.MassTransit
             where TMessage : class
             where TConsumer : class, IConsumer<TMessage>;
 
-        IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>()
+        IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>(Action<IOperationBuilder>? options=null)
             where TMessage : class;
     }
 }

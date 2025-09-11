@@ -8,5 +8,6 @@ public class AutoMapperFrameworkModule : FrameworkModule
     public AutoMapperFrameworkModule()
     {
         Singleton<IMappingMetadataProvider, MappingMetadataProvider>();
+        Singleton<IFrameworkMapper, AutoMapperFrameworkMapper>();
     }
 }

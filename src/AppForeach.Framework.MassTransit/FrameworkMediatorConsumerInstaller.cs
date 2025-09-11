@@ -1,8 +1,12 @@
 ﻿using MassTransit;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AppForeach.Framework.MassTransit;
 
-public class FrameworkMediatorConsumerInstaller<TMessage> : IConsumerInstaller
+public class FrameworkMediatorConsumerInstaller<TMessage>
+    (
+        Action<IOperationBuilder>? options = null
+    ): IConsumerInstaller
     where TMessage : class
 {
     public ConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> ConfigurationBuilder { get; set; } = new();
@@ -12,6 +16,7 @@ public class FrameworkMediatorConsumerInstaller<TMessage> : IConsumerInstaller
     {
         ArgumentNullException.ThrowIfNull(registrationConfigurator);
 
+        registrationConfigurator.Configure<FrameworkMediatorConsumerOptions<TMessage>>(o => o.OperationOptions = options);
         registrationConfigurator.AddConsumer<FrameworkMediatorConsumer<TMessage>>();
     }
 
