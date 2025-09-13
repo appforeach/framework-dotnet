@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.FluentValidation\AppForeach.Framework.FluentValidation.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework\AppForeach.Framework.csproj" />
+  </ItemGroup>
+
+</Project>
