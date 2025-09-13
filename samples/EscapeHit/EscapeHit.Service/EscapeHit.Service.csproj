@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Scrutor" Version="4.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.AutoMapper\AppForeach.Framework.AutoMapper.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Hosting.Features.SqlServer\AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Hosting\AppForeach.Framework.Hosting.csproj" />
+    <ProjectReference Include="..\EscapeHit\EscapeHit.csproj" />
+  </ItemGroup>
+
+</Project>

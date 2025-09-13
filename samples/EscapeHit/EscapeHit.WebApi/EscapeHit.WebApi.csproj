@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.12.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+	<PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.18.2" />	  
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Castle.Windsor\AppForeach.Framework.Castle.Windsor.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.EntityFrameworkCore\AppForeach.Framework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Hosting.Features.Serilog.Ecs\AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Hosting.Web\AppForeach.Framework.Hosting.Web.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework.Serilog\AppForeach.Framework.Serilog.csproj" />
+    <ProjectReference Include="..\..\..\src\AppForeach.Framework\AppForeach.Framework.csproj" />
+    <ProjectReference Include="..\EscapeHit.Service\EscapeHit.Service.csproj" />
+  </ItemGroup>
+
+</Project>
