@@ -1,14 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net10.0;net9.0;net8.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.1.3" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.3" />
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.1.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.1.3" />
+	  
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net9.0'" Version="8.3.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Condition="'$(TargetFramework)' == 'net9.0'" Version="8.3.7" />
+
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net10.0'" Version="8.5.7" />
+    <PackageReference Include="MassTransit.RabbitMQ" Condition="'$(TargetFramework)' == 'net10.0'" Version="8.5.7" />
+	  
   </ItemGroup>
 
   <ItemGroup>
