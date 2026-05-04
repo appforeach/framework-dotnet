@@ -56,12 +56,12 @@ namespace AppForeach.Framework.EntityFrameworkCore
             return db;
         }
 
-        private bool? GetIsCurrentOperationCommand(bool operationRequired)
+        private bool? GetIsCurrentOperationCommand(bool isOperationMandatory)
         {
             var operationContextState = operationContext.State.Get<OperationContextState>();
             if(!operationContextState.IsOperationInputSet)
             {
-                if (operationRequired)
+                if (isOperationMandatory)
                 {
                     throw new FrameworkException("DbContext cannot be activated outside of mediator execution context.");
                 }
@@ -75,7 +75,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
             var transationState = operationContext.State.Get<TransactionScopeState>();
             if (!transationState.IsTransactionInitialized)
             {
-                if (operationRequired)
+                if (isOperationMandatory)
                 {
                     throw new FrameworkException("DbContext cannot be activated outside of transaction middleware.");
                 }
