@@ -13,17 +13,17 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
     {
         private readonly IOperationContext context;
         private readonly ILoggingCorrelationProvider loggingCorrelationProvider;
-        private readonly IDbOptionsConfigurator dbOptionsConfigurator;
+        private readonly IDbContextActivator dbContextActivator;
         private readonly IConnectionStringProvider connectionStringProvider;
         private readonly IServiceProvider serviceProvider;
 
         public AuditMiddleware(IOperationContext context, ILoggingCorrelationProvider loggingCorrelationProvider,
-            IDbOptionsConfigurator dbOptionsConfigurator, IConnectionStringProvider connectionStringProvider,
+            IDbContextActivator dbContextActivator, IConnectionStringProvider connectionStringProvider,
             IServiceProvider serviceProvider)
         {
             this.context = context;
             this.loggingCorrelationProvider = loggingCorrelationProvider;
-            this.dbOptionsConfigurator = dbOptionsConfigurator;
+            this.dbContextActivator = dbContextActivator;
             this.connectionStringProvider = connectionStringProvider;
             this.serviceProvider = serviceProvider;
         }
@@ -35,9 +35,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
 
             if (auditEnabled)
             {
-                var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
-                dbOptionsConfigurator.SetConnectionString(optionsBuilder, connectionStringProvider.ConnectionString);
-                using var db = (FrameworkDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(FrameworkDbContext), optionsBuilder.Options);
+                using var db = dbContextActivator.Activate<FrameworkDbContext>(DbContextOperationEnlistmentStrategy.Suppress);
                 
                 var inputAudit = await AuditInput(db, cancellationToken);
 
