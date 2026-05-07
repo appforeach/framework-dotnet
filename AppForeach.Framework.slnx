@@ -1,0 +1,39 @@
+<Solution>
+  <Folder Name="/samples/" />
+  <Folder Name="/samples/EscapeHit/">
+    <Project Path="samples/EscapeHit/EscapeHit.Invoice.Database.Design/EscapeHit.Invoice.Database.Design.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.Invoice.Database/EscapeHit.Invoice.Database.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.Invoice.Service/EscapeHit.Invoice.Service.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.Invoice.WebApi/EscapeHit.Invoice.WebApi.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.Invoice/EscapeHit.Invoice.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.Service/EscapeHit.Service.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit.WebApi/EscapeHit.WebApi.csproj" />
+    <Project Path="samples/EscapeHit/EscapeHit/EscapeHit.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/AppForeach.Framework.Autofac/AppForeach.Framework.Autofac.csproj" />
+    <Project Path="src/AppForeach.Framework.AutoMapper/AppForeach.Framework.AutoMapper.csproj" />
+    <Project Path="src/AppForeach.Framework.Castle.Windsor/AppForeach.Framework.Castle.Windsor.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.Design/AppForeach.Framework.EntityFrameworkCore.Design.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.PostgreSql.Design/AppForeach.Framework.EntityFrameworkCore.PostgreSql.Design.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.PostgreSql/AppForeach.Framework.EntityFrameworkCore.PostgreSql.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.SqlServer/AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore/AppForeach.Framework.EntityFrameworkCore.csproj" />
+    <Project Path="src/AppForeach.Framework.FluentValidation/AppForeach.Framework.FluentValidation.csproj" />
+    <Project Path="src/AppForeach.Framework.Hosting.Features.PostgreSql/AppForeach.Framework.Hosting.Features.PostgreSql.csproj" />
+    <Project Path="src/AppForeach.Framework.Hosting.Features.Serilog.Ecs/AppForeach.Framework.Hosting.Features.Serilog.Ecs.csproj" />
+    <Project Path="src/AppForeach.Framework.Hosting.Features.SqlServer/AppForeach.Framework.Hosting.Features.SqlServer.csproj" />
+    <Project Path="src/AppForeach.Framework.Hosting.Web/AppForeach.Framework.Hosting.Web.csproj" />
+    <Project Path="src/AppForeach.Framework.Hosting/AppForeach.Framework.Hosting.csproj" />
+    <Project Path="src/AppForeach.Framework.MassTransit/AppForeach.Framework.MassTransit.csproj" />
+    <Project Path="src/AppForeach.Framework.Microsoft.Extensions/AppForeach.Framework.Microsoft.Extensions.csproj" />
+    <Project Path="src/AppForeach.Framework.Serilog/AppForeach.Framework.Serilog.csproj" />
+    <Project Path="src/AppForeach.Framework/AppForeach.Framework.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AppForeach.Framework.AutoMapper.Tests/AppForeach.Framework.AutoMapper.Tests.csproj" />
+    <Project Path="tests/AppForeach.Framework.EntityFrameworkCore.Tests/AppForeach.Framework.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="tests/AppForeach.Framework.FluentValidation.Tests/AppForeach.Framework.FluentValidation.Tests.csproj" />
+    <Project Path="tests/AppForeach.Framework.Tests/AppForeach.Framework.Tests.csproj" />
+  </Folder>
+</Solution>
