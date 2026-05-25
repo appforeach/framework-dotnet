@@ -2,7 +2,7 @@
 
 namespace AppForeach.Framework.Logging
 {
-    internal class LoggingPropertyMapAggregator : ILoggingPropertyMapAggregator
+    public class LoggingPropertyMapAggregator : ILoggingPropertyMapAggregator
     {
         private readonly IEnumerable<ILoggingPropertyMap> propertyMaps;
 
