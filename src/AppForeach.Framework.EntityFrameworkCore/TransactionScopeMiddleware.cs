@@ -71,16 +71,22 @@ namespace AppForeach.Framework.EntityFrameworkCore
 
             if (context.IsCommand)
             {
-                var transaction = new TransactionEntity
+                var insertFactFacet = context.Configuration.TryGet<TransactionInsertFactFacet>();
+                bool insertFact = insertFactFacet?.InsertFact ?? true;
+
+                if (insertFact)
                 {
-                    Name = context.OperationName,
-                    OccuredOn = DateTimeOffset.UtcNow
-                };
-                frameworkDb.Transactions.Add(transaction);
+                    var transaction = new TransactionEntity
+                    {
+                        Name = context.OperationName,
+                        OccuredOn = DateTimeOffset.UtcNow
+                    };
+                    frameworkDb.Transactions.Add(transaction);
 
-                await frameworkDb.SaveChangesAsync(ct);
+                    await frameworkDb.SaveChangesAsync(ct);
 
-                scopeState.TransactionId = transaction.Id;
+                    scopeState.TransactionId = transaction.Id;
+                }
             }
 
             scopeState.IsTransactionInitialized = true;

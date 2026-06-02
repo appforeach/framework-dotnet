@@ -5,7 +5,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
 {
     public class TransactionScopeState
     {
-        public DbContext DbContext { get; set; }
+        public FrameworkDbContext DbContext { get; set; }
 
         public IDbContextTransaction DbContextTransaction { get;set; }
 

@@ -50,5 +50,16 @@ namespace AppForeach.Framework.EntityFrameworkCore
 
             return builder;
         }
+
+        public static IOperationBuilder TransactionInsertFact(this IOperationBuilder builder, bool insertFact)
+        {
+            var facet = new TransactionInsertFactFacet
+            {
+                InsertFact = insertFact
+            };
+            builder.Configuration.Set(facet);
+
+            return builder;
+        }
     }
 }

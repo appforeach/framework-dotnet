@@ -22,6 +22,8 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
             builder.HasIndex(e => e.TransactionId);
 
             builder.HasIndex(e => e.InputAuditId);
+
+            builder.HasIndex(e => e.OccuredOn);
         }
     }
 }
