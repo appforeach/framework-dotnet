@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AppForeach.Framework.Hosting.Features.Job;
 
-public class JobBackgroundService<TOperation> 
+public class JobBackgroundService<TOperation>
     (
     IServiceScopeFactory scopeFactory,
     IOptionsMonitor<JobOptions<TOperation>> optionsMonitor,
@@ -24,14 +24,22 @@ public class JobBackgroundService<TOperation>
             var start = DateTime.UtcNow;
             var options = optionsMonitor.CurrentValue;
 
-            await DoWorkAsync(options, stoppingToken);
-
-            var remainingWait = options.Interval - (DateTime.UtcNow - start);
-
-            if(remainingWait > TimeSpan.Zero)
+            if (options.Enabled)
             {
-                await Task.Delay(remainingWait, stoppingToken);
-            }            
+
+                await DoWorkAsync(options, stoppingToken);
+
+                var remainingWait = options.Interval - (DateTime.UtcNow - start);
+
+                if (remainingWait > TimeSpan.Zero)
+                {
+                    await Task.Delay(remainingWait, stoppingToken);
+                }
+            }
+            else
+            {
+                await Task.Delay(TimeSpan.FromSeconds(60), stoppingToken);
+            }
         }
     }
 
