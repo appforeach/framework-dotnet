@@ -14,9 +14,9 @@
     <Project Path="src/AppForeach.Framework.Autofac/AppForeach.Framework.Autofac.csproj" />
     <Project Path="src/AppForeach.Framework.AutoMapper/AppForeach.Framework.AutoMapper.csproj" />
     <Project Path="src/AppForeach.Framework.Castle.Windsor/AppForeach.Framework.Castle.Windsor.csproj" />
-    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.Design/AppForeach.Framework.EntityFrameworkCore.Design.csproj" />
     <Project Path="src/AppForeach.Framework.EntityFrameworkCore.PostgreSql.Design/AppForeach.Framework.EntityFrameworkCore.PostgreSql.Design.csproj" />
     <Project Path="src/AppForeach.Framework.EntityFrameworkCore.PostgreSql/AppForeach.Framework.EntityFrameworkCore.PostgreSql.csproj" />
+    <Project Path="src/AppForeach.Framework.EntityFrameworkCore.SqlServer.Design/AppForeach.Framework.EntityFrameworkCore.SqlServer.Design.csproj" />
     <Project Path="src/AppForeach.Framework.EntityFrameworkCore.SqlServer/AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj" />
     <Project Path="src/AppForeach.Framework.EntityFrameworkCore/AppForeach.Framework.EntityFrameworkCore.csproj" />
     <Project Path="src/AppForeach.Framework.FluentValidation/AppForeach.Framework.FluentValidation.csproj" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AppForeach.Framework.EntityFrameworkCore.Design
+namespace AppForeach.Framework.EntityFrameworkCore.SqlServer.Design
 {
     class Program
     {

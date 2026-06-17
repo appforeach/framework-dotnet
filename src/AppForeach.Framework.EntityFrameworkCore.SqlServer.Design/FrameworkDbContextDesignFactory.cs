@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace AppForeach.Framework.EntityFrameworkCore.Design
+namespace AppForeach.Framework.EntityFrameworkCore.SqlServer.Design
 {
     public class FrameworkDbContextDesignFactory : IDesignTimeDbContextFactory<FrameworkDbContext>
     {
