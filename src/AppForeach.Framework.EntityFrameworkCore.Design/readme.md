@@ -1,3 +1,3 @@
-﻿Add-Migration -StartupProject AppForeach.Framework.EntityFrameworkCore.Design -Project AppForeach.Framework.EntityFrameworkCore <Name>
+﻿Add-Migration -StartupProject AppForeach.Framework.EntityFrameworkCore.Design -Project AppForeach.Framework.EntityFrameworkCore.SqlServer <Name>
 
-Update-Database -StartupProject AppForeach.Framework.EntityFrameworkCore.Design -Project AppForeach.Framework.EntityFrameworkCore
+Update-Database -StartupProject AppForeach.Framework.EntityFrameworkCore.Design -Project AppForeach.Framework.EntityFrameworkCore.SqlServer

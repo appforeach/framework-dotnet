@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AppForeach.Framework.EntityFrameworkCore.SqlServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace AppForeach.Framework.EntityFrameworkCore.Design
@@ -8,10 +9,11 @@ namespace AppForeach.Framework.EntityFrameworkCore.Design
         public FrameworkDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
-            optionsBuilder.UseSqlServer("Server=(local); Initial Catalog=invoice; Integrated Security=true; MultipleActiveResultSets=True;",
+            optionsBuilder.UseSqlServer("Server=.\\SqlExpress; Initial Catalog=appforeach; Integrated Security=true; MultipleActiveResultSets=True;TrustServerCertificate=True;Encrypt=False;",
                 opt =>
                 {
                     opt.MigrationsHistoryTable("__EFMigrationsHistory", FrameworkDbContext.Schema);
+                    opt.MigrationsAssembly(typeof(SqlEntityFrameworkComponents).Assembly.FullName);
                 });
             return new FrameworkDbContext(optionsBuilder.Options);
         }
