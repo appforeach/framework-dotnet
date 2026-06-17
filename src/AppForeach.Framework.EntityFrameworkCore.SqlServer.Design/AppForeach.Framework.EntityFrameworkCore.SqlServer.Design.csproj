@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AppForeach.Framework.EntityFrameworkCore\AppForeach.Framework.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\AppForeach.Framework.EntityFrameworkCore.SqlServer\AppForeach.Framework.EntityFrameworkCore.SqlServer.csproj" />
   </ItemGroup>
   
 </Project>

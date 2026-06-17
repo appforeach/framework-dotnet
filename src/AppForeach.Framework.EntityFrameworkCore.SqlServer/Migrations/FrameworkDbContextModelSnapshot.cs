@@ -18,7 +18,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("framework")
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -71,6 +71,8 @@ namespace AppForeach.Framework.EntityFrameworkCore.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InputAuditId");
+
+                    b.HasIndex("OccuredOn");
 
                     b.HasIndex("TransactionId");
 
