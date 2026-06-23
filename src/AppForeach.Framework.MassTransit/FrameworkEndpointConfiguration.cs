@@ -9,20 +9,7 @@ public class FrameworkEndpointConfiguration
         MessageHostDefinition hostDefinition
     ) : IFrameworkEndpointConfiguration
 {
-
-    public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
-    {
-        ArgumentNullException.ThrowIfNull(endpointAction);
-
-        hostDefinition.EndpointActions.Add((endpointName, (_, cfg) => endpointAction(cfg)));
-    }
-
-    public void Configure(Action<IBusRegistrationContext, IRabbitMqReceiveEndpointConfigurator> endpointAction)
-    {
-        ArgumentNullException.ThrowIfNull(endpointAction);
-
-        hostDefinition.EndpointActions.Add((endpointName, endpointAction));
-    }
+    protected string EndpointName => endpointName;
 
     public void AddConsumerInstaller(IConsumerInstaller consumerInstaller)
     {
