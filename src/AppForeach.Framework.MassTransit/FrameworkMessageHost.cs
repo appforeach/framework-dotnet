@@ -2,12 +2,11 @@
 
 namespace AppForeach.Framework.MassTransit
 {
-    public abstract class FrameworkMessageHost<THostDefinition>
-        where THostDefinition : MessageHostDefinition, new()
+    public abstract class FrameworkMessageHost<TBusFactoryConfigurator, TEndpointConfigurator>
     {
         private string lastEndpoint = string.Empty;
 
-        public THostDefinition HostDefinition { get; } = new THostDefinition();
+        public MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> HostDefinition { get; } = new ();
 
         public bool IsMediatorEnabled { get; set; } = true;
 
@@ -19,6 +18,29 @@ namespace AppForeach.Framework.MassTransit
         protected void ClearBusConfig()
         {
             HostDefinition.BusActions.Clear();
+        }
+
+        protected void ConfigureTransportBus(Action<TBusFactoryConfigurator> rabbitBusAction)
+        {
+            ConfigureTransportBus((context, config) => rabbitBusAction(config));
+        }
+
+        protected void ConfigureTransportBus(Action<IBusRegistrationContext, TBusFactoryConfigurator> rabbitBusAction)
+        {
+            HostDefinition.TransportBusActions.Add(rabbitBusAction);
+        }
+
+        protected void ClearTransportBusConfig()
+        {
+            HostDefinition.TransportBusActions.Clear();
+        }
+
+        protected void Endpoint(string endpointName, Action<IFrameworkEndpointConfiguration<TEndpointConfigurator>>? endpointAction = null)
+        {
+            lastEndpoint = endpointName;
+
+            var endpointConfigurator = new FrameworkEndpointConfiguration<TBusFactoryConfigurator, TEndpointConfigurator>(endpointName, HostDefinition);
+            endpointAction?.Invoke(endpointConfigurator);
         }
     }
 }

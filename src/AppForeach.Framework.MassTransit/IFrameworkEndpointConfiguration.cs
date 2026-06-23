@@ -13,4 +13,11 @@ namespace AppForeach.Framework.MassTransit
         IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>(Action<IOperationBuilder>? options=null)
             where TMessage : class;
     }
+
+    public interface IFrameworkEndpointConfiguration<TEndpointConfigurator>
+    {
+        void Configure(Action<TEndpointConfigurator> endpointAction);
+
+        void Configure(Action<IBusRegistrationContext, TEndpointConfigurator> endpointAction);
+    }
 }

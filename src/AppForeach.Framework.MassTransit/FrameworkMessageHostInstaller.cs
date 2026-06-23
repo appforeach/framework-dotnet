@@ -2,12 +2,11 @@
 
 namespace AppForeach.Framework.MassTransit
 {
-    public class FrameworkMessageHostInstaller<THostDefinition>
-        where THostDefinition : MessageHostDefinition 
+    public abstract class FrameworkMessageHostInstaller<TBusFactoryConfigurator, TEndpointConfigurator>
     {
-        protected readonly THostDefinition hostDefinition;
+        protected readonly MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> hostDefinition;
 
-        public FrameworkMessageHostInstaller(THostDefinition hostDefinition)
+        public FrameworkMessageHostInstaller(MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> hostDefinition)
         {
             this.hostDefinition = hostDefinition;
         }

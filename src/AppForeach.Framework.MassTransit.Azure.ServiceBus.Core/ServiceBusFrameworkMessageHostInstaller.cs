@@ -2,9 +2,9 @@
 
 namespace AppForeach.Framework.MassTransit.Azure.ServiceBus.Core;
 
-public class ServiceBusFrameworkMessageHostInstaller : FrameworkMessageHostInstaller<ServiceBusMessageHostDefinition>
+public class ServiceBusFrameworkMessageHostInstaller : FrameworkMessageHostInstaller<IServiceBusBusFactoryConfigurator, IServiceBusReceiveEndpointConfigurator>
 {
-    public ServiceBusFrameworkMessageHostInstaller(ServiceBusMessageHostDefinition hostDefinition)
+    public ServiceBusFrameworkMessageHostInstaller(MessageHostDefinition<IServiceBusBusFactoryConfigurator, IServiceBusReceiveEndpointConfigurator> hostDefinition)
         : base(hostDefinition)
     {
     }
@@ -17,7 +17,7 @@ public class ServiceBusFrameworkMessageHostInstaller : FrameworkMessageHostInsta
 
         bus.UsingAzureServiceBus((context, cfg) =>
         {
-            foreach (var rabbitMqAction in hostDefinition.RabbitBusActions)
+            foreach (var rabbitMqAction in hostDefinition.TransportBusActions)
             {
                 rabbitMqAction.Invoke(context, cfg);
             }

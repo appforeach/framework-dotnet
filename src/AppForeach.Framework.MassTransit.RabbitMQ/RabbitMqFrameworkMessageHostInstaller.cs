@@ -2,9 +2,9 @@
 
 namespace AppForeach.Framework.MassTransit
 {
-    public class RabbitMqFrameworkMessageHostInstaller : FrameworkMessageHostInstaller<RabbitMqMessageHostDefinition>
+    public class RabbitMqFrameworkMessageHostInstaller : FrameworkMessageHostInstaller<IRabbitMqBusFactoryConfigurator, IRabbitMqReceiveEndpointConfigurator>
     {
-        public RabbitMqFrameworkMessageHostInstaller(RabbitMqMessageHostDefinition hostDefinition)
+        public RabbitMqFrameworkMessageHostInstaller(MessageHostDefinition<IRabbitMqBusFactoryConfigurator, IRabbitMqReceiveEndpointConfigurator> hostDefinition)
             : base(hostDefinition)
         {
         }
@@ -17,7 +17,7 @@ namespace AppForeach.Framework.MassTransit
 
             bus.UsingRabbitMq((context, cfg) =>
             {
-                foreach(var rabbitMqAction in hostDefinition.RabbitBusActions)
+                foreach(var rabbitMqAction in hostDefinition.TransportBusActions)
                 {
                     rabbitMqAction.Invoke(context, cfg);
                 }
