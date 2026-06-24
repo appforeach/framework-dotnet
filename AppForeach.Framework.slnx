@@ -26,7 +26,7 @@
     <Project Path="src/AppForeach.Framework.Hosting.Web/AppForeach.Framework.Hosting.Web.csproj" />
     <Project Path="src/AppForeach.Framework.Hosting/AppForeach.Framework.Hosting.csproj" />
     <Project Path="src/AppForeach.Framework.MassTransit.Azure.ServiceBus.Core/AppForeach.Framework.MassTransit.Azure.ServiceBus.Core.csproj" Id="75596628-6487-49b8-b16c-af07e439818f" />
-    <Project Path="src/AppForeach.Framework.MassTransit.RabbitMQ/AppForeach.Framework.MassTransit.RabbitMQ.csproj" Id="9d314e93-b6bc-453b-9def-cb97d337aa09" />
+    <Project Path="src/AppForeach.Framework.MassTransit.RabbitMq2/AppForeach.Framework.MassTransit.RabbitMq2.csproj" />
     <Project Path="src/AppForeach.Framework.MassTransit/AppForeach.Framework.MassTransit.csproj" />
     <Project Path="src/AppForeach.Framework.Microsoft.Extensions/AppForeach.Framework.Microsoft.Extensions.csproj" />
     <Project Path="src/AppForeach.Framework.Serilog/AppForeach.Framework.Serilog.csproj" />
