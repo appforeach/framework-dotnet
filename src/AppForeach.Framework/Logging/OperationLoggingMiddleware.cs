@@ -31,14 +31,20 @@ namespace AppForeach.Framework.Logging
                 var outputState = context.State.Get<OperationOutputState>();
                 var contextState = context.State.Get<OperationContextState>();
 
-                logger.Log(FrameworkLogEvents.OperationCompleted, FrameworkLogLevel.Information, "Operation completed", new Dictionary<string, object>
+                var properties = new Dictionary<string, object>
                 {
                     { FrameworkLogProperties.Logger, nameof(OperationLoggingMiddleware) },
-                    { FrameworkLogProperties.OperationName, contextState.OperationName },
-                    { FrameworkLogProperties.OperationKind, context.IsCommand ? "Command" : "Query" },
                     { FrameworkLogProperties.OperationOutcome, outputState.Result?.Outcome.ToString() },
                     { FrameworkLogProperties.OperationDuration, elapsed },
-                });
+                };
+
+                if(contextState.IsOperationNameResolved)
+                {
+                    properties[FrameworkLogProperties.OperationName] = contextState.OperationName;
+                    properties[FrameworkLogProperties.OperationKind] = context.IsCommand ? "Command" : "Query";
+                }
+
+                logger.Log(FrameworkLogEvents.OperationCompleted, FrameworkLogLevel.Information, "Operation completed", properties);
             }
         }
     }
