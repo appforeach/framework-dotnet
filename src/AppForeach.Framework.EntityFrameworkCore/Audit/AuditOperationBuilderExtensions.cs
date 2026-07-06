@@ -14,5 +14,16 @@ namespace AppForeach.Framework.EntityFrameworkCore
 
             return builder;
         }
+
+        public static IOperationBuilder AuditAsync(this IOperationBuilder builder, bool auditAsync)
+        {
+            var facet = new AuditAsyncFacet
+            {
+                AuditAsync = auditAsync
+            };
+            builder.Configuration.Set(facet);
+
+            return builder;
+        }
     }
 }
