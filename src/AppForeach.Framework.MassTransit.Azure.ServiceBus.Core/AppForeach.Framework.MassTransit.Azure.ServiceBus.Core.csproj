@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.1.3" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Condition="'$(TargetFramework)' == 'net8.0'" Version="8.1.3" />
+	  
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net9.0'" Version="8.3.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Condition="'$(TargetFramework)' == 'net9.0'" Version="8.3.7" />
+
+    <PackageReference Include="MassTransit" Condition="'$(TargetFramework)' == 'net10.0'" Version="8.5.7" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Condition="'$(TargetFramework)' == 'net10.0'" Version="8.5.7" />
+	  
+  </ItemGroup>		
+
+  <ItemGroup>
+    <ProjectReference Include="..\AppForeach.Framework.MassTransit\AppForeach.Framework.MassTransit.csproj" />
+  </ItemGroup>
+
+</Project>
