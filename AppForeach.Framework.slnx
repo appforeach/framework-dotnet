@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/AppForeach.Framework.Benchmarks/AppForeach.Framework.Benchmarks.csproj" Id="edd24b3b-20bb-47e8-9300-3fdb3dd38340" />
+  </Folder>
   <Folder Name="/samples/" />
   <Folder Name="/samples/EscapeHit/">
     <Project Path="samples/EscapeHit/EscapeHit.Invoice.Database.Design/EscapeHit.Invoice.Database.Design.csproj" />
