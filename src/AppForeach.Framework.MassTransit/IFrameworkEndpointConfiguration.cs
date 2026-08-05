@@ -4,10 +4,6 @@ namespace AppForeach.Framework.MassTransit
 {
     public interface IFrameworkEndpointConfiguration
     {
-        void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction);
-
-        void Configure(Action<IBusRegistrationContext, IRabbitMqReceiveEndpointConfigurator> endpointAction);
-        
         void AddConsumerInstaller(IConsumerInstaller consumerInstaller);
 
         IConsumerConfigurationBuilder<TConsumer> Consumer<TMessage, TConsumer>()
@@ -16,5 +12,12 @@ namespace AppForeach.Framework.MassTransit
 
         IConsumerConfigurationBuilder<FrameworkMediatorConsumer<TMessage>> Mediator<TMessage>(Action<IOperationBuilder>? options=null)
             where TMessage : class;
+    }
+
+    public interface IFrameworkEndpointConfiguration<TEndpointConfigurator> : IFrameworkEndpointConfiguration
+    {
+        void Configure(Action<TEndpointConfigurator> endpointAction);
+
+        void Configure(Action<IBusRegistrationContext, TEndpointConfigurator> endpointAction);
     }
 }
