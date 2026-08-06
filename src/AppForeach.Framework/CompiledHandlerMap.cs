@@ -62,12 +62,25 @@ namespace AppForeach.Framework
                 throw new FrameworkException(msg);
             }
 
-            var resultType = method.ReturnType.GenericTypeArguments[0];
+            MethodInfo taskHelper;
 
-            var convertTaskMethod = typeof(CompiledHandlerMap).GetMethod(nameof(ConvertTask), BindingFlags.NonPublic | BindingFlags.Static);
-            var helper = convertTaskMethod.MakeGenericMethod(resultType);
+            if(method.ReturnType == typeof(Task))
+            {
+                taskHelper = typeof(CompiledHandlerMap).GetMethod(nameof(ConvertTask), BindingFlags.NonPublic | BindingFlags.Static);
+            }
+            else if (method.ReturnType.IsGenericType && method.ReturnType.GetGenericTypeDefinition() == typeof(Task<>))
+            {
+                var convertTaskMethod = typeof(CompiledHandlerMap).GetMethod(nameof(ConvertTaskWithResult), BindingFlags.NonPublic | BindingFlags.Static);
+                var resultType = method.ReturnType.GenericTypeArguments[0];
+                taskHelper = convertTaskMethod.MakeGenericMethod(resultType);
+            }
+            else
+            {
+                string msg = $"Handler method '{method.Name}' in '{method.DeclaringType.FullName}' should return Task or Task<T>";
+                throw new FrameworkException(msg);
+            }
 
-            var body = Expression.Call(helper, call);
+            var body = Expression.Call(taskHelper, call);
 
             var expression = Expression.Lambda<Func<object, object, CancellationToken, Task<object>>>(
                 body, handlerParam, requestParam, tokenParam);
@@ -75,7 +88,13 @@ namespace AppForeach.Framework
             return expression.Compile();
         }
 
-        private static async Task<object> ConvertTask<TResult>(Task<TResult> task)
+        private static async Task<object> ConvertTask(Task task)
+        {
+            await task.ConfigureAwait(false);
+            return null;
+        }
+
+        private static async Task<object> ConvertTaskWithResult<TResult>(Task<TResult> task)
         {
             return await task.ConfigureAwait(false);
         }
