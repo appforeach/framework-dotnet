@@ -4,25 +4,25 @@ using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
 using AppForeach.Framework.Validation;
+using Microsoft.Extensions.Options;
 
 namespace AppForeach.Framework.EntityFrameworkCore.Audit;
 
 public class AuditAsyncProcessingService 
     (
     IAuditAsyncQueue asyncAuditQueue,
-    IOperationMediator operationMediator
+    IOperationMediator operationMediator,
+    IOptions<AuditAsyncOptions> auditAsyncOptions
     ) : IAuditAsyncProcessingService
 {
     public async Task ProcessAll(CancellationToken cancellationToken = default)
     {
-        const int batchSize = 300;
-
         while (await asyncAuditQueue.WaitToReadAsync(cancellationToken))
         {
             List<AuditEntity> auditEntities = new List<AuditEntity>();
             int count = 0;
 
-            while (count < batchSize && asyncAuditQueue.TryRead(out var audit))
+            while (count < auditAsyncOptions.Value.WriteBatchSize && asyncAuditQueue.TryRead(out var audit))
             {
                 auditEntities.Add(audit);
                 count++;

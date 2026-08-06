@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using Microsoft.Extensions.Options;
+using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 
@@ -8,12 +9,12 @@ namespace AppForeach.Framework.EntityFrameworkCore.Audit
     {
         private readonly Channel<AuditEntity> channel;
 
-        public AuditAsyncQueue()
+        public AuditAsyncQueue(IOptions<AuditAsyncOptions> auditAsyncOptions)
         {
            channel = Channel.CreateBounded<AuditEntity>(
-               new BoundedChannelOptions(10000)
+               new BoundedChannelOptions(auditAsyncOptions.Value.QueueCapacity)
                {
-                   FullMode = BoundedChannelFullMode.Wait,
+                   FullMode = auditAsyncOptions.Value.QueueFullMode,
                    SingleReader = true,
                    SingleWriter = false
                });
