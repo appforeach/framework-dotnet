@@ -79,8 +79,8 @@ namespace AppForeach.Framework.Microsoft.Extensions.DependencyInjection
 
         private static void AddSpecificServices(IServiceCollection serviceCollection)
         {
-            serviceCollection.TryAddScoped<IScopedExecutor, ScopedExecutor>();
-            serviceCollection.TryAddScoped<IServiceLocator, ServiceLocator>();
+            serviceCollection.TryAddTransient<IScopedExecutor, ScopedExecutor>();
+            serviceCollection.TryAddTransient<IServiceLocator, ServiceLocator>();
         }
     }
 }

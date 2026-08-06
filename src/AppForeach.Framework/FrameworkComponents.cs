@@ -12,13 +12,14 @@ namespace AppForeach.Framework
             AssemblyNoDefaultRegistration();
 
             Transient<IOperationMediator, OperationMediator>();
+            Transient<IOperationExecutor, OperationExecutor>();
 
             Singleton<IHandlerMap, HandlerMap>(isOptional: true);
             Singleton<IValidatorMap, ValidatorMap>(isOptional: true);
 
             Scoped<IHandlerInvoker, HandlerInvoker>();
             Scoped<IHandlerInvokerMiddleware, HandlerInvokerMiddleware>();
-            Scoped<IOperationExecutor, OperationExecutor>();
+            
             Scoped<IMiddlewareExecutor, MiddlewareExecutor>();
             Scoped<IOperationContext, OperationContext>();
             Scoped<IOperationStateProvider, OperationStateProvider>();
