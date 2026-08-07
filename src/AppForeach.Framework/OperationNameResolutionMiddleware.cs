@@ -7,13 +7,13 @@ namespace AppForeach.Framework
     public class OperationNameResolutionMiddleware : IOperationMiddleware
     {
         private readonly IOperationContext operationContext;
-        private readonly IHandlerMap handlerMap;
+        private readonly IHandlerInfoProvider handlerInfoProvider;
         private readonly IOperationNameResolver operationNameResolver;
 
-        public OperationNameResolutionMiddleware(IOperationContext operationContext, IHandlerMap handlerMap, IOperationNameResolver operationNameResolver)
+        public OperationNameResolutionMiddleware(IOperationContext operationContext, IHandlerInfoProvider handlerInfoProvider, IOperationNameResolver operationNameResolver)
         {
             this.operationContext = operationContext;
-            this.handlerMap = handlerMap;
+            this.handlerInfoProvider = handlerInfoProvider;
             this.operationNameResolver = operationNameResolver;
         }
 
@@ -27,9 +27,9 @@ namespace AppForeach.Framework
             }
 
             Type inputType = contextState.Input.GetType();
-            var handlerMethod = handlerMap.GetHandlerMethod(inputType);
+            var handlerType = handlerInfoProvider.GetHandlerType(inputType);
 
-            if (handlerMethod == null)
+            if (handlerType == null)
             {
                 throw new FrameworkException($"Handler not found for input of type { inputType }.");
             }
@@ -41,8 +41,6 @@ namespace AppForeach.Framework
 
             if (operationNameFacet == null || operationIsCommandFacet == null)
             {
-                Type handlerType = handlerMethod.DeclaringType;
-
                 operationName = operationNameResolver.ResolveName(inputType, handlerType);
             }
 
