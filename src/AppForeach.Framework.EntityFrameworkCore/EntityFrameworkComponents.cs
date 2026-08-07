@@ -14,6 +14,9 @@ namespace AppForeach.Framework.EntityFrameworkCore
             Scoped<AuditMiddleware, AuditMiddleware>();
             Scoped<IDbContextActivator, DbContextActivator>();
             Component(typeof(IDbContextFactory<>), typeof(FrameworkDbContextFactory<>), ComponentLifetime.Scoped);
+            
+            Singleton<IAuditAsyncQueue, AuditAsyncQueue>();
+            Singleton<IAuditAsyncProcessingService, AuditAsyncProcessingService>();
         }
     }
 }

@@ -8,13 +8,13 @@ namespace AppForeach.Framework
     public class OperationExecutor : IOperationExecutor
     {
         private readonly IFrameworkHostConfiguration hostConfiguration;
-        private readonly IMiddlewareExecutor middlewareExecutor;
+        private readonly IServiceLocator serviceLocator;
         private readonly IScopedExecutor scopedExecutor;
 
-        public OperationExecutor(IFrameworkHostConfiguration hostConfiguration, IMiddlewareExecutor middlewareExecutor, IScopedExecutor scopedExecutor)
+        public OperationExecutor(IFrameworkHostConfiguration hostConfiguration, IServiceLocator serviceLocator, IScopedExecutor scopedExecutor)
         {
             this.hostConfiguration = hostConfiguration;
-            this.middlewareExecutor = middlewareExecutor;
+            this.serviceLocator = serviceLocator;
             this.scopedExecutor = scopedExecutor;
         }
 
@@ -56,6 +56,7 @@ namespace AppForeach.Framework
             }
             else
             {
+                var middlewareExecutor = (IMiddlewareExecutor)serviceLocator.GetService(typeof(IMiddlewareExecutor));
                 return middlewareExecutor.Execute(operationState, hostConfiguration.ConfiguredMiddlewares, cancellationToken);
             }
         }
