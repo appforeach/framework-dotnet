@@ -2,11 +2,11 @@
 
 namespace AppForeach.Framework.MassTransit
 {
-    public class FrameworkMessageHost
+    public abstract class FrameworkMessageHost<TBusFactoryConfigurator, TEndpointConfigurator>
     {
         private string lastEndpoint = string.Empty;
 
-        public MessageHostDefinition HostDefinition { get; } = new MessageHostDefinition();
+        public MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> HostDefinition { get; } = new ();
 
         public bool IsMediatorEnabled { get; set; } = true;
 
@@ -20,26 +20,26 @@ namespace AppForeach.Framework.MassTransit
             HostDefinition.BusActions.Clear();
         }
 
-        protected void ConfigureRabbitMqBus(Action<IRabbitMqBusFactoryConfigurator> rabbitBusAction)
+        protected void ConfigureTransportBus(Action<TBusFactoryConfigurator> rabbitBusAction)
         {
-            ConfigureRabbitMqBus((context, config) => rabbitBusAction(config));
+            ConfigureTransportBus((context, config) => rabbitBusAction(config));
         }
 
-        protected void ConfigureRabbitMqBus(Action<IBusRegistrationContext, IRabbitMqBusFactoryConfigurator> rabbitBusAction)
+        protected void ConfigureTransportBus(Action<IBusRegistrationContext, TBusFactoryConfigurator> rabbitBusAction)
         {
-            HostDefinition.RabbitBusActions.Add(rabbitBusAction);
+            HostDefinition.TransportBusActions.Add(rabbitBusAction);
         }
 
-        protected void ClearRabbitMqBusConfig()
+        protected void ClearTransportBusConfig()
         {
-            HostDefinition.RabbitBusActions.Clear();
+            HostDefinition.TransportBusActions.Clear();
         }
 
-        protected void Endpoint(string endpointName, Action<IFrameworkEndpointConfiguration>? endpointAction = null)
+        protected void Endpoint(string endpointName, Action<IFrameworkEndpointConfiguration<TEndpointConfigurator>>? endpointAction = null)
         {
             lastEndpoint = endpointName;
 
-            var endpointConfigurator = new FrameworkEndpointConfiguration(endpointName, HostDefinition);
+            var endpointConfigurator = new FrameworkEndpointConfiguration<TBusFactoryConfigurator, TEndpointConfigurator>(endpointName, HostDefinition);
             endpointAction?.Invoke(endpointConfigurator);
         }
     }

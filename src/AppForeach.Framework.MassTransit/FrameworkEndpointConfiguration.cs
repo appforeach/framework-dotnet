@@ -1,27 +1,18 @@
 ﻿using MassTransit;
-using MassTransit.Configuration;
 
 namespace AppForeach.Framework.MassTransit;
 
-public class FrameworkEndpointConfiguration
-    (
-        string endpointName,
-        MessageHostDefinition hostDefinition
-    ) : IFrameworkEndpointConfiguration
+public class FrameworkEndpointConfiguration<TBusFactoryConfigurator, TEndpointConfigurator> 
+    : IFrameworkEndpointConfiguration<TEndpointConfigurator>
 {
+    private readonly string endpointName;
+    private readonly MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> hostDefinition;
 
-    public void Configure(Action<IRabbitMqReceiveEndpointConfigurator> endpointAction)
+    public FrameworkEndpointConfiguration(string endpointName,
+        MessageHostDefinition<TBusFactoryConfigurator, TEndpointConfigurator> hostDefinition)
     {
-        ArgumentNullException.ThrowIfNull(endpointAction);
-
-        hostDefinition.EndpointActions.Add((endpointName, (_, cfg) => endpointAction(cfg)));
-    }
-
-    public void Configure(Action<IBusRegistrationContext, IRabbitMqReceiveEndpointConfigurator> endpointAction)
-    {
-        ArgumentNullException.ThrowIfNull(endpointAction);
-
-        hostDefinition.EndpointActions.Add((endpointName, endpointAction));
+        this.endpointName = endpointName;
+        this.hostDefinition = hostDefinition;
     }
 
     public void AddConsumerInstaller(IConsumerInstaller consumerInstaller)
@@ -49,5 +40,19 @@ public class FrameworkEndpointConfiguration
         AddConsumerInstaller(consumerInstaller);
 
         return consumerInstaller.ConfigurationBuilder;
+    }
+
+    public void Configure(Action<TEndpointConfigurator> endpointAction)
+    {
+        ArgumentNullException.ThrowIfNull(endpointAction);
+
+        hostDefinition.EndpointActions.Add((endpointName, (_, cfg) => endpointAction(cfg)));
+    }
+
+    public void Configure(Action<IBusRegistrationContext, TEndpointConfigurator> endpointAction)
+    {
+        ArgumentNullException.ThrowIfNull(endpointAction);
+
+        hostDefinition.EndpointActions.Add((endpointName, endpointAction));
     }
 }

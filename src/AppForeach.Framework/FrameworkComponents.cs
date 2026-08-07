@@ -14,10 +14,12 @@ namespace AppForeach.Framework
             Transient<IOperationMediator, OperationMediator>();
             Transient<IOperationExecutor, OperationExecutor>();
 
-            Singleton<IHandlerMap, HandlerMap>(isOptional: true);
             Singleton<IValidatorMap, ValidatorMap>(isOptional: true);
 
-            Scoped<IHandlerInvoker, HandlerInvoker>();
+            Singleton<ICompiledHandlerMap, CompiledHandlerMap>(isOptional: true);
+            Singleton<IHandlerInfoProvider, CompiledHandlerInfoProvider>();
+            Scoped<IHandlerInvoker, CompiledHandlerInvoker>();
+
             Scoped<IHandlerInvokerMiddleware, HandlerInvokerMiddleware>();
             
             Scoped<IMiddlewareExecutor, MiddlewareExecutor>();
@@ -30,6 +32,7 @@ namespace AppForeach.Framework
             Scoped<ValidationMiddleware, ValidationMiddleware>();
             Scoped<ExceptionHandlerMiddleware, ExceptionHandlerMiddleware>();
             Scoped<MappingMiddleware, MappingMiddleware>();
+            Singleton<IFrameworkMapper, NotImplementedFrameworkMapper>(isOptional: true);
 
             Component(typeof(IValidationFailedEventHandler), typeof(DefaultValidationFailedEventHandler), ComponentLifetime.Scoped, isOptional: true);
             Component(typeof(IExceptionEventHandler), typeof(DefaultExceptionEventHandler), ComponentLifetime.Scoped, isOptional: true);
