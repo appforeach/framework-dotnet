@@ -29,29 +29,37 @@ namespace AppForeach.Framework.Autofac
 
         private static void RegisterComponent(ContainerBuilder containerBuilder, ComponentDefinition componentDefinition)
         {
-            IRegistrationBuilder<object, IConcreteActivatorData, SingleRegistrationStyle> builder;
-
             if(componentDefinition.ImplementationType != null)
             {
-                builder = containerBuilder.RegisterType(componentDefinition.ImplementationType);
+                if (componentDefinition.ImplementationType.IsGenericType && componentDefinition.ImplementationType.ContainsGenericParameters)
+                {
+                    containerBuilder.RegisterGeneric(componentDefinition.ImplementationType).ApplyServiceAndLifetime(componentDefinition);
+                }
+                else
+                {
+                    containerBuilder.RegisterType(componentDefinition.ImplementationType).ApplyServiceAndLifetime(componentDefinition);
+                }
             }
             else if(componentDefinition.ImplementationFunction != null)
             {
-                builder = containerBuilder.Register(compContext =>
+                containerBuilder.Register(compContext =>
                 {
                     var serviceLocator = compContext.Resolve<IServiceLocator>();
                     return componentDefinition.ImplementationFunction(serviceLocator);
-                });
+                }).ApplyServiceAndLifetime(componentDefinition);
             }
             else if(componentDefinition.ImplementationInstance != null)
             {
-                builder = containerBuilder.RegisterInstance(componentDefinition.ImplementationInstance);
+                containerBuilder.RegisterInstance(componentDefinition.ImplementationInstance).ApplyServiceAndLifetime(componentDefinition);
             }
             else
             {
                 throw new FrameworkException("Undefined component implementation");
             }
+        }
 
+        private static void ApplyServiceAndLifetime<TLimit, TActivatorData, TRegistrationStyle>(this IRegistrationBuilder<TLimit, TActivatorData, TRegistrationStyle> builder, ComponentDefinition componentDefinition)
+        {
             builder = builder.As(componentDefinition.ComponentType);
 
             switch (componentDefinition.Lifetime)
@@ -67,7 +75,7 @@ namespace AppForeach.Framework.Autofac
                     break;
             }
 
-            if(componentDefinition.IsOptional)
+            if (componentDefinition.IsOptional)
             {
                 builder.IfNotRegistered(componentDefinition.ComponentType);
             }
