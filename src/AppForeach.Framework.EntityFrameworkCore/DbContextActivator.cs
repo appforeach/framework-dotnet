@@ -46,7 +46,7 @@ namespace AppForeach.Framework.EntityFrameworkCore
 
                 db = (TDbContext)ActivatorUtilities.CreateInstance(serviceProvider, typeof(TDbContext), optionsBuilder.Options);
 
-                if (isCommand == false)
+                if (isCommand == false && operationEnlistmentStrategy != DbContextOperationEnlistmentStrategy.Suppress)
                 {
                     db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                     db.SavingChanges += Db_SavingChanges;

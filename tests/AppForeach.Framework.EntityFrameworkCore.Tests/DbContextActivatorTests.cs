@@ -17,9 +17,9 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         private TransactionScopeState? transactionScopeState;
 
         [Fact]
-        public async Task Activate_Should_CreateEnlistedDbContext_WhenDefaultStrategyAndTransactionOpened()
+        public async Task Activate_Should_CreateEnlistedDbContext_WhenDefaultStrategyAndCommand()
         {
-            await OpenTransaction();
+            await OpenTransaction(isCommand: true);
 
             using var db = activator.Activate<TestDbContext>();
 
@@ -29,7 +29,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         [Fact]
         public async Task Activate_Should_CreateIndependentDbContext_WhenDefaultStrategyAndQuery()
         {
-            SetQuery();
+            await OpenTransaction(isCommand: false);
 
             using var db = activator.Activate<TestDbContext>();
 
@@ -37,9 +37,9 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         }
 
         [Fact]
-        public async Task Activate_Should_CreateEnlistedDbContext_WhenRequiredStrategyAndTransactionOpened()
+        public async Task Activate_Should_CreateEnlistedDbContext_WhenRequiredStrategyAndCommand()
         {
-            await OpenTransaction();
+            await OpenTransaction(isCommand: true);
 
             using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Required);
 
@@ -49,7 +49,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         [Fact]
         public async Task Activate_Should_CreateIndependentDbContext_WhenRequiredStrategyAndQuery()
         {
-            SetQuery();
+            await OpenTransaction(isCommand: false);
 
             using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Required);
 
@@ -103,9 +103,9 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         }
 
         [Fact]
-        public async Task Activate_Should_CreateEnlistedDbContext_WhenOptionalStrategyAndTransactionOpened()
+        public async Task Activate_Should_CreateEnlistedDbContext_WhenOptionalStrategyAndCommand()
         {
-            await OpenTransaction();
+            await OpenTransaction(isCommand: true);
 
             using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Optional);
 
@@ -115,7 +115,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         [Fact]
         public async Task Activate_Should_CreateIndependentReadOnlyDbContext_WhenOptionalStrategyAndQuery()
         {
-            SetQuery();
+            await OpenTransaction(isCommand: false);
 
             using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Optional);
 
@@ -139,13 +139,27 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
         }
 
         [Fact]
-        public async Task Activate_Should_CreateIndependentDbContext_WhenSuppressStrategyAndTransaction()
+        public async Task Activate_Should_CreateIndependentModifiableDbContext_WhenSuppressStrategyAndCommand()
         {
-            await OpenTransaction();
+            await OpenTransaction(isCommand: true);
 
             using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Suppress);
 
             db.Database.CurrentTransaction.ShouldBeNull();
+
+            await db.SaveChangesAsync();
+        }
+
+        [Fact]
+        public async Task Activate_Should_CreateIndependentModifiableDbContext_WhenSuppressStrategyAndQuery()
+        {
+            await OpenTransaction(isCommand: false);
+
+            using var db = activator.Activate<TestDbContext>(DbContextOperationEnlistmentStrategy.Suppress);
+
+            db.Database.CurrentTransaction.ShouldBeNull();
+
+            await db.SaveChangesAsync();
         }
 
         public DbContextActivatorTests()
@@ -201,7 +215,7 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
             activator = new DbContextActivator(operationContextMock.Object, connectionStringProviderMock.Object, dbOptionsConfiguratorMock.Object, serviceProviderMock.Object);
         }
 
-        private async Task OpenTransaction()
+        private async Task OpenTransaction(bool isCommand)
         {
             DbContextOptionsBuilder<FrameworkDbContext> optionsBuilder = new DbContextOptionsBuilder<FrameworkDbContext>();
             optionsBuilder.UseSqlite("DataSource=:memory:");
@@ -209,11 +223,8 @@ namespace AppForeach.Framework.EntityFrameworkCore.Tests
 
             transactionScopeState!.DbContext = db;
             transactionScopeState!.DbContextTransaction = await db.Database.BeginTransactionAsync();
-        }
 
-        private void SetQuery()
-        {
-            operationContextState!.IsCommand = false;
+            operationContextState!.IsCommand = isCommand;
         }
 
         public void Dispose()
